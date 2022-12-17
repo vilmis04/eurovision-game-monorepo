@@ -1,7 +1,7 @@
 import AppBar from "components/AppBar/AppBar";
 import VotingTable from "./VotingTable/VotingTable";
 
-const VotingPage = () => {
+const VotingPage: React.FC = () => {
 	return (
 		<>
 			<AppBar />

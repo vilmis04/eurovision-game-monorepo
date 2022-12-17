@@ -1,5 +1,5 @@
-const MyPage = () => {
-	return null
-}
+const MyPage: React.FC = () => {
+	return null;
+};
 
-export default MyPage
+export default MyPage;

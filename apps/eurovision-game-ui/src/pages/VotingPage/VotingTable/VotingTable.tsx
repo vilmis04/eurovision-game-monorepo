@@ -11,7 +11,7 @@ interface ICountry {
 	song: string;
 }
 
-const VotingTable = () => {
+const VotingTable: React.FC = () => {
 	const [countries, setCountries] = useState([]);
 	const [isLoading, setIsLoading] = useState(countries.length === 0);
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,7 +24,7 @@ const VotingTable = () => {
 			.finally(() => setIsLoading(false));
 	}, []);
 
-	const toggleModal = () => setIsModalOpen(!isModalOpen);
+	const toggleModal = (): void => setIsModalOpen(!isModalOpen);
 
 	return (
 		<>

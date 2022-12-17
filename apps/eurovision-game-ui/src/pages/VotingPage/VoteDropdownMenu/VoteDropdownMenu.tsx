@@ -9,10 +9,9 @@ interface IProps {
 const VoteDropdownMenu: React.FC<IProps> = ({ onChange }) => {
 	const [value, setValue] = useState("");
 
-	const handleChange = (newValue: string) => {
+	const handleChange = (newValue: string): void => {
 		if (onChange) onChange(newValue);
 		setValue(newValue);
-		console.log(value, newValue);
 	};
 
 	const color = value ? "success" : "error";
@@ -26,7 +25,7 @@ const VoteDropdownMenu: React.FC<IProps> = ({ onChange }) => {
 				value={value}
 				label="Vote"
 				fullWidth
-				onChange={(event) => handleChange(event.target.value)}
+				onChange={(event): void => handleChange(event.target.value)}
 				error={!value}
 				color={color}
 			>

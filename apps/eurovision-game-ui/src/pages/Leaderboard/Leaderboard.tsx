@@ -1,4 +1,4 @@
-const Leaderboard = () => {
+const Leaderboard: React.FC = () => {
 	return null;
 };
 
