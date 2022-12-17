@@ -23,8 +23,14 @@
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nrwl/nx/typescript"],
-      "rules": {}
+      "extends": ["plugin:@nrwl/nx/typescript", "eslint:recommended", "plugin:react/recommended"],
+      "rules": {
+        "react/prop-types": false
+      },
+      "plugins": ["react"],
+      "globals": {
+        "React": "readonly"
+      }
     },
     {
       "files": ["*.js", "*.jsx"],

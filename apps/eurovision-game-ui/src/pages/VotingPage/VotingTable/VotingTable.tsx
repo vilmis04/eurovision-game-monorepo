@@ -1,30 +1,30 @@
-import { Grid } from "@mui/material"
-import { styles } from "./VotingTable.styles"
-import CountryCard from "components/CountryCard/CountryCard"
-import { useEffect, useState } from "react"
-import { Box } from "@mui/system"
-import VotingModal from "components/VotingModal/VotingModal"
+import { Grid } from "@mui/material";
+import { styles } from "./VotingTable.styles";
+import { useEffect, useState } from "react";
+import { Box } from "@mui/system";
+import VotingModal from "../VotingModal/VotingModal";
+import CountryCard from "../CountryCard/CountryCard";
 
 interface ICountry {
-	country: string
-	artist: string
-	song: string
+	country: string;
+	artist: string;
+	song: string;
 }
 
 const VotingTable = () => {
-	const [countries, setCountries] = useState([])
-	const [isLoading, setIsLoading] = useState(countries.length === 0)
-	const [isModalOpen, setIsModalOpen] = useState(false)
+	const [countries, setCountries] = useState([]);
+	const [isLoading, setIsLoading] = useState(countries.length === 0);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	useEffect(() => {
 		fetch("http://localhost:3004/EV22")
 			.then((res) => res.json())
 			.then((res) => setCountries(res))
 			.catch((err) => console.log(err))
-			.finally(() => setIsLoading(false))
-	}, [])
+			.finally(() => setIsLoading(false));
+	}, []);
 
-	const toggleModal = () => setIsModalOpen(!isModalOpen)
+	const toggleModal = () => setIsModalOpen(!isModalOpen);
 
 	return (
 		<>
@@ -55,7 +55,7 @@ const VotingTable = () => {
 				</Grid>
 			)}
 		</>
-	)
-}
+	);
+};
 
-export default VotingTable
+export default VotingTable;

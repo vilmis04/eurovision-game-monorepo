@@ -1,5 +1,5 @@
 import { Card, Grid, Typography } from "@mui/material";
-import VoteDropdownMenu from "components/VoteDropdownMenu/VoteDropdownMenu";
+import VoteDropdownMenu from "../VoteDropdownMenu/VoteDropdownMenu";
 import { styles } from "./CountryCard.styles";
 
 interface ICountryCardProps {
@@ -13,7 +13,6 @@ const CountryCard: React.FC<ICountryCardProps> = ({
 	country,
 	artist,
 	song,
-	toggleModal,
 }) => (
 	<Card variant="outlined" sx={styles.card}>
 		<Grid container direction="column">
