@@ -1,6 +1,6 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { useState } from "react";
-import { VoteTypes } from "utils/votes";
+import { VoteTypes } from "../VotingTable/VotingTable.types";
 
 interface IProps {
 	onChange?: (newValue: string) => void;
