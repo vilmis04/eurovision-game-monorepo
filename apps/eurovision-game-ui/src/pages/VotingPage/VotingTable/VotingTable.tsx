@@ -1,9 +1,10 @@
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { styles } from "./VotingTable.styles";
 import { useEffect, useState } from "react";
 import { Box } from "@mui/system";
 import CountryCard from "../CountryCard/CountryCard";
-import { Formik } from "formik";
+import { Form, Formik } from "formik";
+import { IVotingTableGetResponse } from "utils/global.types";
 
 interface ICountry {
 	country: string;
@@ -27,41 +28,52 @@ const VotingTable: React.FC = () => {
 
 	const toggleModal = (): void => setIsModalOpen(!isModalOpen);
 
-	const initialValues = countries.reduce(
+	// TODO: move this formatting to backend
+	const initialValues: IVotingTableGetResponse = countries.reduce(
 		(prev, { country, vote }) => ({
 			...prev,
-			[country]: vote,
+			[country]: "",
+			// [country]: vote,
 		}),
 		{}
 	);
 
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
-	const onSubmit = (): void => {};
+	console.log(initialValues);
+
+	const onSubmit = (values: IVotingTableGetResponse): void => {
+		console.log(values);
+	};
 
 	return isLoading ? (
 		// TODO: replace with spinner or skeleton
 		<Box>Loading</Box>
 	) : (
 		<Formik initialValues={initialValues} onSubmit={onSubmit}>
-			<Grid container sx={styles.tableContainer}>
-				{countries.map((entry: ICountry) => (
-					<Grid
-						item
-						md={4}
-						sm={6}
-						xs={12}
-						key={entry.country}
-						sx={styles.card}
-					>
-						<CountryCard
-							country={entry.country}
-							artist={entry.artist}
-							song={entry.song}
-							toggleModal={toggleModal}
-						/>
+			{({ submitForm }): React.ReactNode => (
+				<Form>
+					<Button type="submit">Submit</Button>
+					<Grid container sx={styles.tableContainer}>
+						{countries.map((entry: ICountry) => (
+							<Grid
+								item
+								md={4}
+								sm={6}
+								xs={12}
+								key={entry.country}
+								sx={styles.card}
+							>
+								<CountryCard
+									country={entry.country}
+									artist={entry.artist}
+									song={entry.song}
+									toggleModal={toggleModal}
+									submitForm={submitForm}
+								/>
+							</Grid>
+						))}
 					</Grid>
-				))}
-			</Grid>
+				</Form>
+			)}
 		</Formik>
 	);
 };

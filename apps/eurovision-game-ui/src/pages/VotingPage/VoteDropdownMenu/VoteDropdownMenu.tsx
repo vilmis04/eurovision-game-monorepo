@@ -1,37 +1,47 @@
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { useState } from "react";
+import {
+	FormControl,
+	InputLabel,
+	MenuItem,
+	Select,
+	SelectChangeEvent,
+} from "@mui/material";
+import { useField } from "formik";
+import { ICountryCardProps } from "../CountryCard/CountryCard";
 import { VoteTypes } from "../VotingTable/VotingTable.types";
 
-interface IProps {
-	onChange?: (newValue: string) => void;
-}
+interface IVoteDropdownMenuProps
+	extends Pick<ICountryCardProps, "country" | "submitForm"> {}
 
-const VoteDropdownMenu: React.FC<IProps> = ({ onChange }) => {
-	const [value, setValue] = useState("");
+// TODO: count already selected votes and allow to choose only available votes
 
-	const handleChange = (newValue: string): void => {
-		if (onChange) onChange(newValue);
-		setValue(newValue);
+const VoteDropdownMenu: React.FC<IVoteDropdownMenuProps> = ({
+	country,
+	submitForm,
+}) => {
+	const [field, _meta, { setValue }] = useField(country);
+
+	const handleChange = (event: SelectChangeEvent): void => {
+		setValue(event.target.value);
+		submitForm();
 	};
 
-	const color = value ? "success" : "error";
+	const color = field.value ? "success" : "error";
 
 	return (
 		<FormControl fullWidth>
 			<InputLabel id="voting-select-label">Vote</InputLabel>
 			<Select
-				labelId="voting-select-label"
-				id="voting-select"
-				value={value}
-				label="Vote"
+				{...field}
+				onChange={(event) => handleChange(event)}
 				fullWidth
-				onChange={(event): void => handleChange(event.target.value)}
-				error={!value}
+				label="Vote"
+				labelId="voting-select-label"
+				error={!field.value}
 				color={color}
 			>
 				<MenuItem value="">Vote</MenuItem>
 				{Object.values(VoteTypes).map((item) => (
-					<MenuItem key={item} value={item}>
+					<MenuItem disabled={false} key={item} value={item}>
 						{item}
 					</MenuItem>
 				))}
