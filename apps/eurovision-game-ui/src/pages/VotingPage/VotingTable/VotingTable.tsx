@@ -1,4 +1,4 @@
-import { Button, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import { styles } from "./VotingTable.styles";
 import { useEffect, useState } from "react";
 import { Box } from "@mui/system";
@@ -51,7 +51,6 @@ const VotingTable: React.FC = () => {
 		<Formik initialValues={initialValues} onSubmit={onSubmit}>
 			{({ submitForm }): React.ReactNode => (
 				<Form>
-					<Button type="submit">Submit</Button>
 					<Grid container sx={styles.tableContainer}>
 						{countries.map((entry: ICountry) => (
 							<Grid
