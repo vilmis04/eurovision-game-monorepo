@@ -6,8 +6,8 @@ import {
 	SelectChangeEvent,
 } from "@mui/material";
 import { useField } from "formik";
-import { ICountryCardProps } from "../CountryCard/CountryCard";
-import { VoteTypes } from "../VotingTable/VotingTable.types";
+import { ICountryCardProps } from "../CountryCard";
+import { VoteTypes } from "../../VotingTable.types";
 
 interface IVoteDropdownMenuProps
 	extends Pick<ICountryCardProps, "country" | "submitForm"> {}

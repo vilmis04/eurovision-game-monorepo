@@ -2,7 +2,7 @@ import { Grid } from "@mui/material";
 import { styles } from "./VotingTable.styles";
 import { useEffect, useState } from "react";
 import { Box } from "@mui/system";
-import CountryCard from "../CountryCard/CountryCard";
+import CountryCard from "./CountryCard/CountryCard";
 import { Form, Formik } from "formik";
 import { IVotingTableGetResponse } from "utils/global.types";
 
@@ -29,11 +29,11 @@ const VotingTable: React.FC = () => {
 	const toggleModal = (): void => setIsModalOpen(!isModalOpen);
 
 	// TODO: move this formatting to backend
+	// TODO: change to IGetVotesResponse
 	const initialValues: IVotingTableGetResponse = countries.reduce(
 		(prev, { country, vote }) => ({
 			...prev,
 			[country]: "",
-			// [country]: vote,
 		}),
 		{}
 	);

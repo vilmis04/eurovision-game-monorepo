@@ -1,5 +1,5 @@
 import { Card, Grid, Typography } from "@mui/material";
-import VoteDropdownMenu from "../VoteDropdownMenu/VoteDropdownMenu";
+import VoteDropdownMenu from "./VoteDropdownMenu/VoteDropdownMenu";
 import { styles } from "./CountryCard.styles";
 
 export interface ICountryCardProps {

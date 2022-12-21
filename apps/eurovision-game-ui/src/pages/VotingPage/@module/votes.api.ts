@@ -3,7 +3,7 @@ import { IGetVotesResponse } from "./votes.types";
 
 export const votesApi = createApi({
 	reducerPath: "votesApi",
-	baseQuery: fetchBaseQuery({ baseUrl: "https://pokeapi.co/api/v2/" }),
+	baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:4200/" }),
 	endpoints: (builder) => ({
 		getVotesByUsername: builder.query<IGetVotesResponse, void>({
 			query: () => `votes`,
