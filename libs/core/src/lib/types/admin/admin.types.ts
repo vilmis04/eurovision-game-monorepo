@@ -1,5 +1,7 @@
+import { VoteTypes } from "../votes";
+
 export type TCountries = {
-	[k: string]: string | number;
+	[k: string]: VoteTypes | string | number;
 };
 
 export interface IAdminFormData {

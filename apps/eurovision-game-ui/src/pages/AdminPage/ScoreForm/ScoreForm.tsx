@@ -20,7 +20,7 @@ import { styles } from "./ScoreForm.styles";
 import {
 	useGetScoreQuery,
 	useUpdateScoreMutation,
-} from "../@modules/score.api";
+} from "../../@modules/score.api";
 
 interface IScoreFormProps {
 	type: GameTypes;

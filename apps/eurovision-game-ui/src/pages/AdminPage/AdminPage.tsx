@@ -5,7 +5,7 @@ import AdminConfigForm from "./AdminConfigForm/AdminConfigForm";
 import {
 	useGetAdminConfigQuery,
 	useUpdateAdminConfigMutation,
-} from "./@modules/admin.api";
+} from "../@modules/admin.api";
 // import ScoreForm from "./ScoreForm/ScoreForm";
 import { CircularProgress } from "@mui/material";
 import CountryConfigForm from "./CountryConfigForm/CountryConfigForm";

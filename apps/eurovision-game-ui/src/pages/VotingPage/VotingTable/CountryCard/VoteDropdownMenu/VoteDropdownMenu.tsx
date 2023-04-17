@@ -6,18 +6,16 @@ import {
 	Select,
 	SelectChangeEvent,
 } from "@mui/material";
-import { useField } from "formik";
+import { useField, useFormikContext } from "formik";
 import { ICountryCardProps } from "../CountryCard";
+import { TVoteFormData } from "../../VotingTable.types";
 
-interface IVoteDropdownMenuProps
-	extends Pick<ICountryCardProps, "country" | "submitForm"> {}
+interface IVoteDropdownMenuProps extends Pick<ICountryCardProps, "country"> {}
 
 // TODO: count already selected votes and allow to choose only available votes
 
-const VoteDropdownMenu: React.FC<IVoteDropdownMenuProps> = ({
-	country,
-	submitForm,
-}) => {
+const VoteDropdownMenu: React.FC<IVoteDropdownMenuProps> = ({ country }) => {
+	const { submitForm } = useFormikContext<TVoteFormData>();
 	const [field, _meta, { setValue }] = useField(country);
 
 	const handleChange = (event: SelectChangeEvent): void => {

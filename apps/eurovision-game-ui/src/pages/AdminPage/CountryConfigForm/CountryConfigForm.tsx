@@ -18,7 +18,7 @@ import {
 	useDeleteCountryMutation,
 	useGetCountryListQuery,
 	useUpdateCountryMutation,
-} from "../@modules/country.api";
+} from "../../@modules/country.api";
 import { ChangeEvent, useState } from "react";
 import { Field, Form, Formik } from "formik";
 import FormField from "apps/eurovision-game-ui/src/components/FormField/FormField";
