@@ -16,12 +16,6 @@ const VotingTable: React.FC<IVotingTableProps> = ({ type, year }) => {
 	// TODO: add and combine isFetching for all queries
 	const { data: votes, isFetching } = useGetVotesQuery({ type, year });
 	const { data: countryList } = useGetCountryListQuery({ type, year });
-
-	// TODO: handle semifinals - initialvalues, submitting, etc
-	// Based on type, there should be different initialvalues
-	// and different form in country card.
-	// Should there be different submit functions? Different entity / interface for BE
-
 	const initialValues =
 		votes &&
 		countryList?.reduce(
@@ -31,8 +25,6 @@ const VotingTable: React.FC<IVotingTableProps> = ({ type, year }) => {
 			}),
 			{}
 		);
-
-	console.log({ votes, initialValues });
 
 	const isFinal = type === GameTypes.FINAL;
 

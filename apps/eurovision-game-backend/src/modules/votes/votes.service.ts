@@ -28,8 +28,6 @@ export class VotesService {
 			type,
 		});
 
-		console.log({ votesInstance });
-
 		const voteData =
 			votesInstance || (await this.createVotes({ username, year, type }));
 

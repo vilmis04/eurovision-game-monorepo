@@ -1,6 +1,7 @@
 import { Card, Grid, Typography } from "@mui/material";
 import VoteDropdownMenu from "./VoteDropdownMenu/VoteDropdownMenu";
 import { styles } from "./CountryCard.styles";
+import VoteSemiCheckbox from "./VoteSemiCheckbox/VoteSemiCheckbox";
 
 export interface ICountryCardProps {
 	country: string;
@@ -13,6 +14,7 @@ const CountryCard: React.FC<ICountryCardProps> = ({
 	country,
 	artist,
 	song,
+	isFinal,
 }) => {
 	return (
 		<Card variant="outlined" sx={styles.card}>
@@ -30,8 +32,13 @@ const CountryCard: React.FC<ICountryCardProps> = ({
 						</Typography>
 					</Grid>
 				</Grid>
-				<Grid item sx={styles.button}>
-					<VoteDropdownMenu country={country} />
+				{/* TODO: fix sx syntax to accept more than one class */}
+				<Grid item sx={isFinal ? styles.button : {}}>
+					{isFinal ? (
+						<VoteDropdownMenu country={country} />
+					) : (
+						<VoteSemiCheckbox country={country} />
+					)}
 				</Grid>
 			</Grid>
 		</Card>
