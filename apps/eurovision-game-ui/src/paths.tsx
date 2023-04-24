@@ -6,6 +6,7 @@ enum RootPaths {
 	SCORES = "scores",
 	COUNTRY = "country",
 	FORBIDDEN = "/forbidden",
+	GROUPS = "groups",
 }
 
 enum AuthPaths {
@@ -37,6 +38,7 @@ export const paths = {
 	scores: RootPaths.SCORES,
 	country: RootPaths.COUNTRY,
 	forbidden: RootPaths.FORBIDDEN,
+	groups: RootPaths.GROUPS,
 	promote: adminPaths.promote,
 	submitFinal: adminPaths.submitFinal,
 };
