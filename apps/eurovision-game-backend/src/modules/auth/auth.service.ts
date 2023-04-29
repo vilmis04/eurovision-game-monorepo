@@ -1,7 +1,5 @@
-import { IUserDataForToken } from "@eurovision-game-monorepo/core";
 import { Injectable, Req, Res } from "@nestjs/common";
 import { RepoClient } from "../../utils/RepoClient";
-import * as jwt from "jsonwebtoken";
 import * as bcrypt from "bcrypt";
 import { Response, Request } from "express";
 import { JwtUtils } from "../../utils/JwtUtils";
@@ -36,7 +34,7 @@ export class AuthService {
 		}
 
 		const { password, ...userData } = user;
-		const access_token = await this.generateToken(userData);
+		const access_token = await this.jwtUtils.generateToken(userData);
 
 		response.cookie("jwt", access_token, {
 			maxAge: 1000 * 24 * 3600,
@@ -48,14 +46,6 @@ export class AuthService {
 
 	async validateUser(enteredPassword: string, userPassword: string) {
 		return await bcrypt.compare(enteredPassword, userPassword);
-	}
-
-	async generateToken(user: IUserDataForToken) {
-		const MAX_AGE = 24 * 3600; // 1 day in seconds
-		const access_token = jwt.sign(user, process.env.SECRET_KEY!, {
-			expiresIn: MAX_AGE,
-		});
-		return access_token;
 	}
 
 	async logout(@Res({ passthrough: true }) response: Response) {

@@ -6,6 +6,7 @@ import { authApi } from "../pages/LoginPage/@modules/auth.api";
 import { votesApi } from "../pages/VotingPage/@modules/votes.api";
 import { authMiddleware } from "./authMiddleware";
 import { countryApi } from "../pages/@modules/country.api";
+import { groupApi } from "../pages/GroupPage/@modules/group.api";
 
 export const store = configureStore({
 	reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
 		[adminApi.reducerPath]: adminApi.reducer,
 		[scoreApi.reducerPath]: scoreApi.reducer,
 		[countryApi.reducerPath]: countryApi.reducer,
+		[groupApi.reducerPath]: groupApi.reducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware().concat(
@@ -22,6 +24,7 @@ export const store = configureStore({
 			scoreApi.middleware,
 			adminApi.middleware,
 			countryApi.middleware,
+			groupApi.middleware,
 			authMiddleware
 		),
 });

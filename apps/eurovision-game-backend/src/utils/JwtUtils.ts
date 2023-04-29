@@ -19,4 +19,19 @@ export class JwtUtils {
 
 		return user;
 	}
+
+	async generateToken(data: string | object, maxAge: number = 24 * 3600) {
+		const token = jwt.sign(data, SECRET_KEY, {
+			expiresIn: maxAge,
+		});
+		return token;
+	}
+
+	public async encryptLink(id: string) {
+		return await this.generateToken({ id });
+	}
+
+	public async decryptLink(token: string) {
+		return jwt.verify(token, SECRET_KEY) as string;
+	}
 }

@@ -6,11 +6,19 @@ import {
 } from "@eurovision-game-monorepo/core";
 import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 
-import { Collection, MongoClient, ObjectId, ServerApiVersion } from "mongodb";
+import {
+	Collection,
+	Condition,
+	MongoClient,
+	ObjectId,
+	ServerApiVersion,
+} from "mongodb";
 import { Admin } from "../modules/admin/entities/admin.entity";
 import { Score } from "../modules/score/entities/score.entity";
 import { Country } from "../modules/country/entities/country.entity";
 import { Votes } from "../modules/votes/entities/Votes";
+import { Group } from "../modules/group/entities/group.entity";
+import { UpdateGroupRequestDto } from "../modules/group/dto/update-group.request.dto";
 
 enum CollectionTypes {
 	VOTES = "votes",
@@ -18,6 +26,7 @@ enum CollectionTypes {
 	ADMIN = "admin",
 	SCORES = "scores",
 	COUNTRY = "country",
+	GROUP = "group",
 }
 
 enum DatabaseTypes {
@@ -33,6 +42,7 @@ export class RepoClient {
 	private adminCollection: Collection<Admin>;
 	private scoresCollection: Collection<Score>;
 	private countryCollection: Collection<Country>;
+	private groupCollection: Collection<Group>;
 
 	constructor() {
 		this.client = new MongoClient(`${process.env.MONGO_URI}`, {
@@ -59,6 +69,9 @@ export class RepoClient {
 			this.countryCollection = this.client
 				.db(DatabaseTypes.EUROVISION_GAME)
 				.collection<Country>(CollectionTypes.COUNTRY);
+			this.groupCollection = this.client
+				.db(DatabaseTypes.EUROVISION_GAME)
+				.collection<Group>(CollectionTypes.GROUP);
 		});
 
 		this.client.on("error", (err) =>
@@ -193,6 +206,38 @@ export class RepoClient {
 		return await this.countryCollection.updateOne(
 			{ name, year },
 			{ $set: { ...country } }
+		);
+	}
+
+	// GROUP
+
+	async createGroup(group: Group) {
+		return await this.groupCollection.insertOne(group);
+	}
+
+	async removeGroup(id: Condition<ObjectId>) {
+		return await this.groupCollection.deleteOne({
+			_id: id,
+		});
+	}
+
+	async findGroup(id: Condition<ObjectId>) {
+		return await this.groupCollection.findOne({ _id: id });
+	}
+
+	async findAllUsersGroups(yearCreated: string, owner: string) {
+		return await this.groupCollection
+			.find({ owner, yearCreated })
+			.toArray();
+	}
+
+	async updateGroup(
+		id: Condition<ObjectId>,
+		updateGroupDto: UpdateGroupRequestDto
+	) {
+		return await this.groupCollection.findOneAndUpdate(
+			{ _id: id },
+			updateGroupDto
 		);
 	}
 }
