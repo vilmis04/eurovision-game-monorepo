@@ -1,8 +1,8 @@
 export enum RootPaths {
 	VOTES = "votes",
 	ADMIN = "admin",
-	SCORES = "scores",
 	GROUPS = "groups",
+	USERS = "users",
 }
 
 export enum AuthPaths {

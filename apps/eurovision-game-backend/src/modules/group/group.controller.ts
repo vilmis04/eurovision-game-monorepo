@@ -7,11 +7,12 @@ import {
 	Delete,
 	Req,
 	Put,
+	Res,
 } from "@nestjs/common";
 import { GroupService } from "./group.service";
 import { UpdateGroupRequestDto } from "./dto/update-group.request.dto";
 import { CreateGroupRequestDto } from "./dto/create-group.request.dto";
-import { Request } from "express";
+import { Request, Response } from "express";
 import { Condition, ObjectId } from "mongodb";
 import { RootPaths } from "../../types/paths";
 
@@ -33,18 +34,18 @@ export class GroupController {
 	}
 
 	@Get(":id")
-	findOne(@Param("id") id: Condition<ObjectId>) {
+	findOne(@Param("id") id: string) {
 		return this.groupService.findOne(id);
 	}
 
 	@Get("all/:year")
 	findAll(@Param("year") year: string, @Req() request: Request) {
-		return this.groupService.findAll(year, request);
+		return this.groupService.findAllJoined(year, request);
 	}
 
 	@Put(":id")
 	update(
-		@Param("id") id: Condition<ObjectId>,
+		@Param("id") id: string,
 		@Body() updateGroupDto: UpdateGroupRequestDto
 	) {
 		return this.groupService.update(id, updateGroupDto);
@@ -53,5 +54,13 @@ export class GroupController {
 	@Post("invitation-link/:groupId")
 	generateInvitationLink(@Param("groupId") id: string) {
 		return this.groupService.generateInvitationLink(id);
+	}
+
+	@Post("join-group")
+	joinGroup(
+		@Req() request: Request,
+		@Res({ passthrough: true }) response: Response
+	) {
+		return this.groupService.joinGroup(request, response);
 	}
 }

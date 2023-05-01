@@ -1,9 +1,11 @@
 export const initialValues = {
-	groupName: "",
+	name: "",
+	_id: "",
 };
 
 export interface ICreateGroupFormData {
-	groupName: string;
+	name: string;
+	_id: string;
 }
 
 export interface IGroup {

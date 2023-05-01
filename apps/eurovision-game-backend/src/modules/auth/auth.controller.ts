@@ -37,4 +37,29 @@ export class AuthController {
 	) {
 		return await this.groupService.addGroupToJoin(response, token);
 	}
+
+	@Get()
+	async getAuthStatus(
+		@Req() request: Request,
+		@Res({ passthrough: true }) response: Response
+	) {
+		return await this.authService.getAuthStatus(request, response);
+	}
+
+	@Post("signup")
+	async signUp(
+		@Res({ passthrough: true }) response: Response,
+		@Req() request: Request,
+		@Body() { username, password }: IGetUserResponse
+	) {
+		const result = await this.authService.signUp(
+			request,
+			response,
+			username,
+			password
+		);
+		if (!result.success) return result;
+
+		return { success: true };
+	}
 }

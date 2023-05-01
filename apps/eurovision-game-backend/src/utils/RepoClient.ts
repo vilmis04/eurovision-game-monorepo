@@ -1,10 +1,9 @@
 import {
 	GameTypes,
-	IGetUserResponse,
 	IGetVotesRequest,
 	RoleTypes,
 } from "@eurovision-game-monorepo/core";
-import { Injectable, Logger, NotFoundException } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 
 import {
 	Collection,
@@ -14,11 +13,11 @@ import {
 	ServerApiVersion,
 } from "mongodb";
 import { Admin } from "../modules/admin/entities/admin.entity";
-import { Score } from "../modules/score/entities/score.entity";
 import { Country } from "../modules/country/entities/country.entity";
 import { Votes } from "../modules/votes/entities/Votes";
 import { Group } from "../modules/group/entities/group.entity";
 import { UpdateGroupRequestDto } from "../modules/group/dto/update-group.request.dto";
+import { User } from "../modules/users/entities/user.entity";
 
 enum CollectionTypes {
 	VOTES = "votes",
@@ -38,9 +37,8 @@ enum DatabaseTypes {
 export class RepoClient {
 	private readonly client: MongoClient;
 	private votesCollection: Collection<Votes>;
-	private usersCollection: Collection<IGetUserResponse>;
+	private usersCollection: Collection<User>;
 	private adminCollection: Collection<Admin>;
-	private scoresCollection: Collection<Score>;
 	private countryCollection: Collection<Country>;
 	private groupCollection: Collection<Group>;
 
@@ -59,13 +57,10 @@ export class RepoClient {
 				.collection<Votes>(CollectionTypes.VOTES);
 			this.usersCollection = this.client
 				.db(DatabaseTypes.EUROVISION_GAME)
-				.collection<IGetUserResponse>(CollectionTypes.USERS);
+				.collection<User>(CollectionTypes.USERS);
 			this.adminCollection = this.client
 				.db(DatabaseTypes.EUROVISION_GAME)
 				.collection<Admin>(CollectionTypes.ADMIN);
-			this.scoresCollection = this.client
-				.db(DatabaseTypes.EUROVISION_GAME)
-				.collection<Score>(CollectionTypes.SCORES);
 			this.countryCollection = this.client
 				.db(DatabaseTypes.EUROVISION_GAME)
 				.collection<Country>(CollectionTypes.COUNTRY);
@@ -124,6 +119,15 @@ export class RepoClient {
 		});
 	}
 
+	async updateUser(username: string, user: Partial<User>) {
+		return await this.usersCollection.updateOne(
+			{
+				username,
+			},
+			{ $set: { ...user } }
+		);
+	}
+
 	// ADMIN
 
 	async getAdminConfig() {
@@ -148,35 +152,6 @@ export class RepoClient {
 		);
 
 		return adminResponse;
-	}
-
-	// SCORES
-
-	async createScore(scoreInstance: Score) {
-		return await this.scoresCollection.insertOne(scoreInstance);
-	}
-
-	async findScore(year: Score["year"], type: Score["type"]) {
-		const score = await this.scoresCollection.findOne({ year, type });
-
-		if (!score) throw new NotFoundException({ message: "Score not found" });
-
-		return score;
-	}
-
-	async updateScore(scoreInstance: Score) {
-		const { year, type, countries } = scoreInstance;
-		const updatedScore = await this.scoresCollection.updateOne(
-			{
-				year,
-				type,
-			},
-			{ $set: { year, type, countries } }
-		);
-
-		if (!updatedScore) throw new NotFoundException();
-
-		return updatedScore;
 	}
 
 	// COUNTRY
@@ -217,7 +192,7 @@ export class RepoClient {
 
 	async removeGroup(id: Condition<ObjectId>) {
 		return await this.groupCollection.deleteOne({
-			_id: id,
+			_id: new ObjectId(`${id}`),
 		});
 	}
 
@@ -225,7 +200,7 @@ export class RepoClient {
 		return await this.groupCollection.findOne({ _id: id });
 	}
 
-	async findAllUsersGroups(yearCreated: string, owner: string) {
+	async findAllUserOwnedGroups(yearCreated: string, owner: string) {
 		return await this.groupCollection
 			.find({ owner, yearCreated })
 			.toArray();
@@ -237,7 +212,7 @@ export class RepoClient {
 	) {
 		return await this.groupCollection.findOneAndUpdate(
 			{ _id: id },
-			updateGroupDto
+			{ $set: { ...updateGroupDto } }
 		);
 	}
 }

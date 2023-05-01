@@ -3,6 +3,8 @@ import { RepoClient } from "../../utils/RepoClient";
 import * as bcrypt from "bcrypt";
 import { Response, Request } from "express";
 import { JwtUtils } from "../../utils/JwtUtils";
+import validator from "validator";
+import { GroupService } from "../group/group.service";
 
 export interface ILoginResponse {
 	success: boolean;
@@ -14,7 +16,8 @@ export interface ILoginResponse {
 export class AuthService {
 	constructor(
 		private readonly repoClient: RepoClient,
-		private readonly jwtUtils: JwtUtils
+		private readonly jwtUtils: JwtUtils,
+		private readonly groupService: GroupService
 	) {}
 
 	async login(
@@ -41,6 +44,10 @@ export class AuthService {
 			httpOnly: true,
 		});
 
+		response.cookie("username", username, {
+			maxAge: 1000 * 24 * 3600,
+		});
+
 		return { success: true };
 	}
 
@@ -53,10 +60,60 @@ export class AuthService {
 			maxAge: 1,
 			httpOnly: true,
 		});
+
+		response.cookie("username", "", {
+			maxAge: 1,
+		});
 	}
 
 	async getRoles(@Req() request: Request) {
 		const { roles } = this.jwtUtils.getUser(request);
 		return roles ?? [];
+	}
+
+	async getAuthStatus(
+		@Req() request: Request,
+		@Res({ passthrough: true }) response: Response
+	) {
+		const isAuthenticated = this.jwtUtils.getAuthStatus(request);
+
+		if (isAuthenticated) {
+			await this.groupService.joinGroup(request, response);
+		}
+
+		return isAuthenticated;
+	}
+
+	async signUp(
+		@Req() request: Request,
+		@Res({ passthrough: true }) res: Response,
+		username: string,
+		enteredPassword: string
+	): Promise<ILoginResponse> {
+		const salt = bcrypt.genSaltSync(10);
+		const hash = bcrypt.hashSync(enteredPassword, salt);
+
+		const { acknowledged: userAcknowledged, insertedId: userId } =
+			await this.repoClient.createUser(validator.escape(username), hash);
+
+		if (!userAcknowledged) {
+			res.status(500).send();
+			throw new Error("Internal server error");
+		}
+
+		const user = await this.repoClient.getUserById(userId);
+
+		if (!user) {
+			res.status(500).send();
+			throw new Error("Internal server error");
+		}
+
+		const loggedinUser = await this.login(
+			res,
+			user.username,
+			enteredPassword
+		);
+
+		return loggedinUser;
 	}
 }
