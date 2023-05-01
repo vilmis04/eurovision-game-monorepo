@@ -20,6 +20,7 @@ import {
 	useDeleteGroupMutation,
 	useGenerateInvitationLinkMutation,
 	useGetGroupsQuery,
+	useLeaveGroupMutation,
 	useUpdateGroupMutation,
 } from "../@modules/group.api";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -57,6 +58,11 @@ const GroupPage: React.FC = () => {
 		// @ts-ignore
 		{ isSuccess: isDeleteGroupSuccess, reset: resetDelete },
 	] = useDeleteGroupMutation();
+	const [
+		leaveGroup,
+		// @ts-ignore
+		{ isSuccess: isLeaveGroupSuccess, reset: resetLeave },
+	] = useLeaveGroupMutation();
 	const [generateInvitationLink] = useGenerateInvitationLinkMutation();
 
 	const toggleCreateGroupDialog = () => setShowCreateGroupDialog((s) => !s);
@@ -68,11 +74,15 @@ const GroupPage: React.FC = () => {
 		resetCreate();
 		resetDelete();
 		resetUpdate();
+		resetLeave();
 		toggleCreateGroupDialog();
 	};
 
 	const isSuccess =
-		isCreateGroupSuccess || isUpdateGroupSuccess || isDeleteGroupSuccess;
+		isCreateGroupSuccess ||
+		isUpdateGroupSuccess ||
+		isDeleteGroupSuccess ||
+		isLeaveGroupSuccess;
 
 	useEffect(() => {
 		if (isSuccess) handleClose();
@@ -87,6 +97,7 @@ const GroupPage: React.FC = () => {
 			navigator.clipboard.writeText(link);
 			toggleLinkCopiedSnackbar();
 		}
+		if (submitType === SubmitTypes.LEAVE) leaveGroup({ id: `${_id}` });
 	};
 
 	const handleCreate = () => {
@@ -106,6 +117,12 @@ const GroupPage: React.FC = () => {
 		toggleCreateGroupDialog();
 	};
 
+	const handleLeave = (group: IGroupForAction) => {
+		setSubmitType(SubmitTypes.LEAVE);
+		setGroupToEdit(group);
+		toggleCreateGroupDialog();
+	};
+
 	const handleInvitation = async (group: IGroupForAction) => {
 		setSubmitType(SubmitTypes.INVITE);
 		setGroupToEdit(group);
@@ -121,7 +138,7 @@ const GroupPage: React.FC = () => {
 		.find((cookie) => cookie.startsWith("username"))
 		?.split("=")[1];
 
-	// TODO: dynamic functionality based on ownership of the group
+	const checkOwner = (owner: string) => owner === username;
 
 	const popupConfig = getPopupConfig({ groupToEdit, link });
 
@@ -139,7 +156,7 @@ const GroupPage: React.FC = () => {
 			</Box>
 			<Box>
 				{groups && groups.length > 0 ? (
-					groups.map(({ _id, name, members }) => (
+					groups.map(({ _id, name, members, owner }) => (
 						<Box key={`${_id}`} sx={{ margin: 2 }}>
 							<Accordion sx={{ background: "#9dd2fa" }}>
 								<AccordionSummary
@@ -155,41 +172,54 @@ const GroupPage: React.FC = () => {
 										}}
 									>
 										<Box>
-											<ButtonBase
-												sx={{ margin: 1 }}
-												onClick={() =>
-													handleInvitation({
-														_id: `${_id}`,
-														name,
-													})
-												}
-											>
-												<LinkIcon />
-											</ButtonBase>
+											{checkOwner(owner) && (
+												<ButtonBase
+													sx={{ margin: 1 }}
+													onClick={() =>
+														handleInvitation({
+															_id: `${_id}`,
+															name,
+														})
+													}
+												>
+													<LinkIcon />
+												</ButtonBase>
+											)}
 										</Box>
 										<Box>
+											{checkOwner(owner) && (
+												<ButtonBase
+													sx={{ margin: 1 }}
+													onClick={() =>
+														handleEdit({
+															_id: `${_id}`,
+															name,
+														})
+													}
+													value={name}
+												>
+													<EditIcon />
+												</ButtonBase>
+											)}
 											<ButtonBase
 												sx={{ margin: 1 }}
 												onClick={() =>
-													handleEdit({
-														_id: `${_id}`,
-														name,
-													})
-												}
-												value={name}
-											>
-												<EditIcon />
-											</ButtonBase>
-											<ButtonBase
-												sx={{ margin: 1 }}
-												onClick={() =>
-													handleDelete({
-														_id: `${_id}`,
-														name,
-													})
+													checkOwner(owner)
+														? handleDelete({
+																_id: `${_id}`,
+																name,
+														  })
+														: handleLeave({
+																_id: `${_id}`,
+																name,
+														  })
 												}
 											>
-												<DeleteIcon />
+												{checkOwner(owner) ? (
+													<DeleteIcon />
+												) : (
+													<LogoutIcon />
+												)}
 											</ButtonBase>
 										</Box>
 									</Box>

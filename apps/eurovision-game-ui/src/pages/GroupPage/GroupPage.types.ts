@@ -3,6 +3,7 @@ export enum SubmitTypes {
 	UPDATE = "UPDATE",
 	DELETE = "DELETE",
 	INVITE = "INVITE",
+	LEAVE = "LEAVE",
 }
 
 export interface IGroupForAction {

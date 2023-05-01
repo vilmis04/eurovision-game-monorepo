@@ -86,6 +86,15 @@ export const groupApi = createApi({
 				credentials: "include",
 			}),
 		}),
+
+		leaveGroup: builder.mutation<void, TGroupIdParam>({
+			query: ({ id }) => ({
+				url: `${paths.groups}/leave/${id}`,
+				method: HttpMethods.PATCH,
+				credentials: "include",
+			}),
+			invalidatesTags: [GroupTags.GROUPS],
+		}),
 	}),
 });
 
@@ -97,4 +106,5 @@ export const {
 	useGenerateInvitationLinkMutation,
 	useSetGroupToJoinQuery,
 	useJoinGroupMutation,
+	useLeaveGroupMutation,
 } = groupApi;

@@ -93,4 +93,16 @@ export const getPopupConfig = ({
 			/>
 		),
 	},
+	[SubmitTypes.LEAVE]: {
+		confirmLabel: "Leave",
+		cancelLabel: "Cancel",
+		isLoading: !groupToEdit,
+		component: (
+			<Box>
+				<Typography>
+					{`Are you sure you want to leave ${groupToEdit?.name} group?`}
+				</Typography>
+			</Box>
+		),
+	},
 });

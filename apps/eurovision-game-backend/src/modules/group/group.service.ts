@@ -4,7 +4,7 @@ import { CreateGroupRequestDto } from "./dto/create-group.request.dto";
 import { RepoClient } from "../../utils/RepoClient";
 import { Request, Response } from "express";
 import { JwtUtils } from "../../utils/JwtUtils";
-import { Condition, ObjectId, WithId } from "mongodb";
+import { ObjectId, WithId } from "mongodb";
 import { UsersService } from "../users/users.service";
 import { Group } from "./entities/group.entity";
 
@@ -18,19 +18,43 @@ export class GroupService {
 
 	async create({ name }: CreateGroupRequestDto, @Req() request: Request) {
 		const { username } = this.jwtUtils.getUser(request);
+		const user = await this.repoClient.getUserByUsername(username);
+		if (!user) throw new Error("No user found");
 
-		return await this.repoClient.createGroup({
+		const { insertedId } = await this.repoClient.createGroup({
 			name,
 			members: [username],
 			owner: username,
 			yearCreated: new Date().getFullYear().toString(),
 		});
+
+		const updatedGroupList = [...user.groups, `${insertedId}`];
+		await this.usersService.updateUser(username, {
+			groups: updatedGroupList,
+		});
 	}
 
-	async remove(id: Condition<ObjectId>) {
-		const response = await this.repoClient.removeGroup(id);
+	async remove(id: string, @Req() request: Request) {
+		const groupToDelete = await this.findOne(id);
+		// TODO: fix error handling
+		if (!groupToDelete) throw new Error("Group not found");
+		await Promise.all(
+			groupToDelete.members.map(async (member) => {
+				const user = await this.repoClient.getUserByUsername(member);
+				if (!user) return;
+				const updatedGroups = user.groups.filter(
+					(groupId) => id !== groupId
+				);
+
+				await this.usersService.updateUser(member, {
+					groups: updatedGroups,
+				});
+			})
+		);
+
+		const response = await this.repoClient.removeGroup(new ObjectId(id));
 		if (!response.acknowledged || response.deletedCount !== 1) {
-			throw new Error("Group was not deleted, internal serve error");
+			throw new Error("Group was not deleted, internal server error");
 		}
 
 		return response;
@@ -47,10 +71,12 @@ export class GroupService {
 	}
 
 	async findAllJoined(year: string, request: Request) {
-		const { groups } = this.jwtUtils.getUser(request);
+		const { username } = this.jwtUtils.getUser(request);
+		const user = await this.repoClient.getUserByUsername(username);
+		if (!user) throw new Error("No user found");
 
 		const joinedGroups = await Promise.all(
-			groups.map(async (groupId) => {
+			user.groups.map(async (groupId) => {
 				const group = await this.findOne(groupId);
 				if (group && group.yearCreated === year) return group;
 			})
@@ -107,11 +133,28 @@ export class GroupService {
 			await this.update(groupId, {
 				members: [...groupToJoin.members, username],
 			});
-			await this.usersService.updateUser(request, {
+			await this.usersService.updateUser(username, {
 				groups: [...groups, groupId],
 			});
 		}
 
 		response.cookie("group", "", { maxAge: 1, httpOnly: true });
+	}
+
+	async leaveGroup(@Req() request: Request, id: string) {
+		const { username } = this.jwtUtils.getUser(request);
+		const user = await this.repoClient.getUserByUsername(username);
+
+		if (!user) throw new Error("No user found");
+		const groupToLeave = await this.findOne(id);
+		if (!groupToLeave) throw new Error("No group found");
+
+		const updatedMembers = groupToLeave.members.filter(
+			(member) => member !== username
+		);
+		const updatedGroups = user.groups.filter((groupId) => groupId !== id);
+
+		await this.update(id, { members: updatedMembers });
+		await this.usersService.updateUser(username, { groups: updatedGroups });
 	}
 }
