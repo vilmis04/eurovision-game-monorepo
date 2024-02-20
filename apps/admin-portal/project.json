@@ -1,0 +1,8 @@
+{
+  "name": "admin-portal",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "admin-portal",
+  "projectType": "application",
+  "targets": {},
+  "tags": []
+}
