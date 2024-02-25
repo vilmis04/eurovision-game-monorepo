@@ -2,7 +2,7 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import { submitForm } from '../lib/serverActions/login';
 
 export const Login: React.FC = () => (
-  <Box className="container mx-auto max-w-md pt-4">
+  <Box className="container mx-auto max-w-md p-4">
     <Box
       component="form"
       action={submitForm}
