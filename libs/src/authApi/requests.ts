@@ -1,4 +1,4 @@
-export interface loginRequestBody {
+export interface ILoginRequestBody {
   username: string;
   password: string;
 }
