@@ -1,7 +1,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { login } from '../../api/auth/authApi';
+import { login } from '../../api/auth/authApi.server';
 
 export const submitForm = async (formData: FormData) => {
   const body = {
