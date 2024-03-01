@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Methods } from '../../lib/types/global.types';
+import { Methods } from '../../../../../../libs/types/src/global/global.types';
 import { ILoginRequestBody } from '@eurovision-game-monorepo/types';
 
 const BASE_URL =
