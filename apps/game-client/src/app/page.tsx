@@ -1,5 +1,7 @@
 import { Box } from '@mui/material';
 import { getIsAuthenticated } from './api/auth/authApi.server';
+import { redirect } from 'next/navigation';
+import { paths } from '../paths';
 
 export default async function Index() {
   const data = await getIsAuthenticated();
@@ -8,5 +10,7 @@ export default async function Index() {
     isAuthenticated = await data.json();
   }
 
-  return <Box>{isAuthenticated ? 'Vote for the winners' : 'Please login'}</Box>;
+  if (!isAuthenticated) redirect(paths.login);
+
+  return <Box>Vote for the winners</Box>;
 }
