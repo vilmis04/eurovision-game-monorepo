@@ -1,22 +1,22 @@
 'use client';
 
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLoginMutation } from '../api/auth/authApi.client';
-import { Field, Form, Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import { paths } from '../../paths';
+import { FormTextField } from '../ui/FormTextField/FormTextField';
 
 const initialValues = { username: '', password: '' };
-interface ILoginFormValues {
+interface LoginFormValues {
   username: string | '';
   password: string | '';
 }
 
 export const Login: React.FC = () => {
-  const [login, { isSuccess, error, isError }] = useLoginMutation();
+  const [login, { isSuccess, isError }] = useLoginMutation();
   const router = useRouter();
-  console.log(error);
 
   useEffect(() => {
     if (isSuccess) {
@@ -24,8 +24,8 @@ export const Login: React.FC = () => {
     }
   }, [isSuccess]);
 
-  const handleSubmit = async ({ password, username }: ILoginFormValues) => {
-    await login({ password, username });
+  const handleSubmit = async (values: LoginFormValues) => {
+    await login(values);
   };
 
   const handleSignUp = () => {
@@ -45,18 +45,11 @@ export const Login: React.FC = () => {
               <Typography>Incorrect username or password</Typography>
             </Box>
           )}
-          <Field
-            name="username"
-            className="w-full"
-            placeholder="Enter username"
-            component={TextField}
-          />
-          <Field
+          <FormTextField name="username" placeholder="Enter username" />
+          <FormTextField
             name="password"
             type="password"
-            className="w-full"
             placeholder="Enter password"
-            component={TextField}
           />
           <Button variant="outlined" className="w-full" type="submit">
             Login
