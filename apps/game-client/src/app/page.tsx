@@ -1,16 +1,13 @@
-import { Box } from '@mui/material';
-import { getIsAuthenticated } from './api/auth/authApi.server';
-import { redirect } from 'next/navigation';
-import { paths } from '../paths';
+'use client';
 
-export default async function Index() {
-  const data = await getIsAuthenticated();
-  let isAuthenticated = false;
-  if (data.status === 200) {
-    isAuthenticated = await data.json();
-  }
+import { Provider } from 'react-redux';
+import { store } from '../redux/store';
+import { Dashboard } from './Dashboard';
 
-  if (!isAuthenticated) redirect(paths.login);
-
-  return <Box>Vote for the winners</Box>;
+export default function Index() {
+  return (
+    <Provider store={store}>
+      <Dashboard />
+    </Provider>
+  );
 }
