@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useLoginMutation } from '../api/auth/authApi.client';
 import { Form, Formik } from 'formik';
 import { paths } from '../../paths';
-import { FormTextField } from '../ui/FormTextField/FormTextField';
+import { FormTextField } from '@eurovision-game-monorepo/core-ui';
 
 const initialValues = { username: '', password: '' };
 interface LoginFormValues {

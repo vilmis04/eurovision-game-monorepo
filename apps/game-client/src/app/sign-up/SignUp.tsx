@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useSignUpMutation } from '../api/auth/authApi.client';
 import { Form, Formik } from 'formik';
 import { paths } from '../../paths';
-import { FormTextField } from '../ui/FormTextField/FormTextField';
+import { FormTextField } from '../../../../../libs/core-ui/src/lib/components/FormTextField/FormTextField';
 
 const initialValues = { username: '', password: '', repeatPassword: '' };
 interface SignUpFormValues {
