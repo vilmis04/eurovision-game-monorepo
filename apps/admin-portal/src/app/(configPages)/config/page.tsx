@@ -1,7 +1,5 @@
-import { Methods } from '@eurovision-game-monorepo/types';
 import {
   Box,
-  Button,
   FormControl,
   FormControlLabel,
   InputLabel,
@@ -10,40 +8,16 @@ import {
   Switch,
   Typography,
 } from '@mui/material';
-import { FormEvent } from 'react';
 import { SubmitButton } from './SubmitButton/SubmitButton';
+import { submitForm } from '../../api/serverAPIs/configApi';
 
-const ConfigPage = async () => {
-  const BASE_URL = process.env.BASE_SERVICE_URL || 'http://localhost:4300';
-
-  const configResponse = await (
-    await fetch(`${BASE_URL}/api/admin`, {
-      method: Methods.GET,
-      credentials: 'include',
-    })
-  ).json();
-
-  //   TODO: remove after testing
-  console.log({ configResponse });
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-
-    //   TODO: remove after testing
-    console.log({ formData });
-
-    const response = await fetch(`${BASE_URL}/api/admin`, {
-      method: Methods.PATCH,
-      body: formData,
-      credentials: 'include',
-    });
-  };
-
+export default async function ConfigPage() {
   return (
-    <Box>
-      <Typography variant="h1">Config</Typography>
-      <Box component="form" onSubmit={handleSubmit}>
+    <Box className="w-96 p-16 mx-auto">
+      <Typography variant="h1" className="text-xl">
+        Config
+      </Typography>
+      <Box component="form" action={submitForm}>
         <FormControl fullWidth>
           <InputLabel id="year-select">Select year</InputLabel>
           <Select labelId="year-select" label="Year">
@@ -51,7 +25,7 @@ const ConfigPage = async () => {
           </Select>
         </FormControl>
         <FormControl fullWidth>
-          <InputLabel id="game-type-select">Select year</InputLabel>
+          <InputLabel id="game-type-select">Select game type</InputLabel>
           <Select labelId="game-type-select" label="Game Type">
             <MenuItem value={'semi1'}>Semi 1</MenuItem>
             <MenuItem value={'semi2'}>Semi 2</MenuItem>
@@ -67,6 +41,4 @@ const ConfigPage = async () => {
       </Box>
     </Box>
   );
-};
-
-export default ConfigPage;
+}
