@@ -9,15 +9,19 @@ import {
   Typography,
 } from '@mui/material';
 import { SubmitButton } from './SubmitButton/SubmitButton';
-import { submitForm } from '../../api/serverAPIs/configApi';
+import { getConfig, submitForm } from '../../api/serverAPIs/configApi';
 
 export default async function ConfigPage() {
   return (
-    <Box className="w-96 p-16 mx-auto">
+    <Box className="w-96 p-16 mx-auto flex flex-col">
       <Typography variant="h1" className="text-xl">
         Config
       </Typography>
-      <Box component="form" action={submitForm}>
+      <Box
+        component="form"
+        action={submitForm}
+        className="flex flex-col items-center gap-4 pt-2"
+      >
         <FormControl fullWidth>
           <InputLabel id="year-select">Select year</InputLabel>
           <Select labelId="year-select" label="Year">
@@ -33,6 +37,7 @@ export default async function ConfigPage() {
           </Select>
         </FormControl>
         <FormControlLabel
+          className="w-full flex justify-between"
           control={<Switch />}
           label="Voting enabled:"
           labelPlacement="start"

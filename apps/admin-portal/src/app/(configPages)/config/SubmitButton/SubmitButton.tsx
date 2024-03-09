@@ -9,6 +9,8 @@ export const SubmitButton = () => {
   const { pending } = useFormStatus();
 
   return (
-    <Button type="submit">{pending ? <CircularProgress /> : 'Submit'}</Button>
+    <Button variant="outlined" fullWidth type="submit">
+      {pending ? <CircularProgress /> : 'Submit'}
+    </Button>
   );
 };

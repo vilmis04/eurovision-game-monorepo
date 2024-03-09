@@ -18,13 +18,14 @@ type Config = {
   isVotingActive: boolean;
 };
 
-export async function getConfig(): Promise<Config> {
-  const response = await fetch(`${BASE_URL}/api/admin`, {
+// export async function getConfig(): Promise<Config> {
+export async function getConfig(): Promise<any> {
+  const response: Response = await fetch(`${BASE_URL}/api/admin`, {
     method: Methods.GET,
     credentials: 'include',
   });
 
-  return response.json();
+  return response;
 }
 
 export async function submitForm(formData: FormData): Promise<Response> {
