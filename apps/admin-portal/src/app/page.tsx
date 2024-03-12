@@ -3,6 +3,7 @@ import { ClientProvider } from './providers/ClientProvider';
 import { Dashboard } from './Dashboard/Dashborad';
 import { redirect } from 'next/navigation';
 import { paths } from '../paths';
+import { getIsAuthenticated } from './api/serverAPIs/authApi';
 
 const BASE_URL = process.env.BASE_SERVICE_URL;
 
