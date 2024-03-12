@@ -1,16 +1,19 @@
-'use client';
+import { Box, Button, TextField } from '@mui/material';
+import { SignUp } from '../actions/signUp';
 
-import React from 'react';
-import { Provider } from 'react-redux';
-import { store } from '../../redux/store';
-import SignUp from './SignUp';
-
-export const SignUpPage: React.FC = () => {
-  return (
-    <Provider store={store}>
-      <SignUp />
-    </Provider>
-  );
-};
+const SignUpPage = async () => (
+  <Box>
+    <Box component="form" action={SignUp}>
+      <TextField name="username" placeholder="Enter username" />
+      <TextField name="password" placeholder="Enter password" type="password" />
+      <TextField
+        name="repeatPassword"
+        placeholder="Repeat password"
+        type="password"
+      />
+      <Button type="submit">Sign in</Button>
+    </Box>
+  </Box>
+);
 
 export default SignUpPage;
