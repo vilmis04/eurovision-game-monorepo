@@ -9,5 +9,6 @@ export async function GET(request: Request, response: NextResponse) {
     credentials: 'include',
   });
 
-  return await data.json();
+  // return NextResponse.json({ hello: 'world' });
+  return response;
 }
