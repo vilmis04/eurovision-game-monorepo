@@ -1,7 +1,8 @@
 import { TextFormField } from '@eurovision-game-monorepo/core-ui';
 import { Box, Button, Typography } from '@mui/material';
-import { Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
+import { styles } from './SignUp.styles';
 
 const initialValues = {
   username: '',
@@ -11,51 +12,41 @@ const initialValues = {
 
 export const SignUp = () => {
   const handleSubmit = (values: typeof initialValues) => {
+    // TODO: add submit logic
     console.log(values);
   };
 
   return (
-    <Box
-      sx={{
-        height: '100vh',
-        width: '100vw',
-        background:
-          'linear-gradient(20deg, rgba(53,0,102,1) 25%, rgba(106,0,48,1) 110%)',
-      }}
-    >
-      <Box
-        sx={{
-          width: '100%',
-          padding: '76px 24px 24px',
-        }}
-      >
-        <Typography variant="h1">Sign Up</Typography>
-        <Typography variant="body1">
+    <Box sx={styles.container}>
+      <Box sx={styles.contentWrapper}>
+        <Typography variant="h1" sx={styles.title}>
+          Sign Up
+        </Typography>
+        <Typography variant="body1" sx={styles.linkWrapper}>
           {'Already a user? '}
-          <Box component={Link} to="/login" sx={{ color: 'white' }}>
+          <Box component={Link} to="/login" sx={styles.link}>
             Sign in
           </Box>
         </Typography>
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-          <Box
-            component="form"
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 2,
-            }}
-          >
-            <TextFormField name="username" label="Nickname" />
-            <TextFormField name="password" type="password" label="Password" />
-            <TextFormField
-              name="repeatPassword"
-              type="password"
-              label="Repeat password"
-            />
-            <Button type="submit" variant="contained">
-              <Typography variant="body1">Sign Up</Typography>
-            </Button>
-          </Box>
+          {({ values: { password, repeatPassword, username } }) => (
+            <Box component={Form} sx={styles.form}>
+              <TextFormField name="username" label="Nickname" />
+              <TextFormField name="password" type="password" label="Password" />
+              <TextFormField
+                name="repeatPassword"
+                type="password"
+                label="Repeat password"
+              />
+              <Button
+                type="submit"
+                variant="contained"
+                disabled={!password || !repeatPassword || !username}
+              >
+                <Typography variant="body1">Sign Up</Typography>
+              </Button>
+            </Box>
+          )}
         </Formik>
       </Box>
     </Box>

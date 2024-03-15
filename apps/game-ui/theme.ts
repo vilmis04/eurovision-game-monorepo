@@ -10,15 +10,27 @@ export const theme = createTheme({
     secondary: {
       main: '#241434',
       '100': '#241434',
+      '700': '#B9A3CC',
     },
   },
   typography: {
     fontFamily: 'Poppins, sans-serif',
   },
   components: {
-    MuiButtonBase: {
+    MuiButton: {
       defaultProps: {
-        sx: { textTransform: 'inherit !important' },
+        sx: {
+          textTransform: 'inherit !important',
+        },
+      },
+      styleOverrides: {
+        root: {
+          '&.Mui-disabled': {
+            background: '#B9A3CC',
+            color: '#241434',
+            textTransform: 'inherit !important',
+          },
+        },
       },
     },
   },
