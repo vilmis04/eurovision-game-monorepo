@@ -1,11 +1,15 @@
-import { TextFormField } from '@eurovision-game-monorepo/core-ui';
-import { Box, Button, Typography } from '@mui/material';
+import { SubmitButton, TextFormField } from '@eurovision-game-monorepo/core-ui';
+import { Box, Typography } from '@mui/material';
 import { Form, Formik } from 'formik';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { styles } from './SignUp.styles';
 import * as Yup from 'yup';
+import { SignUpRequestBody } from '@eurovision-game-monorepo/types';
+import { useSignUpMutation } from '../../api/auth/authApi';
+import { useEffect } from 'react';
+import { paths } from '../../paths';
 
-const initialValues = {
+const initialValues: SignUpRequestBody = {
   username: '',
   password: '',
   repeatPassword: '',
@@ -22,9 +26,18 @@ const signUpValidationSchema = Yup.object().shape({
 });
 
 export const SignUp = () => {
-  const handleSubmit = (values: typeof initialValues) => {
-    // TODO: add submit logic
+  const navigate = useNavigate();
+  const [signUp, { isSuccess, isLoading }] = useSignUpMutation();
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate(paths.home);
+    }
+  }, [isSuccess]);
+
+  const handleSubmit = async (values: SignUpRequestBody) => {
     console.log(values);
+    await signUp(values);
   };
 
   return (
@@ -53,13 +66,10 @@ export const SignUp = () => {
                 type="password"
                 label="Repeat password"
               />
-              <Button
-                type="submit"
-                variant="contained"
-                disabled={!password || !repeatPassword || !username}
-              >
-                <Typography variant="body1">Sign Up</Typography>
-              </Button>
+              <SubmitButton
+                isLoading={isLoading}
+                isDisabled={!password || !username || !repeatPassword}
+              />
             </Box>
           )}
         </Formik>
