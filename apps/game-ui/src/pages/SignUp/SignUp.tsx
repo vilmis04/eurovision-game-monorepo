@@ -3,12 +3,23 @@ import { Box, Button, Typography } from '@mui/material';
 import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import { styles } from './SignUp.styles';
+import * as Yup from 'yup';
 
 const initialValues = {
   username: '',
   password: '',
   repeatPassword: '',
 };
+
+const signUpValidationSchema = Yup.object().shape({
+  username: Yup.string().required('Required'),
+  password: Yup.string()
+    .required('Required')
+    .min(8, 'Must include at least 8 symbols'),
+  repeatPassword: Yup.string()
+    .required('Repeated password is required')
+    .oneOf([Yup.ref('password')], 'Passwords must match'),
+});
 
 export const SignUp = () => {
   const handleSubmit = (values: typeof initialValues) => {
@@ -28,7 +39,11 @@ export const SignUp = () => {
             Sign in
           </Box>
         </Typography>
-        <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+        <Formik
+          initialValues={initialValues}
+          onSubmit={handleSubmit}
+          validationSchema={signUpValidationSchema}
+        >
           {({ values: { password, repeatPassword, username } }) => (
             <Box component={Form} sx={styles.form}>
               <TextFormField name="username" label="Nickname" />

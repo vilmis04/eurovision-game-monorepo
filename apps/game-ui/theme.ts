@@ -12,6 +12,9 @@ export const theme = createTheme({
       '100': '#241434',
       '700': '#B9A3CC',
     },
+    error: {
+      main: '#FF897D',
+    },
   },
   typography: {
     fontFamily: 'Poppins, sans-serif',
