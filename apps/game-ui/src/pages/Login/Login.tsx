@@ -58,7 +58,9 @@ export const Login = () => {
               <SubmitButton
                 isLoading={isLoading}
                 isDisabled={!password || !username}
-              />
+              >
+                Sign In
+              </SubmitButton>
             </Box>
           )}
         </Formik>

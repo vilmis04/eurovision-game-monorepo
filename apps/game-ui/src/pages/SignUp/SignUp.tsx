@@ -69,7 +69,9 @@ export const SignUp = () => {
               <SubmitButton
                 isLoading={isLoading}
                 isDisabled={!password || !username || !repeatPassword}
-              />
+              >
+                Sign Up
+              </SubmitButton>
             </Box>
           )}
         </Formik>
