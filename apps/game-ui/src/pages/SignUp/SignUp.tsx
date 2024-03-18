@@ -40,6 +40,7 @@ export const SignUp = () => {
     await signUp(values);
   };
 
+  // TODO: focus on first field on load
   return (
     <Box sx={styles.container}>
       <Box sx={styles.contentWrapper}>
@@ -49,7 +50,7 @@ export const SignUp = () => {
         <Typography variant="body1" sx={styles.linkWrapper}>
           {'Already a user? '}
           <Box component={Link} to="/login" sx={styles.link}>
-            Sign in
+            Login
           </Box>
         </Typography>
         <Formik

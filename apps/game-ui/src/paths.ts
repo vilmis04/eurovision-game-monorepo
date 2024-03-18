@@ -1,5 +1,14 @@
-enum RootPaths {
+export enum RootPaths {
   HOME = '/',
+}
+
+export enum HomePaths {
+  GROUPS = 'groups',
+  VOTING = 'voting',
+  LEADERBOARD = 'leaderboard',
+}
+
+enum RootRoutes {
   AUTH = '/auth',
 }
 
@@ -12,9 +21,12 @@ export const paths = {
   home: RootPaths.HOME,
   login: `/${AuthPaths.LOGIN}`,
   signUp: `/${AuthPaths.SIGN_UP}`,
+  groups: `/${HomePaths.GROUPS}`,
+  voting: `/${HomePaths.VOTING}`,
+  leaderboard: `/${HomePaths.LEADERBOARD}`,
 };
 
 export const endpoints = {
-  login: `${RootPaths.AUTH}/${AuthPaths.LOGIN}`,
-  signUp: `${RootPaths.AUTH}/${AuthPaths.SIGN_UP}`,
+  login: `${RootRoutes.AUTH}/${AuthPaths.LOGIN}`,
+  signUp: `${RootRoutes.AUTH}/${AuthPaths.SIGN_UP}`,
 };

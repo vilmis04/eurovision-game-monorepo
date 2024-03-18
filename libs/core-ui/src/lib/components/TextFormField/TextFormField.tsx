@@ -28,7 +28,7 @@ export const TextFormField: React.FC<TextFormFieldProps> = ({
       {...field}
       helperText={helperText}
       variant="standard"
-      InputLabelProps={{ sx: styles.label }}
+      InputLabelProps={{ sx: styles.label, shrink: true }}
       inputProps={{ sx: styles.input }}
       {...props}
     />

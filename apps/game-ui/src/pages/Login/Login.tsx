@@ -34,11 +34,12 @@ export const Login = () => {
     await login(values);
   };
 
+  // TODO: focus on first field on load
   return (
     <Box sx={styles.container}>
       <Box sx={styles.contentWrapper}>
         <Typography variant="h1" sx={styles.title}>
-          Sign In
+          Login
         </Typography>
         <Typography variant="body1" sx={styles.linkWrapper}>
           {'New user? '}
@@ -59,7 +60,7 @@ export const Login = () => {
                 isLoading={isLoading}
                 isDisabled={!password || !username}
               >
-                Sign In
+                Login
               </SubmitButton>
             </Box>
           )}
