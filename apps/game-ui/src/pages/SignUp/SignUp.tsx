@@ -6,7 +6,7 @@ import { styles } from './SignUp.styles';
 import * as Yup from 'yup';
 import { SignUpRequestBody } from '@eurovision-game-monorepo/types';
 import { useSignUpMutation } from '../../api/auth/authApi';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { paths } from '../../paths';
 
 const initialValues: SignUpRequestBody = {
@@ -28,6 +28,7 @@ const signUpValidationSchema = Yup.object().shape({
 export const SignUp = () => {
   const navigate = useNavigate();
   const [signUp, { isSuccess, isLoading }] = useSignUpMutation();
+  const ref = useRef<HTMLElement>();
 
   useEffect(() => {
     if (isSuccess) {
@@ -35,12 +36,17 @@ export const SignUp = () => {
     }
   }, [isSuccess]);
 
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.focus();
+    }
+  }, []);
+
   const handleSubmit = async (values: SignUpRequestBody) => {
     console.log(values);
     await signUp(values);
   };
 
-  // TODO: focus on first field on load
   return (
     <Box sx={styles.container}>
       <Box sx={styles.contentWrapper}>
@@ -60,7 +66,7 @@ export const SignUp = () => {
         >
           {({ values: { password, repeatPassword, username } }) => (
             <Box component={Form} sx={styles.form}>
-              <TextFormField name="username" label="Nickname" />
+              <TextFormField name="username" label="Nickname" inputRef={ref} />
               <TextFormField name="password" type="password" label="Password" />
               <TextFormField
                 name="repeatPassword"

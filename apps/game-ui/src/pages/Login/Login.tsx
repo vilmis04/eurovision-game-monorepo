@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { styles } from './Login.styles';
 import * as Yup from 'yup';
 import { LoginRequestBody } from '@eurovision-game-monorepo/types';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLoginMutation } from '../../api/auth/authApi';
 import { paths } from '../../paths';
 
@@ -22,6 +22,7 @@ const loginValidationSchema = Yup.object().shape({
 export const Login = () => {
   const navigate = useNavigate();
   const [login, { isSuccess, isLoading }] = useLoginMutation();
+  const ref = useRef<HTMLElement>();
 
   useEffect(() => {
     if (isSuccess) {
@@ -29,12 +30,17 @@ export const Login = () => {
     }
   }, [isSuccess]);
 
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.focus();
+    }
+  }, []);
+
   const handleSubmit = async (values: LoginRequestBody) => {
     console.log(values);
     await login(values);
   };
 
-  // TODO: focus on first field on load
   return (
     <Box sx={styles.container}>
       <Box sx={styles.contentWrapper}>
@@ -54,7 +60,7 @@ export const Login = () => {
         >
           {({ values: { password, username } }) => (
             <Box component={Form} sx={styles.form}>
-              <TextFormField name="username" label="Nickname" />
+              <TextFormField name="username" label="Nickname" inputRef={ref} />
               <TextFormField name="password" type="password" label="Password" />
               <SubmitButton
                 isLoading={isLoading}

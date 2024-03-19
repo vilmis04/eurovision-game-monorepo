@@ -1,4 +1,4 @@
-import { BaseTextFieldProps, Box, TextField, Typography } from '@mui/material';
+import { BaseTextFieldProps, Box, TextField } from '@mui/material';
 import { useField } from 'formik';
 import { styles } from './TextFormField.styles';
 import ErrorIcon from '@mui/icons-material/ErrorOutlineTwoTone';
@@ -14,11 +14,9 @@ export const TextFormField: React.FC<TextFormFieldProps> = ({
   const [field, { error, touched }] = useField(name);
   const isError = Boolean(error) && touched;
   const errorMessage = (
-    <Box sx={styles.errorContainer}>
+    <Box component="span" sx={styles.errorContainer}>
       <ErrorIcon sx={styles.icon} />
-      <Typography variant="body1" sx={styles.errorMessage}>
-        {error}
-      </Typography>
+      {error}
     </Box>
   );
   const helperText = isError && errorMessage;
