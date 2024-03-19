@@ -1,4 +1,8 @@
-import { SubmitButton, TextFormField } from '@eurovision-game-monorepo/core-ui';
+import {
+  Background,
+  SubmitButton,
+  TextFormField,
+} from '@eurovision-game-monorepo/core-ui';
 import { Box, Typography } from '@mui/material';
 import { Form, Formik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
@@ -48,7 +52,7 @@ export const SignUp = () => {
   };
 
   return (
-    <Box sx={styles.container}>
+    <Background variant="gradient1">
       <Box sx={styles.contentWrapper}>
         <Typography variant="h1" sx={styles.title}>
           Sign Up
@@ -83,7 +87,7 @@ export const SignUp = () => {
           )}
         </Formik>
       </Box>
-    </Box>
+    </Background>
   );
 };
 

@@ -12,16 +12,16 @@ const router = createBrowserRouter([
     children: [
       {
         path: paths.groups,
-        element: <Box sx={{ color: 'black' }}>Groups</Box>,
+        element: <Box>Groups</Box>,
         index: true,
       },
       {
         path: paths.voting,
-        element: <Box sx={{ color: 'black' }}>Voting</Box>,
+        element: <Box>Voting</Box>,
       },
       {
         path: paths.leaderboard,
-        element: <Box sx={{ color: 'black' }}>Leaderboard</Box>,
+        element: <Box>Leaderboard</Box>,
       },
     ],
   },
