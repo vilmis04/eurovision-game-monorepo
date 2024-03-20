@@ -4,6 +4,7 @@ import Login from './pages/Login/Login';
 import { paths } from './paths';
 import { Box } from '@mui/material';
 import { Layout } from './components/Layout/Layout';
+import { Groups } from './pages/Groups/Groups';
 
 const router = createBrowserRouter([
   {
@@ -12,8 +13,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: paths.groups,
-        element: <Box>Groups</Box>,
-        index: true,
+        element: <Groups />,
       },
       {
         path: paths.voting,

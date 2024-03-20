@@ -28,6 +28,9 @@ export const theme = createTheme({
       },
       styleOverrides: {
         root: {
+          background: '#B9A3CC',
+          color: '#241434',
+          textTransform: 'inherit',
           '&.Mui-disabled': {
             background: '#B9A3CC',
             color: '#241434',
