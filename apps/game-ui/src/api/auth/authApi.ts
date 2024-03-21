@@ -9,13 +9,14 @@ import { endpoints } from '../../paths';
 const authApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     isAuthenticated: build.query({
-      query: () => 'auth/is-authenticated',
+      query: () => endpoints.isAuthenticated,
     }),
     signUp: build.mutation<void, SignUpRequestBody>({
       query: (body) => ({
         url: endpoints.signUp,
         method: Methods.POST,
         body,
+        credentials: 'include',
       }),
     }),
     login: build.mutation<void, LoginRequestBody>({
@@ -23,6 +24,14 @@ const authApi = baseApi.injectEndpoints({
         url: endpoints.login,
         method: Methods.POST,
         body,
+        credentials: 'include',
+      }),
+    }),
+    logout: build.mutation<void, void>({
+      query: () => ({
+        url: endpoints.logout,
+        method: Methods.POST,
+        credentials: 'include',
       }),
     }),
   }),

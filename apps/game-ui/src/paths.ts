@@ -15,6 +15,8 @@ enum RootRoutes {
 enum AuthPaths {
   SIGN_UP = 'sign-up',
   LOGIN = 'login',
+  LOGOUT = 'logout',
+  IS_AUTHENTICATED = 'is-authenticated',
 }
 
 export const paths = {
@@ -29,4 +31,6 @@ export const paths = {
 export const endpoints = {
   login: `${RootRoutes.AUTH}/${AuthPaths.LOGIN}`,
   signUp: `${RootRoutes.AUTH}/${AuthPaths.SIGN_UP}`,
+  logout: `${RootRoutes.AUTH}/${AuthPaths.LOGOUT}`,
+  isAuthenticated: `${RootRoutes.AUTH}/${AuthPaths.IS_AUTHENTICATED}`,
 };
