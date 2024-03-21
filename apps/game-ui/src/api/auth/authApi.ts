@@ -6,14 +6,16 @@ import {
 import { baseApi } from '../baseApi';
 import { endpoints } from '../../paths';
 
+const { authDomain } = endpoints;
+
 const authApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     isAuthenticated: build.query({
-      query: () => endpoints.isAuthenticated,
+      query: () => authDomain.isAuthenticated,
     }),
     signUp: build.mutation<void, SignUpRequestBody>({
       query: (body) => ({
-        url: endpoints.signUp,
+        url: authDomain.signUp,
         method: Methods.POST,
         body,
         credentials: 'include',
@@ -21,7 +23,7 @@ const authApi = baseApi.injectEndpoints({
     }),
     login: build.mutation<void, LoginRequestBody>({
       query: (body) => ({
-        url: endpoints.login,
+        url: authDomain.login,
         method: Methods.POST,
         body,
         credentials: 'include',
@@ -29,7 +31,7 @@ const authApi = baseApi.injectEndpoints({
     }),
     logout: build.mutation<void, void>({
       query: () => ({
-        url: endpoints.logout,
+        url: authDomain.logout,
         method: Methods.POST,
         credentials: 'include',
       }),
