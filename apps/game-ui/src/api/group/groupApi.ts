@@ -10,7 +10,11 @@ export const groupApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     // TODO: define group type
     getGroups: build.query<unknown, void>({
-      query: () => groupDomain.groups,
+      query: () => ({
+        url: groupDomain.groups,
+        method: Methods.GET,
+        credentials: 'include',
+      }),
       providesTags: [TagTypes.GROUP],
     }),
     // TODO: define group request body type
@@ -24,7 +28,7 @@ export const groupApi = baseApi.injectEndpoints({
       invalidatesTags: [TagTypes.GROUP],
     }),
     // TODO: define group type
-    getGroup: build.mutation<TGroupParams, unknown>({
+    getGroup: build.query<TGroupParams, unknown>({
       query: ({ id }) => ({
         url: `${groupDomain.groups}/${id}`,
         credentials: 'include',
@@ -32,3 +36,6 @@ export const groupApi = baseApi.injectEndpoints({
     }),
   }),
 });
+
+export const { useGetGroupsQuery, useCreateGroupMutation, useGetGroupQuery } =
+  groupApi;
