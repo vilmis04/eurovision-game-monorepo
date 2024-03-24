@@ -1,6 +1,8 @@
 import { Methods } from '@eurovision-game-monorepo/types';
 import { endpoints } from '../../paths';
 import { TagTypes, baseApi } from '../baseApi';
+import { GetGroupsResponse } from './responses';
+import { CreateGroupRequest } from './requests';
 
 type TGroupParams = { id: string };
 
@@ -8,8 +10,7 @@ const { groupDomain } = endpoints;
 
 export const groupApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    // TODO: define group type
-    getGroups: build.query<unknown, void>({
+    getGroups: build.query<GetGroupsResponse[], void>({
       query: () => ({
         url: groupDomain.groups,
         method: Methods.GET,
@@ -17,8 +18,7 @@ export const groupApi = baseApi.injectEndpoints({
       }),
       providesTags: [TagTypes.GROUP],
     }),
-    // TODO: define group request body type
-    createGroup: build.mutation<void, unknown>({
+    createGroup: build.mutation<void, CreateGroupRequest>({
       query: (body) => ({
         url: groupDomain.groups,
         method: Methods.POST,
