@@ -6,7 +6,7 @@ import {
 import { Box, Dialog, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Form, Formik } from 'formik';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useCreateGroupMutation } from '../../../api/group/groupApi';
 import { styles } from './CreateGroupDialog.styles';
 
@@ -23,15 +23,25 @@ const initialValues: CreateGroupFormValues = {
   name: '',
 };
 
+const MAX_CHARS = 30;
+
 export const CreateGroupDialog: React.FC<CreateGroupDialogProps> = ({
   isOpen,
   toggleDialog,
 }) => {
   const [createGroup, { isLoading, isSuccess }] = useCreateGroupMutation();
+  const ref = useRef<HTMLElement>();
 
   const handleSubmit = async (values: CreateGroupFormValues) => {
     await createGroup(values);
   };
+
+  useEffect(() => {
+    console.log({ isOpen, ref: ref.current });
+    if (ref.current) {
+      ref.current.focus();
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -39,11 +49,18 @@ export const CreateGroupDialog: React.FC<CreateGroupDialogProps> = ({
     }
   }, [isSuccess]);
 
+  // TODO: fix endAdornment styles (underscore/border color)
+  const getEndAdornment = (input: string) => (
+    <Typography variant="body1" sx={styles.adornment}>
+      {MAX_CHARS - input.length}
+    </Typography>
+  );
+
   return (
     <Dialog open={isOpen} onClose={toggleDialog}>
       <Background variant="solid1">
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-          {({ values }) => (
+          {({ values: { name } }) => (
             <Box component={Form} sx={styles.form}>
               <Box sx={styles.topbar}>
                 <CloseIcon onClick={toggleDialog} sx={styles.icon} />
@@ -51,10 +68,15 @@ export const CreateGroupDialog: React.FC<CreateGroupDialogProps> = ({
               <Typography variant="h1" sx={styles.title}>
                 Name your group
               </Typography>
-              {/* TODO: add symbol count in the field */}
-              <TextFormField name="name" label="Group name" sx={styles.field} />
-              {/* TODO: fix button theme to work with different variants */}
-              <SubmitButton isLoading={isLoading} isDisabled={!values.name}>
+              {/* TODO: fix focus state on open */}
+              <TextFormField
+                inputRef={ref}
+                name="name"
+                label="Group name"
+                sx={styles.field}
+                endAdornment={getEndAdornment(name)}
+              />
+              <SubmitButton isLoading={isLoading} variant="outlined">
                 Save
               </SubmitButton>
             </Box>

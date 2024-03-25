@@ -20,4 +20,8 @@ export const styles = {
   field: {
     marginBottom: '48px',
   },
+  adornment: {
+    fontSize: '12px',
+    color: 'secondary.light',
+  },
 };

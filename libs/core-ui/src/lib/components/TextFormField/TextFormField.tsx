@@ -5,10 +5,12 @@ import ErrorIcon from '@mui/icons-material/ErrorOutlineTwoTone';
 
 interface TextFormFieldProps extends BaseTextFieldProps {
   name: string;
+  endAdornment?: React.ReactNode;
 }
 
 export const TextFormField: React.FC<TextFormFieldProps> = ({
   name,
+  endAdornment,
   ...props
 }) => {
   const [field, { error, touched }] = useField(name);
@@ -28,6 +30,9 @@ export const TextFormField: React.FC<TextFormFieldProps> = ({
       variant="standard"
       InputLabelProps={{ sx: styles.label, shrink: true }}
       inputProps={{ sx: styles.input }}
+      InputProps={{
+        endAdornment: endAdornment,
+      }}
       {...props}
     />
   );

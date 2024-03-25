@@ -5,12 +5,10 @@ export const theme = createTheme({
     primary: {
       main: '#C894FF',
       contrastText: '#241434',
-      '700': '#C894FF',
     },
     secondary: {
       main: '#241434',
-      '100': '#241434',
-      '700': '#B9A3CC',
+      light: '#B9A3CC',
     },
     error: {
       main: '#FF897D',
@@ -36,6 +34,12 @@ export const theme = createTheme({
             color: '#241434',
             textTransform: 'inherit !important',
           },
+        },
+        outlined: {
+          background: 'transparent',
+          border: '1px solid #FFF7FF',
+          padding: '12px',
+          color: '#FFF7FF',
         },
       },
     },
