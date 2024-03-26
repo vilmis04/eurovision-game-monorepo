@@ -36,12 +36,9 @@ export const CreateGroupDialog: React.FC<CreateGroupDialogProps> = ({
     await createGroup(values);
   };
 
-  useEffect(() => {
-    console.log({ isOpen, ref: ref.current });
-    if (ref.current) {
-      ref.current.focus();
-    }
-  }, [isOpen]);
+  const focusField = () => {
+    ref.current?.focus();
+  };
 
   useEffect(() => {
     if (isSuccess) {
@@ -57,7 +54,7 @@ export const CreateGroupDialog: React.FC<CreateGroupDialogProps> = ({
   );
 
   return (
-    <Dialog open={isOpen} onClose={toggleDialog}>
+    <Dialog open={isOpen} onClose={toggleDialog} onFocus={focusField}>
       <Background variant="solid1">
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
           {({ values: { name } }) => (
@@ -68,7 +65,6 @@ export const CreateGroupDialog: React.FC<CreateGroupDialogProps> = ({
               <Typography variant="h1" sx={styles.title}>
                 Name your group
               </Typography>
-              {/* TODO: fix focus state on open */}
               <TextFormField
                 inputRef={ref}
                 name="name"
