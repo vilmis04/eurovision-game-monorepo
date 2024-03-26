@@ -47,7 +47,6 @@ export const SignUp = () => {
   }, []);
 
   const handleSubmit = async (values: SignUpRequestBody) => {
-    console.log(values);
     await signUp(values);
   };
 

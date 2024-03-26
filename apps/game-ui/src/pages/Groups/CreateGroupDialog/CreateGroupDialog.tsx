@@ -9,6 +9,8 @@ import { Form, Formik } from 'formik';
 import { useEffect, useRef } from 'react';
 import { useCreateGroupMutation } from '../../../api/group/groupApi';
 import { styles } from './CreateGroupDialog.styles';
+import * as Yup from 'yup';
+import ErrorIcon from '@mui/icons-material/ErrorOutlineTwoTone';
 
 interface CreateGroupDialogProps {
   isOpen: boolean;
@@ -36,9 +38,11 @@ export const CreateGroupDialog: React.FC<CreateGroupDialogProps> = ({
     await createGroup(values);
   };
 
-  const focusField = () => {
-    ref.current?.focus();
-  };
+  const createGroupValidationSchema = Yup.object().shape({
+    name: Yup.string()
+      .required('Required')
+      .max(30, 'Maximum number of symbols reached'),
+  });
 
   useEffect(() => {
     if (isSuccess) {
@@ -46,17 +50,41 @@ export const CreateGroupDialog: React.FC<CreateGroupDialogProps> = ({
     }
   }, [isSuccess]);
 
-  // TODO: fix endAdornment styles (underscore/border color)
-  const getEndAdornment = (input: string) => (
-    <Typography variant="body1" sx={styles.adornment}>
-      {MAX_CHARS - input.length}
-    </Typography>
-  );
+  const focusOnceFactory = () => {
+    let done = false;
+
+    return () => {
+      if (!done) {
+        ref.current?.focus();
+        done = true;
+      }
+    };
+  };
+
+  const getEndAdornment = (input: string) => {
+    const charsRemaining = MAX_CHARS - input.length;
+    const shouldShowNumber = charsRemaining >= 0;
+
+    return (
+      <Typography variant="body1" sx={styles.adornment}>
+        {shouldShowNumber ? charsRemaining : <ErrorIcon color="error" />}
+      </Typography>
+    );
+  };
 
   return (
-    <Dialog open={isOpen} onClose={toggleDialog} onFocus={focusField}>
+    <Dialog
+      open={isOpen}
+      onClose={toggleDialog}
+      disableRestoreFocus
+      onFocus={focusOnceFactory()}
+    >
       <Background variant="solid1">
-        <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+        <Formik
+          initialValues={initialValues}
+          onSubmit={handleSubmit}
+          validationSchema={createGroupValidationSchema}
+        >
           {({ values: { name } }) => (
             <Box component={Form} sx={styles.form}>
               <Box sx={styles.topbar}>

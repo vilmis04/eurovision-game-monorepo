@@ -41,7 +41,6 @@ export const Login = () => {
   }, []);
 
   const handleSubmit = async (values: LoginRequestBody) => {
-    console.log(values);
     await login(values);
   };
 

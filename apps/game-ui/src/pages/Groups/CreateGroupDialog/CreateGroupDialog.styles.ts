@@ -19,6 +19,9 @@ export const styles = {
   },
   field: {
     marginBottom: '48px',
+    '& .MuiInputBase-root::before': {
+      borderBottom: '1px solid #B9A3CC',
+    },
   },
   adornment: {
     fontSize: '12px',
