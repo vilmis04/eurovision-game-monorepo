@@ -13,6 +13,9 @@ export const theme = createTheme({
     error: {
       main: '#FF897D',
     },
+    common: {
+      white: '#FFF7FF',
+    },
   },
   typography: {
     fontFamily: 'Poppins, sans-serif',

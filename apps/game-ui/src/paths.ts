@@ -30,7 +30,10 @@ export const paths = {
   login: `/${AuthPaths.LOGIN}`,
   signUp: `/${AuthPaths.SIGN_UP}`,
   groups: `/${HomePaths.GROUPS}`,
-  group: `${HomePaths.GROUPS}/${GroupPaths.ID}`,
+  group: {
+    build: (name: string) => `${RootRoutes.GROUP}/${name}`,
+    url: `${HomePaths.GROUPS}/${GroupPaths.ID}`,
+  },
   groupCreate: `/${HomePaths.GROUPS}/${GroupPaths.CREATE}`,
   voting: `/${HomePaths.VOTING}`,
   leaderboard: `/${HomePaths.LEADERBOARD}`,
@@ -45,5 +48,8 @@ export const endpoints = {
   },
   groupDomain: {
     groups: RootRoutes.GROUP,
+    group: {
+      build: (name: string) => `${RootRoutes.GROUP}/${name}`,
+    },
   },
 };

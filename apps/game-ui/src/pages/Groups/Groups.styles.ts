@@ -1,24 +1,24 @@
 export const styles = {
   container: {
-    padding: '40px 24px',
+    padding: '2.5rem 1.5rem',
   },
   title: {
-    fontSize: '24px',
+    fontSize: '2.5rem',
     fontWeight: 'medium',
-    paddingBottom: '16px',
+    paddingBottom: '1rem',
   },
   subtitle: {
-    fontSize: '16px',
+    fontSize: '1rem',
     fontWeight: 'light',
+    marginBottom: '2.5rem',
   },
   addButton: {
-    fontSize: '16px',
+    fontSize: '1rem',
     fontWeight: 'normal',
     background: 'transparent',
     border: '1px dashed',
     borderColor: 'primary.main',
-    padding: '16px',
+    padding: '1rem',
     color: 'white',
-    marginTop: '40px',
   },
 };
