@@ -1,4 +1,4 @@
-export interface GetGroupsResponse {
+export interface GetGroupResponse {
   members: string[];
   name: string;
 }

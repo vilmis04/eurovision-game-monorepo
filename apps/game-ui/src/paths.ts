@@ -21,7 +21,7 @@ enum AuthPaths {
 }
 
 enum GroupPaths {
-  ID = ':id',
+  NAME = ':name',
   CREATE = 'create',
 }
 
@@ -31,8 +31,8 @@ export const paths = {
   signUp: `/${AuthPaths.SIGN_UP}`,
   groups: `/${HomePaths.GROUPS}`,
   group: {
-    build: (name: string) => `${RootRoutes.GROUP}/${name}`,
-    url: `${HomePaths.GROUPS}/${GroupPaths.ID}`,
+    build: (name: string) => `/${HomePaths.GROUPS}/${name}`,
+    url: `/${HomePaths.GROUPS}/${GroupPaths.NAME}`,
   },
   groupCreate: `/${HomePaths.GROUPS}/${GroupPaths.CREATE}`,
   voting: `/${HomePaths.VOTING}`,

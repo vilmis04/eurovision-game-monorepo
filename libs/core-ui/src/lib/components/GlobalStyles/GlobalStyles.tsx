@@ -5,7 +5,6 @@ export const GlobalStyles = () => (
     styles={{
       html: {
         fontFamily: 'Poppins, sans-serif',
-        color: 'white',
       },
     }}
   />

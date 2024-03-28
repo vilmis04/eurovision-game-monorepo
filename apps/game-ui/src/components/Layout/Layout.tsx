@@ -10,6 +10,8 @@ export const Layout = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
+  const [rootPath] = pathname.slice(1).split('/');
+
   useEffect(() => {
     if (pathname === paths.home) {
       navigate(paths.voting);
@@ -17,10 +19,10 @@ export const Layout = () => {
   }, []);
 
   const currentTab = {
-    [`/${HomePaths.GROUPS}`]: 0,
-    [`/${HomePaths.VOTING}`]: 1,
-    [`/${HomePaths.LEADERBOARD}`]: 2,
-  }[pathname];
+    [HomePaths.GROUPS]: 0,
+    [HomePaths.VOTING]: 1,
+    [HomePaths.LEADERBOARD]: 2,
+  }[rootPath];
 
   const navConfig = [
     {

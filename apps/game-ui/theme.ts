@@ -16,9 +16,13 @@ export const theme = createTheme({
     common: {
       white: '#FFF7FF',
     },
+    divider: '#69577B',
   },
   typography: {
     fontFamily: 'Poppins, sans-serif',
+    allVariants: {
+      color: '#FFF7FF',
+    },
   },
   components: {
     MuiButton: {

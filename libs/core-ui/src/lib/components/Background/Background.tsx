@@ -10,4 +10,5 @@ export const Background: React.FC<BackgroundProps> = ({
   variant = 'gradient1',
   sx = {},
   children,
+  // TODO: review the noOverload error with sx prop
 }) => <Box sx={[styles.container, styles[variant], sx]}>{children}</Box>;

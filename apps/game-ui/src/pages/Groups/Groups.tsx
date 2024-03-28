@@ -26,7 +26,7 @@ export const Groups = () => {
           {subheading}
         </Typography>
         {(groups || []).map(({ members, name }) => (
-          <GroupRow name={name} members={members} />
+          <GroupRow key={`${name}-${members}`} name={name} members={members} />
         ))}
         <Button
           fullWidth
