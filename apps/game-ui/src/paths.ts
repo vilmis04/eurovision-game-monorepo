@@ -49,7 +49,7 @@ export const endpoints = {
   groupDomain: {
     groups: RootRoutes.GROUP,
     group: {
-      build: (name: string) => `${RootRoutes.GROUP}/${name}`,
+      build: (name: string) => `${RootRoutes.GROUP}?name=${name}`,
     },
   },
 };

@@ -1,6 +1,11 @@
 export const styles = {
   container: {
     padding: '0.75rem 1.5rem',
+    display: 'flex',
+    flexDirection: 'column',
+    // alignContent: 'space-between',
+    justifyContent: 'space-between',
+    height: '100%',
   },
   nav: {
     display: 'flex',
@@ -22,5 +27,21 @@ export const styles = {
   nickname: {
     fontSize: '1rem',
     padding: '1rem 0',
+  },
+  invitationLinkInstructions: {
+    fontSize: '0.75rem',
+    color: 'secondary.light',
+  },
+  invitationLinkButton: {
+    display: 'flex',
+    gap: '0.5rem',
+    justifyContent: 'center',
+    marginBottom: '0.75rem',
+  },
+  copyIcon: {
+    fontSize: '1rem',
+  },
+  buttonContainer: {
+    marginBottom: '3.5rem',
   },
 };

@@ -6,6 +6,8 @@ export const styles = {
     rigth: 0,
     width: '100vw',
     background: 'transparent',
+    borderTop: '1px solid',
+    borderTopColor: 'secondary.light',
   },
   default: {
     color: 'white',

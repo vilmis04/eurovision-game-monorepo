@@ -27,9 +27,9 @@ export const groupApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [TagTypes.GROUP],
     }),
-    getGroup: build.query<GetGroupResponse, TGroupParams>({
+    getGroup: build.query<GetGroupResponse[], TGroupParams>({
       query: ({ name }) => ({
-        url: `${groupDomain.groups}/${name}`,
+        url: groupDomain.group.build(name),
         method: Methods.GET,
         credentials: 'include',
       }),
