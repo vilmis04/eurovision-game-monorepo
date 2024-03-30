@@ -1,15 +1,25 @@
 import { Background } from '@eurovision-game-monorepo/core-ui';
 import { useGetGroupQuery } from '../../../api/group/groupApi';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { Box, Button, CircularProgress, Typography } from '@mui/material';
 import { ArrowBack, ContentCopy, MoreVert } from '@mui/icons-material';
 import { styles } from './GroupView.styles';
 import { paths } from '../../../paths';
+import { useSnackbar } from '../../../components/SnackbarContext/useSnackbar';
+import { useEffect } from 'react';
 
 export const GroupView = () => {
   const navigate = useNavigate();
+  const { openSnackbar } = useSnackbar();
   const { name = '' } = useParams();
+  const [searchParams] = useSearchParams();
+  const isNew = searchParams.get('isNew');
   const { data, isFetching } = useGetGroupQuery({ name }, { skip: !name });
+
+  useEffect(() => {
+    isNew && openSnackbar('Group created.');
+  }, [isNew]);
+
   const [group] = data ?? [];
   const handleBack = () => navigate(paths.groups);
   const handleMore = () => {
