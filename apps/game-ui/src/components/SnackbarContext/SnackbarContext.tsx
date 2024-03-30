@@ -4,10 +4,9 @@ type SnackbarVariant = 'success' | 'error';
 
 type InitialValues = {
   isOpen: boolean;
-  toggleOpen?: () => void;
-  changeMessage?: (newMessage: string) => void;
+  onClose: () => void;
+  openSnackbar: (newMessage: string, newVariant?: SnackbarVariant) => void;
   variant: SnackbarVariant;
-  changeVariant?: (newVariant: SnackbarVariant) => void;
   message: string;
 };
 
@@ -15,6 +14,10 @@ const initialValues: InitialValues = {
   isOpen: false,
   variant: 'success',
   message: '',
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onClose: () => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  openSnackbar: (newMessage: string) => {},
 };
 
 export const SnackbarContext = createContext(initialValues);

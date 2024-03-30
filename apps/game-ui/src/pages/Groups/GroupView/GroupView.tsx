@@ -5,12 +5,12 @@ import { Box, Button, CircularProgress, Typography } from '@mui/material';
 import { ArrowBack, ContentCopy, MoreVert } from '@mui/icons-material';
 import { styles } from './GroupView.styles';
 import { paths } from '../../../paths';
-import { useSnackbar } from '../../../components/SnackbarContext/useSnackbar';
-import { useEffect } from 'react';
+import { SnackbarContext } from '../../../components/SnackbarContext/SnackbarContext';
+import { useContext, useEffect } from 'react';
 
 export const GroupView = () => {
   const navigate = useNavigate();
-  const { openSnackbar } = useSnackbar();
+  const { openSnackbar } = useContext(SnackbarContext);
   const { name = '' } = useParams();
   const [searchParams] = useSearchParams();
   const isNew = searchParams.get('isNew');
@@ -27,6 +27,7 @@ export const GroupView = () => {
     console.log('MORE!');
   };
   const copyLink = () => {
+    // TODO: add link generation
     console.log('LINK COPIED!');
   };
 
