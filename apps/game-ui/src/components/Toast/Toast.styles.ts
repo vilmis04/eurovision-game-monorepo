@@ -1,8 +1,10 @@
 export const styles = {
   toast: {
-    marginBottom: '5rem',
+    margin: '5rem 1rem',
   },
   alert: {
+    display: 'flex',
+    alignItems: 'center',
     width: '100%',
   },
 };
