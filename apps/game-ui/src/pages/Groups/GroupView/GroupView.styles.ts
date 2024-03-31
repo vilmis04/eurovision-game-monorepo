@@ -3,7 +3,6 @@ export const styles = {
     padding: '0.75rem 1.5rem',
     display: 'flex',
     flexDirection: 'column',
-    // alignContent: 'space-between',
     justifyContent: 'space-between',
     height: '100%',
   },
@@ -40,8 +39,5 @@ export const styles = {
   },
   copyIcon: {
     fontSize: '1rem',
-  },
-  buttonContainer: {
-    marginBottom: '3.5rem',
   },
 };

@@ -1,4 +1,4 @@
-import { Background } from '@eurovision-game-monorepo/core-ui';
+import { GradientType } from '@eurovision-game-monorepo/core-ui';
 import { useGetGroupQuery } from '../../../api/group/groupApi';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { Box, Button, CircularProgress, Typography } from '@mui/material';
@@ -7,6 +7,7 @@ import { styles } from './GroupView.styles';
 import { paths } from '../../../paths';
 import { SnackbarContext } from '../../../components/SnackbarContext/SnackbarContext';
 import { useContext, useEffect } from 'react';
+import { BackgroundContext } from '../../../components/Layout/Layout';
 
 export const GroupView = () => {
   const navigate = useNavigate();
@@ -15,6 +16,11 @@ export const GroupView = () => {
   const [searchParams] = useSearchParams();
   const isNew = searchParams.get('isNew');
   const { data, isFetching } = useGetGroupQuery({ name }, { skip: !name });
+  const selectGradient = useContext(BackgroundContext);
+
+  useEffect(() => {
+    selectGradient(GradientType.GRADIENT2);
+  }, []);
 
   useEffect(() => {
     isNew && openSnackbar('Group created.');
@@ -32,7 +38,7 @@ export const GroupView = () => {
   };
 
   return (
-    <Background variant="gradient2" sx={styles.container}>
+    <Box sx={styles.container}>
       <Box>
         <Box sx={styles.nav}>
           <ArrowBack sx={styles.icon} onClick={handleBack} />
@@ -55,7 +61,7 @@ export const GroupView = () => {
           </>
         )}
       </Box>
-      <Box sx={styles.buttonContainer}>
+      <Box>
         {/* TODO: fix buttons focused state */}
         <Button fullWidth sx={styles.invitationLinkButton} onClick={copyLink}>
           <ContentCopy sx={styles.copyIcon} />
@@ -66,6 +72,6 @@ export const GroupView = () => {
           group.
         </Typography>
       </Box>
-    </Background>
+    </Box>
   );
 };

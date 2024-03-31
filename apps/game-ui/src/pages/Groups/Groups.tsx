@@ -4,11 +4,18 @@ import { styles } from './Groups.styles';
 import { useGetGroupsQuery } from '../../api/group/groupApi';
 import { GroupRow } from './GroupRow/GroupRow';
 import { CreateGroupDialog } from './CreateGroupDialog/CreateGroupDialog';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { GradientType } from '@eurovision-game-monorepo/core-ui';
+import { BackgroundContext } from '../../components/Layout/Layout';
 
 export const Groups = () => {
   const { data: groups } = useGetGroupsQuery();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const selectGradient = useContext(BackgroundContext);
+
+  useEffect(() => {
+    selectGradient(GradientType.GRADIENT1);
+  }, []);
 
   const toggleDialog = () => setIsDialogOpen((isOpen) => !isOpen);
 

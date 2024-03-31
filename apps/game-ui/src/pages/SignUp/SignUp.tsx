@@ -1,5 +1,6 @@
 import {
   Background,
+  GradientType,
   SubmitButton,
   TextFormField,
 } from '@eurovision-game-monorepo/core-ui';
@@ -51,7 +52,7 @@ export const SignUp = () => {
   };
 
   return (
-    <Background variant="gradient1">
+    <Background variant={GradientType.GRADIENT1}>
       <Box sx={styles.contentWrapper}>
         <Typography variant="h1" sx={styles.title}>
           Sign Up
