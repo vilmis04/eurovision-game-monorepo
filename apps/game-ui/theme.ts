@@ -33,9 +33,15 @@ export const theme = createTheme({
       },
       styleOverrides: {
         root: {
-          background: '#B9A3CC',
+          background: '#C894FF',
           color: '#241434',
           textTransform: 'inherit',
+          '& .MuiTypography-root': {
+            color: '#241434',
+          },
+          '&:hover': {
+            background: '#B9A3CC',
+          },
           '&.Mui-disabled': {
             background: '#B9A3CC',
             color: '#241434',
@@ -47,6 +53,7 @@ export const theme = createTheme({
           border: '1px solid #FFF7FF',
           padding: '12px',
           color: '#FFF7FF',
+          '&:hover': {},
         },
       },
     },
