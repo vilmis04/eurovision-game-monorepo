@@ -1,9 +1,4 @@
-import {
-  ContentCopy,
-  CopyAll,
-  Delete,
-  DeleteOutline,
-} from '@mui/icons-material';
+import { ContentCopy, DeleteOutline } from '@mui/icons-material';
 import { Menu, MenuItem, MenuProps, Typography } from '@mui/material';
 import { styles } from './ContextMenu.styles';
 

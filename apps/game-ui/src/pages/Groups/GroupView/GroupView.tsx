@@ -34,8 +34,6 @@ export const GroupView = () => {
   const [group] = data ?? [];
   const handleBack = () => navigate(paths.groups);
   const handleMore = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
-    // TODO: add context menu
-    console.log('MORE!');
     setAnchorEl(e.currentTarget);
     toggleContextMenu();
   };
@@ -70,7 +68,6 @@ export const GroupView = () => {
           )}
         </Box>
         <Box>
-          {/* TODO: fix buttons focused state */}
           <Button fullWidth sx={styles.invitationLinkButton} onClick={copyLink}>
             <ContentCopy sx={styles.copyIcon} />
             Copy invite link
