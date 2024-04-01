@@ -12,6 +12,7 @@ export const theme = createTheme({
     },
     error: {
       main: '#FF897D',
+      light: '#BA1A1A',
     },
     common: {
       white: '#FFF7FF',
