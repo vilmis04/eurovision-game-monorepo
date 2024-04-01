@@ -4,13 +4,16 @@ import {
   SubmitButton,
   TextFormField,
 } from '@eurovision-game-monorepo/core-ui';
-import { Box, Typography } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import { Form, Formik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import { styles } from './SignUp.styles';
 import * as Yup from 'yup';
 import { SignUpRequestBody } from '@eurovision-game-monorepo/types';
-import { useSignUpMutation } from '../../api/auth/authApi';
+import {
+  useIsAuthenticatedQuery,
+  useSignUpMutation,
+} from '../../api/auth/authApi';
 import { useEffect, useRef } from 'react';
 import { paths } from '../../paths';
 
@@ -33,13 +36,18 @@ const signUpValidationSchema = Yup.object().shape({
 export const SignUp = () => {
   const navigate = useNavigate();
   const [signUp, { isSuccess, isLoading }] = useSignUpMutation();
+  const {
+    isSuccess: isLoggedIn,
+    isLoading: isCheckingAuthStatus,
+    isUninitialized,
+  } = useIsAuthenticatedQuery();
   const ref = useRef<HTMLElement>();
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess || isLoggedIn) {
       navigate(paths.home);
     }
-  }, [isSuccess]);
+  }, [isSuccess, isLoggedIn]);
 
   useEffect(() => {
     if (ref.current) {
@@ -51,7 +59,9 @@ export const SignUp = () => {
     await signUp(values);
   };
 
-  return (
+  return isCheckingAuthStatus || isUninitialized ? (
+    <CircularProgress />
+  ) : (
     <Background variant={GradientType.GRADIENT1}>
       <Box sx={styles.contentWrapper}>
         <Typography variant="h1" sx={styles.title}>

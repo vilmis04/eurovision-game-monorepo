@@ -12,11 +12,16 @@ import { theme } from '../theme';
 import { store } from './redux/store';
 import { GlobalStyles } from '@eurovision-game-monorepo/core-ui';
 import { useSnackbar } from './components/SnackbarContext/useSnackbar';
+import { Auth } from './components/Auth/Auth';
 
 const router = createBrowserRouter([
   {
     path: paths.home,
-    element: <Layout />,
+    element: (
+      <Auth>
+        <Layout />
+      </Auth>
+    ),
     children: [
       {
         path: paths.groups,

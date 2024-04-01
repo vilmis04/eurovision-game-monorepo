@@ -1,16 +1,20 @@
 import {
   Background,
+  GradientType,
   SubmitButton,
   TextFormField,
 } from '@eurovision-game-monorepo/core-ui';
-import { Box, Typography } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import { Form, Formik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import { styles } from './Login.styles';
 import * as Yup from 'yup';
 import { LoginRequestBody } from '@eurovision-game-monorepo/types';
 import { useEffect, useRef } from 'react';
-import { useLoginMutation } from '../../api/auth/authApi';
+import {
+  useIsAuthenticatedQuery,
+  useLoginMutation,
+} from '../../api/auth/authApi';
 import { paths } from '../../paths';
 
 const initialValues: LoginRequestBody = {
@@ -26,13 +30,18 @@ const loginValidationSchema = Yup.object().shape({
 export const Login = () => {
   const navigate = useNavigate();
   const [login, { isSuccess, isLoading }] = useLoginMutation();
+  const {
+    isSuccess: isLoggedIn,
+    isLoading: isCheckingAuthStatus,
+    isUninitialized,
+  } = useIsAuthenticatedQuery();
   const ref = useRef<HTMLElement>();
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess || isLoggedIn) {
       navigate(paths.home);
     }
-  }, [isSuccess]);
+  }, [isSuccess, isLoggedIn]);
 
   useEffect(() => {
     if (ref.current) {
@@ -44,8 +53,10 @@ export const Login = () => {
     await login(values);
   };
 
-  return (
-    <Background variant="gradient1">
+  return isCheckingAuthStatus || isUninitialized ? (
+    <CircularProgress />
+  ) : (
+    <Background variant={GradientType.GRADIENT1}>
       <Box sx={styles.contentWrapper}>
         <Typography variant="h1" sx={styles.title}>
           Login
