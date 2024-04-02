@@ -51,5 +51,8 @@ export const endpoints = {
     group: {
       build: (name: string) => `${RootRoutes.GROUP}?name=${name}`,
     },
+    deleteGroup: {
+      build: (name: string) => `${RootRoutes.GROUP}/${name}`,
+    },
   },
 };

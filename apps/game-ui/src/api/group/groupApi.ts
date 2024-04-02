@@ -34,8 +34,20 @@ export const groupApi = baseApi.injectEndpoints({
         credentials: 'include',
       }),
     }),
+    deleteGroup: build.mutation<void, TGroupParams>({
+      query: ({ name }) => ({
+        url: groupDomain.deleteGroup.build(name),
+        method: Methods.DELETE,
+        credentials: 'include',
+        invalidatesTags: [TagTypes.GROUP],
+      }),
+    }),
   }),
 });
 
-export const { useGetGroupsQuery, useCreateGroupMutation, useGetGroupQuery } =
-  groupApi;
+export const {
+  useGetGroupsQuery,
+  useCreateGroupMutation,
+  useGetGroupQuery,
+  useDeleteGroupMutation,
+} = groupApi;

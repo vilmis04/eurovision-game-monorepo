@@ -9,6 +9,7 @@ import { GradientType } from '@eurovision-game-monorepo/core-ui';
 import { BackgroundContext } from '../../components/Layout/Layout';
 
 export const Groups = () => {
+  // TODO: groups do not update after delete
   const { data: groups } = useGetGroupsQuery();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const selectGradient = useContext(BackgroundContext);
