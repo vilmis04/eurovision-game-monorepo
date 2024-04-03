@@ -39,8 +39,8 @@ export const groupApi = baseApi.injectEndpoints({
         url: groupDomain.deleteGroup.build(name),
         method: Methods.DELETE,
         credentials: 'include',
-        invalidatesTags: [TagTypes.GROUP],
       }),
+      invalidatesTags: [TagTypes.GROUP],
     }),
   }),
 });
