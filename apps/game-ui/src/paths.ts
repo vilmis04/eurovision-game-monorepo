@@ -54,5 +54,8 @@ export const endpoints = {
     deleteGroup: {
       build: (name: string) => `${RootRoutes.GROUP}/${name}`,
     },
+    createInvitationLink: {
+      build: (name: string) => `${RootRoutes.GROUP}/${name}/generate-invite`,
+    },
   },
 };

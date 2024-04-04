@@ -1,5 +1,6 @@
 import { GradientType } from '@eurovision-game-monorepo/core-ui';
 import {
+  useCreateInvitationLinkMutation,
   useDeleteGroupMutation,
   useGetGroupQuery,
 } from '../../../api/group/groupApi';
@@ -15,24 +16,31 @@ import { ContextMenu } from './ContextMenu/ContextMenu';
 import { DeleteDialog } from './DeleteDialog/DeleteDialog';
 
 export const GroupView = () => {
-  const navigate = useNavigate();
-  const { openSnackbar } = useContext(SnackbarContext);
   const { name = '' } = useParams();
   const [searchParams] = useSearchParams();
   const isNew = searchParams.get('isNew');
-  const { data, isFetching } = useGetGroupQuery({ name }, { skip: !name });
-  const [deleteGroup, { isSuccess }] = useDeleteGroupMutation();
+
+  const navigate = useNavigate();
+  const { openSnackbar } = useContext(SnackbarContext);
   const selectGradient = useContext(BackgroundContext);
+
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<EventTarget | null>(null);
 
+  const { data, isFetching } = useGetGroupQuery({ name }, { skip: !name });
+  // TODO: add error handling / displaying
+  const [deleteGroup, { isSuccess: isDeleteGroupSuccess }] =
+    useDeleteGroupMutation();
+  // TODO: add error handling / displaying
+  const [createInviteLink] = useCreateInvitationLinkMutation();
+
   useEffect(() => {
-    if (isSuccess) {
+    if (isDeleteGroupSuccess) {
       openSnackbar(`Group "${name}" deleted.`);
       navigate(paths.groups);
     }
-  }, [isSuccess]);
+  }, [isDeleteGroupSuccess]);
 
   useEffect(() => {
     selectGradient(GradientType.GRADIENT2);
@@ -54,9 +62,16 @@ export const GroupView = () => {
     setAnchorEl(e.currentTarget);
     toggleContextMenu();
   };
-  const copyLink = () => {
-    // TODO: add link generation
-    console.log('LINK COPIED!');
+  const copyLink = async () => {
+    const response = await createInviteLink({ name });
+    // TODO: add better response handling
+    const linkCode = 'data' in response ? response.data : '';
+    const { origin } = window.location;
+    const inviteLink = `${origin}/groups/join/${linkCode}`;
+
+    navigator.clipboard.writeText(inviteLink);
+
+    openSnackbar(`Invite link copied.`);
   };
 
   return (

@@ -42,6 +42,14 @@ export const groupApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [TagTypes.GROUP],
     }),
+    createInvitationLink: build.mutation<string, TGroupParams>({
+      query: ({ name }) => ({
+        url: groupDomain.createInvitationLink.build(name),
+        method: Methods.POST,
+        credentials: 'include',
+        responseHandler: 'text',
+      }),
+    }),
   }),
 });
 
@@ -50,4 +58,5 @@ export const {
   useCreateGroupMutation,
   useGetGroupQuery,
   useDeleteGroupMutation,
+  useCreateInvitationLinkMutation,
 } = groupApi;
