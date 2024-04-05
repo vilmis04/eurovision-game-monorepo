@@ -75,6 +75,7 @@ export const GroupView = () => {
   };
 
   return (
+    // TODO: add loading state
     <>
       <Box sx={styles.container}>
         <Box>

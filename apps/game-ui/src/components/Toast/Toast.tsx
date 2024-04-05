@@ -14,6 +14,7 @@ export const Toast = () => {
       onClose={onClose}
       sx={styles.toast}
     >
+      {/* TODO: add error icon */}
       <Alert severity={variant} sx={styles.alert} icon={<CheckCircle />}>
         <Typography
           variant="body1"

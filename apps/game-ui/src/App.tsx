@@ -13,6 +13,7 @@ import { store } from './redux/store';
 import { GlobalStyles } from '@eurovision-game-monorepo/core-ui';
 import { useSnackbar } from './components/SnackbarContext/useSnackbar';
 import { Auth } from './components/Auth/Auth';
+import { GroupJoin } from './pages/Groups/GroupView/GroupJoin/GroupJoin';
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
         element: <Box>Leaderboard</Box>,
       },
     ],
+  },
+  {
+    path: paths.joinGroup,
+    element: <GroupJoin />,
   },
   {
     path: paths.signUp,

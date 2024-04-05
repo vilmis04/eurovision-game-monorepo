@@ -23,6 +23,7 @@ enum AuthPaths {
 enum GroupPaths {
   NAME = ':name',
   CREATE = 'create',
+  JOIN = 'join/:inviteCode',
 }
 
 export const paths = {
@@ -35,6 +36,7 @@ export const paths = {
     url: `/${HomePaths.GROUPS}/${GroupPaths.NAME}`,
   },
   groupCreate: `/${HomePaths.GROUPS}/${GroupPaths.CREATE}`,
+  joinGroup: `/${HomePaths.GROUPS}/${GroupPaths.JOIN}`,
   voting: `/${HomePaths.VOTING}`,
   leaderboard: `/${HomePaths.LEADERBOARD}`,
 };
