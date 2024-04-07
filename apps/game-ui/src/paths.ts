@@ -23,7 +23,8 @@ enum AuthPaths {
 enum GroupPaths {
   NAME = ':name',
   CREATE = 'create',
-  JOIN = 'join/:inviteCode',
+  INVITE = 'join/:inviteCode',
+  JOIN = 'join',
 }
 
 export const paths = {
@@ -36,7 +37,7 @@ export const paths = {
     url: `/${HomePaths.GROUPS}/${GroupPaths.NAME}`,
   },
   groupCreate: `/${HomePaths.GROUPS}/${GroupPaths.CREATE}`,
-  joinGroup: `/${HomePaths.GROUPS}/${GroupPaths.JOIN}`,
+  joinGroup: `/${HomePaths.GROUPS}/${GroupPaths.INVITE}`,
   voting: `/${HomePaths.VOTING}`,
   leaderboard: `/${HomePaths.LEADERBOARD}`,
 };
@@ -58,6 +59,9 @@ export const endpoints = {
     },
     createInvitationLink: {
       build: (name: string) => `${RootRoutes.GROUP}/${name}/generate-invite`,
+    },
+    joinGroup: {
+      build: () => `${RootRoutes.GROUP}/${GroupPaths.JOIN}`,
     },
   },
 };

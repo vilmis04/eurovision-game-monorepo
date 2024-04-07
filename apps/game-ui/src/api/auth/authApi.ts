@@ -50,6 +50,7 @@ const authApi = baseApi.injectEndpoints({
 
 export const {
   useIsAuthenticatedQuery,
+  useLazyIsAuthenticatedQuery,
   useLoginMutation,
   useSignUpMutation,
   useLogoutMutation,

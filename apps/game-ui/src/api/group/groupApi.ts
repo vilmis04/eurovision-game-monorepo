@@ -6,6 +6,8 @@ import { CreateGroupRequest } from './requests';
 
 type TGroupParams = { name: string };
 
+type TJoinGroupParams = { inviteCode: string };
+
 const { groupDomain } = endpoints;
 
 export const groupApi = baseApi.injectEndpoints({
@@ -50,6 +52,14 @@ export const groupApi = baseApi.injectEndpoints({
         responseHandler: 'text',
       }),
     }),
+    joinGroup: build.mutation<void, TJoinGroupParams>({
+      query: (body) => ({
+        url: groupDomain.joinGroup.build(),
+        method: Methods.POST,
+        body,
+        credentials: 'include',
+      }),
+    }),
   }),
 });
 
@@ -59,4 +69,5 @@ export const {
   useGetGroupQuery,
   useDeleteGroupMutation,
   useCreateInvitationLinkMutation,
+  useJoinGroupMutation,
 } = groupApi;

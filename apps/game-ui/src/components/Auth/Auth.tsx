@@ -10,7 +10,6 @@ export const Auth: React.FC<React.PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     if (isError) {
-      console.log('navigate to login');
       navigate(paths.login);
     }
   }, [isError]);
