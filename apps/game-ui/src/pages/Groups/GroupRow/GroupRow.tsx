@@ -6,9 +6,10 @@ import { paths } from '../../../paths';
 interface GroupRowProps {
   name: string;
   members: string[];
+  groupId: number;
 }
 
-export const GroupRow = ({ name, members }: GroupRowProps) => {
+export const GroupRow = ({ name, members, groupId }: GroupRowProps) => {
   const navigate = useNavigate();
   const numberOfMembers = members.length;
   const membersMessage = `${numberOfMembers} ${
@@ -16,7 +17,7 @@ export const GroupRow = ({ name, members }: GroupRowProps) => {
   }`;
 
   const handleClick = () => {
-    navigate(paths.group.build(name));
+    navigate(paths.group.build(groupId));
   };
 
   return (

@@ -27,7 +27,8 @@ export const GroupJoin = () => {
 
   useEffect(() => {
     if (isJoinGroupSuccess) {
-      navigate(paths.group.build(groupName));
+      navigate(paths.groups);
+      // navigate(paths.group.build(groupName));
     }
   }, [isJoinGroupSuccess]);
 

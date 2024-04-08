@@ -4,7 +4,7 @@ import { TagTypes, baseApi } from '../baseApi';
 import { GetGroupResponse } from './responses';
 import { CreateGroupRequest } from './requests';
 
-type TGroupParams = { name: string };
+type TGroupParams = { id: number };
 
 type TJoinGroupParams = { inviteCode: string };
 
@@ -30,23 +30,23 @@ export const groupApi = baseApi.injectEndpoints({
       invalidatesTags: [TagTypes.GROUP],
     }),
     getGroup: build.query<GetGroupResponse[], TGroupParams>({
-      query: ({ name }) => ({
-        url: groupDomain.group.build(name),
+      query: ({ id }) => ({
+        url: groupDomain.group.build(id),
         method: Methods.GET,
         credentials: 'include',
       }),
     }),
     deleteGroup: build.mutation<void, TGroupParams>({
-      query: ({ name }) => ({
-        url: groupDomain.deleteGroup.build(name),
+      query: ({ id }) => ({
+        url: groupDomain.deleteGroup.build(id),
         method: Methods.DELETE,
         credentials: 'include',
       }),
       invalidatesTags: [TagTypes.GROUP],
     }),
     createInvitationLink: build.mutation<string, TGroupParams>({
-      query: ({ name }) => ({
-        url: groupDomain.createInvitationLink.build(name),
+      query: ({ id }) => ({
+        url: groupDomain.createInvitationLink.build(id),
         method: Methods.POST,
         credentials: 'include',
         responseHandler: 'text',

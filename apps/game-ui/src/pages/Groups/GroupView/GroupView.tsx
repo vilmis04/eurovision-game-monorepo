@@ -16,7 +16,8 @@ import { ContextMenu } from './ContextMenu/ContextMenu';
 import { DeleteDialog } from './DeleteDialog/DeleteDialog';
 
 export const GroupView = () => {
-  const { name = '' } = useParams();
+  const { id: idString } = useParams();
+  const id = Number(idString);
   const [searchParams] = useSearchParams();
   const isNew = searchParams.get('isNew');
 
@@ -28,7 +29,8 @@ export const GroupView = () => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<EventTarget | null>(null);
 
-  const { data, isFetching } = useGetGroupQuery({ name }, { skip: !name });
+  const { data, isFetching } = useGetGroupQuery({ id }, { skip: !id });
+  const [group] = data ?? [];
   // TODO: add error handling / displaying
   const [deleteGroup, { isSuccess: isDeleteGroupSuccess }] =
     useDeleteGroupMutation();
@@ -37,7 +39,7 @@ export const GroupView = () => {
 
   useEffect(() => {
     if (isDeleteGroupSuccess) {
-      openSnackbar(`Group "${name}" deleted.`);
+      openSnackbar(`Group "${group.name}" deleted.`);
       navigate(paths.groups);
     }
   }, [isDeleteGroupSuccess]);
@@ -53,9 +55,8 @@ export const GroupView = () => {
   const toggleContextMenu = () => setIsContextMenuOpen((isOpen) => !isOpen);
   const toggleDeleteDialog = () => setIsDeleteDialogOpen((isOpen) => !isOpen);
 
-  const [group] = data ?? [];
   const handleDelete = () => {
-    deleteGroup({ name });
+    deleteGroup({ id });
   };
   const handleBack = () => navigate(paths.groups);
   const handleMore = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
@@ -63,7 +64,7 @@ export const GroupView = () => {
     toggleContextMenu();
   };
   const copyLink = async () => {
-    const response = await createInviteLink({ name });
+    const response = await createInviteLink({ id });
     // TODO: add better response handling
     const linkCode = 'data' in response ? response.data : '';
     const { origin } = window.location;

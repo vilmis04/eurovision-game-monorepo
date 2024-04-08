@@ -21,7 +21,7 @@ enum AuthPaths {
 }
 
 enum GroupPaths {
-  NAME = ':name',
+  ID = ':id',
   CREATE = 'create',
   INVITE = 'join/:inviteCode',
   JOIN = 'join',
@@ -33,8 +33,8 @@ export const paths = {
   signUp: `/${AuthPaths.SIGN_UP}`,
   groups: `/${HomePaths.GROUPS}`,
   group: {
-    build: (name: string) => `/${HomePaths.GROUPS}/${name}`,
-    url: `/${HomePaths.GROUPS}/${GroupPaths.NAME}`,
+    build: (id: number) => `/${HomePaths.GROUPS}/${id}`,
+    url: `/${HomePaths.GROUPS}/${GroupPaths.ID}`,
   },
   groupCreate: `/${HomePaths.GROUPS}/${GroupPaths.CREATE}`,
   joinGroup: `/${HomePaths.GROUPS}/${GroupPaths.INVITE}`,
@@ -52,13 +52,13 @@ export const endpoints = {
   groupDomain: {
     groups: RootRoutes.GROUP,
     group: {
-      build: (name: string) => `${RootRoutes.GROUP}?name=${name}`,
+      build: (id: number) => `${RootRoutes.GROUP}?id=${id}`,
     },
     deleteGroup: {
-      build: (name: string) => `${RootRoutes.GROUP}/${name}`,
+      build: (id: number) => `${RootRoutes.GROUP}/${id}`,
     },
     createInvitationLink: {
-      build: (name: string) => `${RootRoutes.GROUP}/${name}/generate-invite`,
+      build: (id: number) => `${RootRoutes.GROUP}/${id}/generate-invite`,
     },
     joinGroup: {
       build: () => `${RootRoutes.GROUP}/${GroupPaths.JOIN}`,
