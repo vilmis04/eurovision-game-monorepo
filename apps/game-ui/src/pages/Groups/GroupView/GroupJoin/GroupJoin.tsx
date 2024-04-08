@@ -7,11 +7,15 @@ import { useEffect } from 'react';
 import { useJoinGroupMutation } from '../../../../api/group/groupApi';
 import { paths } from '../../../../paths';
 
+const INVITE_INFO_LIST_LENGTH = 4;
+
 export const GroupJoin = () => {
   const { inviteCode = '' } = useParams();
   const inviteData = window.atob(inviteCode).split(':');
-  const isInviteStructureValid = inviteData.length === 3;
-  const [groupName] = inviteData;
+  const isInviteStructureValid = inviteData.length === INVITE_INFO_LIST_LENGTH;
+  // TODO: edit prefix _ to allow unused
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [groupName, _owner, id] = inviteData;
   const navigate = useNavigate();
 
   const [getIsAuthenticated, { isFetching, isSuccess }] =
@@ -27,8 +31,7 @@ export const GroupJoin = () => {
 
   useEffect(() => {
     if (isJoinGroupSuccess) {
-      navigate(paths.groups);
-      // navigate(paths.group.build(groupName));
+      navigate(paths.group.build(Number(id)));
     }
   }, [isJoinGroupSuccess]);
 
