@@ -20,7 +20,7 @@ export const groupApi = baseApi.injectEndpoints({
       }),
       providesTags: [TagTypes.GROUP],
     }),
-    createGroup: build.mutation<void, CreateGroupRequest>({
+    createGroup: build.mutation<number, CreateGroupRequest>({
       query: (body) => ({
         url: groupDomain.groups,
         method: Methods.POST,

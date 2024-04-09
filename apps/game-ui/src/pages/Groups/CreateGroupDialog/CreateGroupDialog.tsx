@@ -1,5 +1,6 @@
 import {
   Background,
+  GradientType,
   SubmitButton,
   TextFormField,
 } from '@eurovision-game-monorepo/core-ui';
@@ -34,9 +35,9 @@ export const CreateGroupDialog: React.FC<CreateGroupDialogProps> = ({
   toggleDialog,
 }) => {
   const navigate = useNavigate();
-  const [createGroup, { isLoading, isSuccess }] = useCreateGroupMutation();
+  const [createGroup, { data: id, isLoading, isSuccess }] =
+    useCreateGroupMutation();
   const ref = useRef<HTMLElement>();
-  const nameRef = useRef('');
 
   const handleSubmit = async (values: CreateGroupFormValues) => {
     await createGroup(values);
@@ -50,7 +51,7 @@ export const CreateGroupDialog: React.FC<CreateGroupDialogProps> = ({
 
   useEffect(() => {
     if (isSuccess) {
-      navigate(paths.group.build(`${nameRef.current}?isNew=true`));
+      navigate(`${paths.group.build(id)}?isNew=true`);
     }
   }, [isSuccess]);
 
@@ -83,36 +84,32 @@ export const CreateGroupDialog: React.FC<CreateGroupDialogProps> = ({
       disableRestoreFocus
       onFocus={focusOnceFactory()}
     >
-      <Background variant="solid1">
+      <Background variant={GradientType.SOLID1}>
         <Formik
           initialValues={initialValues}
           onSubmit={handleSubmit}
           validationSchema={createGroupValidationSchema}
         >
-          {({ values: { name } }) => {
-            nameRef.current = name;
-
-            return (
-              <Box component={Form} sx={styles.form}>
-                <Box sx={styles.topbar}>
-                  <CloseIcon onClick={toggleDialog} sx={styles.icon} />
-                </Box>
-                <Typography variant="h1" sx={styles.title}>
-                  Name your group
-                </Typography>
-                <TextFormField
-                  inputRef={ref}
-                  name="name"
-                  label="Group name"
-                  sx={styles.field}
-                  endAdornment={getEndAdornment(name)}
-                />
-                <SubmitButton isLoading={isLoading} variant="outlined">
-                  Save
-                </SubmitButton>
+          {({ values: { name } }) => (
+            <Box component={Form} sx={styles.form}>
+              <Box sx={styles.topbar}>
+                <CloseIcon onClick={toggleDialog} sx={styles.icon} />
               </Box>
-            );
-          }}
+              <Typography variant="h1" sx={styles.title}>
+                Name your group
+              </Typography>
+              <TextFormField
+                inputRef={ref}
+                name="name"
+                label="Group name"
+                sx={styles.field}
+                endAdornment={getEndAdornment(name)}
+              />
+              <SubmitButton isLoading={isLoading} variant="outlined">
+                Save
+              </SubmitButton>
+            </Box>
+          )}
         </Formik>
       </Background>
     </Dialog>

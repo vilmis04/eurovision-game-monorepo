@@ -20,6 +20,7 @@ export const GroupView = () => {
   const id = Number(idString);
   const [searchParams] = useSearchParams();
   const isNew = searchParams.get('isNew');
+  const joined = searchParams.get('joined');
 
   const navigate = useNavigate();
   const { openSnackbar } = useContext(SnackbarContext);
@@ -47,6 +48,10 @@ export const GroupView = () => {
   useEffect(() => {
     selectGradient(GradientType.GRADIENT2);
   }, []);
+
+  useEffect(() => {
+    joined && openSnackbar("You've joined the group.");
+  }, [joined]);
 
   useEffect(() => {
     isNew && openSnackbar('Group created.');

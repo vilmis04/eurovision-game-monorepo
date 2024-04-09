@@ -6,32 +6,40 @@ import { useLazyIsAuthenticatedQuery } from '../../../../api/auth/authApi';
 import { useEffect } from 'react';
 import { useJoinGroupMutation } from '../../../../api/group/groupApi';
 import { paths } from '../../../../paths';
-
-const INVITE_INFO_LIST_LENGTH = 4;
+import { decodeInvite } from '../../../../utils/decodeInvite';
 
 export const GroupJoin = () => {
   const { inviteCode = '' } = useParams();
-  const inviteData = window.atob(inviteCode).split(':');
-  const isInviteStructureValid = inviteData.length === INVITE_INFO_LIST_LENGTH;
-  // TODO: edit prefix _ to allow unused
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [groupName, _owner, id] = inviteData;
   const navigate = useNavigate();
 
-  const [getIsAuthenticated, { isFetching, isSuccess }] =
-    useLazyIsAuthenticatedQuery();
+  const { groupName, id, isInviteStructureValid } = decodeInvite(inviteCode);
+
+  const [
+    getIsAuthenticated,
+    {
+      isFetching: isAuthFetching,
+      isSuccess: isAuthSuccess,
+      isError: isAuthError,
+    },
+  ] = useLazyIsAuthenticatedQuery();
 
   const [joinGroup, { isSuccess: isJoinGroupSuccess }] = useJoinGroupMutation();
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isAuthSuccess) {
       joinGroup({ inviteCode });
     }
-  }, [isSuccess]);
+  }, [isAuthSuccess]);
+
+  useEffect(() => {
+    if (isAuthError) {
+      navigate(`${paths.login}?invite=${inviteCode}`);
+    }
+  }, [isAuthError]);
 
   useEffect(() => {
     if (isJoinGroupSuccess) {
-      navigate(paths.group.build(Number(id)));
+      navigate(`${paths.group.build(Number(id))}?joined=true`);
     }
   }, [isJoinGroupSuccess]);
 
@@ -50,7 +58,7 @@ export const GroupJoin = () => {
             To compete with this group's members, join the group.
           </Typography>
           <Button onClick={handleClick} sx={styles.button}>
-            {isFetching ? <CircularProgress /> : 'Join Group'}
+            {isAuthFetching ? <CircularProgress /> : 'Join Group'}
           </Button>
         </>
       ) : (

@@ -6,7 +6,7 @@ import {
 } from '@eurovision-game-monorepo/core-ui';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import { Form, Formik } from 'formik';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { styles } from './Login.styles';
 import * as Yup from 'yup';
 import { LoginRequestBody } from '@eurovision-game-monorepo/types';
@@ -16,6 +16,8 @@ import {
   useLoginMutation,
 } from '../../api/auth/authApi';
 import { paths } from '../../paths';
+import { useJoinGroupMutation } from '../../api/group/groupApi';
+import { decodeInvite } from '../../utils/decodeInvite';
 
 const initialValues: LoginRequestBody = {
   username: '',
@@ -29,7 +31,10 @@ const loginValidationSchema = Yup.object().shape({
 
 export const Login = () => {
   const navigate = useNavigate();
-  const [login, { isSuccess, isLoading }] = useLoginMutation();
+  const [queryParams] = useSearchParams();
+  const inviteCode = queryParams.get('invite');
+  const [login, { isSuccess: isLoginSuccess, isLoading: isLoginLoading }] =
+    useLoginMutation();
   const {
     isSuccess: isLoggedIn,
     isLoading: isCheckingAuthStatus,
@@ -37,11 +42,26 @@ export const Login = () => {
   } = useIsAuthenticatedQuery();
   const ref = useRef<HTMLElement>();
 
+  const [joinGroup, { isSuccess: isJoinGroupSuccess }] = useJoinGroupMutation();
+
   useEffect(() => {
-    if (isSuccess || isLoggedIn) {
+    if (isLoginSuccess && inviteCode) {
+      joinGroup({ inviteCode });
+    }
+  }, [isLoginSuccess && inviteCode]);
+
+  useEffect(() => {
+    if (!inviteCode && (isLoginSuccess || isLoggedIn)) {
       navigate(paths.home);
     }
-  }, [isSuccess, isLoggedIn]);
+  }, [isLoginSuccess, isLoggedIn, inviteCode]);
+
+  useEffect(() => {
+    if (isJoinGroupSuccess) {
+      const { id } = decodeInvite(inviteCode);
+      navigate(`${paths.group.build(id)}?joined=true`);
+    }
+  }, [isJoinGroupSuccess]);
 
   useEffect(() => {
     if (ref.current) {
@@ -63,7 +83,11 @@ export const Login = () => {
         </Typography>
         <Typography variant="body1" sx={styles.linkWrapper}>
           {'New user? '}
-          <Box component={Link} to="/sign-up" sx={styles.link}>
+          <Box
+            component={Link}
+            to={`${paths.signUp}${inviteCode ? `?invite=${inviteCode}` : ''}`}
+            sx={styles.link}
+          >
             Sign up
           </Box>
         </Typography>
@@ -77,7 +101,7 @@ export const Login = () => {
               <TextFormField name="username" label="Nickname" inputRef={ref} />
               <TextFormField name="password" type="password" label="Password" />
               <SubmitButton
-                isLoading={isLoading}
+                isLoading={isLoginLoading}
                 isDisabled={!password || !username}
               >
                 Login

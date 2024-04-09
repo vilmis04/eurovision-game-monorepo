@@ -6,7 +6,7 @@ import {
 } from '@eurovision-game-monorepo/core-ui';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import { Form, Formik } from 'formik';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { styles } from './SignUp.styles';
 import * as Yup from 'yup';
 import { SignUpRequestBody } from '@eurovision-game-monorepo/types';
@@ -16,6 +16,8 @@ import {
 } from '../../api/auth/authApi';
 import { useEffect, useRef } from 'react';
 import { paths } from '../../paths';
+import { decodeInvite } from '../../utils/decodeInvite';
+import { useJoinGroupMutation } from '../../api/group/groupApi';
 
 const initialValues: SignUpRequestBody = {
   username: '',
@@ -35,7 +37,10 @@ const signUpValidationSchema = Yup.object().shape({
 
 export const SignUp = () => {
   const navigate = useNavigate();
-  const [signUp, { isSuccess, isLoading }] = useSignUpMutation();
+  const [queryParams] = useSearchParams();
+  const inviteCode = queryParams.get('invite');
+  const [signUp, { isSuccess: isSignUpSuccess, isLoading: isSignUpLoading }] =
+    useSignUpMutation();
   const {
     isSuccess: isLoggedIn,
     isLoading: isCheckingAuthStatus,
@@ -43,11 +48,26 @@ export const SignUp = () => {
   } = useIsAuthenticatedQuery();
   const ref = useRef<HTMLElement>();
 
+  const [joinGroup, { isSuccess: isJoinGroupSuccess }] = useJoinGroupMutation();
+
   useEffect(() => {
-    if (isSuccess || isLoggedIn) {
+    if (isSignUpSuccess && inviteCode) {
+      joinGroup({ inviteCode });
+    }
+  }, [isSignUpSuccess && inviteCode]);
+
+  useEffect(() => {
+    if (!inviteCode && (isSignUpSuccess || isLoggedIn)) {
       navigate(paths.home);
     }
-  }, [isSuccess, isLoggedIn]);
+  }, [isSignUpSuccess, isLoggedIn, inviteCode]);
+
+  useEffect(() => {
+    if (isJoinGroupSuccess) {
+      const { id } = decodeInvite(inviteCode);
+      navigate(`${paths.group.build(id)}?joined=true`);
+    }
+  }, [isJoinGroupSuccess]);
 
   useEffect(() => {
     if (ref.current) {
@@ -69,7 +89,11 @@ export const SignUp = () => {
         </Typography>
         <Typography variant="body1" sx={styles.linkWrapper}>
           {'Already a user? '}
-          <Box component={Link} to="/login" sx={styles.link}>
+          <Box
+            component={Link}
+            to={`${paths.login}${inviteCode ? `?invite=${inviteCode}` : ''}`}
+            sx={styles.link}
+          >
             Login
           </Box>
         </Typography>
@@ -88,7 +112,7 @@ export const SignUp = () => {
                 label="Repeat password"
               />
               <SubmitButton
-                isLoading={isLoading}
+                isLoading={isSignUpLoading}
                 isDisabled={!password || !username || !repeatPassword}
               >
                 Sign Up
