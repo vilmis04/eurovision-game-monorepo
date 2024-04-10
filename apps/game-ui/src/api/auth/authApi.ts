@@ -42,7 +42,7 @@ const authApi = baseApi.injectEndpoints({
         url: authDomain.logout,
         method: Methods.POST,
         credentials: 'include',
-        invalidatesTags: [TagTypes.AUTHORISED],
+        invalidatesTags: Object.values(TagTypes),
       }),
     }),
   }),

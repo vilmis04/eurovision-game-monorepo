@@ -3,8 +3,6 @@ import { Menu, MenuItem, MenuProps, Typography } from '@mui/material';
 import { styles } from './ContextMenu.styles';
 import { useLogoutMutation } from '../../../../api/auth/authApi';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { paths } from '../../../../paths';
 
 interface ContextMenuProps extends MenuProps {
   copyLink: () => void;
@@ -20,12 +18,11 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
   deleteGroup,
   isOwner,
 }) => {
-  const navigate = useNavigate();
   const [logout, { isSuccess: isLogoutSuccess }] = useLogoutMutation();
 
   useEffect(() => {
     if (isLogoutSuccess) {
-      navigate(paths.login);
+      window.location.reload();
     }
   }, [isLogoutSuccess]);
 
