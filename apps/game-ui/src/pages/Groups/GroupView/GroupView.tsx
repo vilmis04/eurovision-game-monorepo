@@ -14,6 +14,7 @@ import { useContext, useEffect, useState } from 'react';
 import { BackgroundContext } from '../../../components/Layout/Layout';
 import { ContextMenu } from './ContextMenu/ContextMenu';
 import { DeleteDialog } from './DeleteDialog/DeleteDialog';
+import { AuthContext } from '../../../components/Auth/Auth';
 
 export const GroupView = () => {
   const { id: idString } = useParams();
@@ -25,13 +26,17 @@ export const GroupView = () => {
   const navigate = useNavigate();
   const { openSnackbar } = useContext(SnackbarContext);
   const selectGradient = useContext(BackgroundContext);
+  const username = useContext(AuthContext);
 
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<EventTarget | null>(null);
 
-  const { data, isFetching } = useGetGroupQuery({ id }, { skip: !id });
-  const [group] = data ?? [];
+  const { data: groupList, isFetching } = useGetGroupQuery(
+    { id },
+    { skip: !id }
+  );
+
   // TODO: add error handling / displaying
   const [deleteGroup, { isSuccess: isDeleteGroupSuccess }] =
     useDeleteGroupMutation();
@@ -57,6 +62,12 @@ export const GroupView = () => {
     isNew && openSnackbar('Group created.');
   }, [isNew]);
 
+  if (!groupList?.length) {
+    return <CircularProgress />;
+  }
+  const [group] = groupList ?? [];
+  const isOwner = username === group.owner;
+
   const toggleContextMenu = () => setIsContextMenuOpen((isOpen) => !isOpen);
   const toggleDeleteDialog = () => setIsDeleteDialogOpen((isOpen) => !isOpen);
 
@@ -80,8 +91,7 @@ export const GroupView = () => {
     openSnackbar(`Invite link copied.`);
   };
 
-  return (
-    // TODO: add loading state
+  return groupList?.length ? (
     <>
       <Box sx={styles.container}>
         <Box>
@@ -106,18 +116,25 @@ export const GroupView = () => {
             </>
           )}
         </Box>
-        <Box>
-          <Button fullWidth sx={styles.invitationLinkButton} onClick={copyLink}>
-            <ContentCopy sx={styles.copyIcon} />
-            Copy invite link
-          </Button>
-          <Typography variant="body1" sx={styles.invitationLinkInstructions}>
-            Copy invite link and share it with your friends so they can join
-            this group.
-          </Typography>
-        </Box>
+        {isOwner && (
+          <Box>
+            <Button
+              fullWidth
+              sx={styles.invitationLinkButton}
+              onClick={copyLink}
+            >
+              <ContentCopy sx={styles.copyIcon} />
+              Copy invite link
+            </Button>
+            <Typography variant="body1" sx={styles.invitationLinkInstructions}>
+              Copy invite link and share it with your friends so they can join
+              this group.
+            </Typography>
+          </Box>
+        )}
       </Box>
       <ContextMenu
+        isOwner={isOwner}
         copyLink={copyLink}
         deleteGroup={toggleDeleteDialog}
         open={isContextMenuOpen}
@@ -130,5 +147,7 @@ export const GroupView = () => {
         handleClose={toggleDeleteDialog}
       />
     </>
+  ) : (
+    <CircularProgress />
   );
 };

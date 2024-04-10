@@ -16,6 +16,7 @@ const authApi = baseApi.injectEndpoints({
         method: Methods.GET,
         credentials: 'include',
         providesTags: [TagTypes.AUTHORISED],
+        responseHandler: 'text',
       }),
     }),
     signUp: build.mutation<void, SignUpRequestBody>({

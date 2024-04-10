@@ -1,10 +1,15 @@
-import { ContentCopy, DeleteOutline } from '@mui/icons-material';
+import { ContentCopy, DeleteOutline, Logout } from '@mui/icons-material';
 import { Menu, MenuItem, MenuProps, Typography } from '@mui/material';
 import { styles } from './ContextMenu.styles';
+import { useLogoutMutation } from '../../../../api/auth/authApi';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { paths } from '../../../../paths';
 
 interface ContextMenuProps extends MenuProps {
   copyLink: () => void;
   deleteGroup: () => void;
+  isOwner: boolean;
 }
 
 export const ContextMenu: React.FC<ContextMenuProps> = ({
@@ -13,7 +18,17 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
   onClose,
   copyLink,
   deleteGroup,
+  isOwner,
 }) => {
+  const navigate = useNavigate();
+  const [logout, { isSuccess: isLogoutSuccess }] = useLogoutMutation();
+
+  useEffect(() => {
+    if (isLogoutSuccess) {
+      navigate(paths.login);
+    }
+  }, [isLogoutSuccess]);
+
   const handleCopyLink = () => {
     copyLink();
     onClose?.({}, 'escapeKeyDown');
@@ -24,17 +39,30 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
     onClose?.({}, 'escapeKeyDown');
   };
 
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
     <Menu anchorEl={anchorEl} open={isOpen} onClose={onClose} sx={styles.menu}>
-      <MenuItem onClick={handleCopyLink}>
+      {isOwner && (
+        <>
+          <MenuItem onClick={handleCopyLink}>
+            <Typography variant="body1" sx={[styles.row, styles.copy]}>
+              <ContentCopy />
+              Copy invite link
+            </Typography>
+          </MenuItem>
+          <MenuItem onClick={handleDeleteGroup}>
+            <Typography variant="body1" sx={[styles.row, styles.delete]}>
+              <DeleteOutline /> Delete Group
+            </Typography>
+          </MenuItem>
+        </>
+      )}
+      <MenuItem onClick={handleLogout}>
         <Typography variant="body1" sx={[styles.row, styles.copy]}>
-          <ContentCopy />
-          Copy invite link
-        </Typography>
-      </MenuItem>
-      <MenuItem onClick={handleDeleteGroup}>
-        <Typography variant="body1" sx={[styles.row, styles.delete]}>
-          <DeleteOutline /> Delete Group
+          <Logout /> Logout
         </Typography>
       </MenuItem>
     </Menu>

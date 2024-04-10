@@ -1,11 +1,13 @@
-import { useEffect } from 'react';
+import { createContext, useEffect } from 'react';
 import { useIsAuthenticatedQuery } from '../../api/auth/authApi';
 import { useNavigate } from 'react-router-dom';
 import { paths } from '../../paths';
 import { CircularProgress } from '@mui/material';
 
+export const AuthContext = createContext<string | undefined>('');
+
 export const Auth: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const { isFetching, isError } = useIsAuthenticatedQuery();
+  const { data: user, isFetching, isError } = useIsAuthenticatedQuery();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,5 +19,9 @@ export const Auth: React.FC<React.PropsWithChildren> = ({ children }) => {
   const isLoading = isFetching || isError;
 
   // TODO: add proper spinner for loading state (with background and properly centered)
-  return isLoading ? <CircularProgress /> : children;
+  return (
+    <AuthContext.Provider value={user}>
+      {isLoading ? <CircularProgress /> : children}
+    </AuthContext.Provider>
+  );
 };
