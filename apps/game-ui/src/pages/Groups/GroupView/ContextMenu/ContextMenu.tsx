@@ -42,21 +42,21 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
 
   return (
     <Menu anchorEl={anchorEl} open={isOpen} onClose={onClose} sx={styles.menu}>
-      {isOwner && (
-        <>
-          <MenuItem onClick={handleCopyLink}>
-            <Typography variant="body1" sx={[styles.row, styles.copy]}>
-              <ContentCopy />
-              Copy invite link
-            </Typography>
-          </MenuItem>
-          <MenuItem onClick={handleDeleteGroup}>
-            <Typography variant="body1" sx={[styles.row, styles.delete]}>
-              <DeleteOutline /> Delete Group
-            </Typography>
-          </MenuItem>
-        </>
-      )}
+      {...isOwner
+        ? [
+            <MenuItem onClick={handleCopyLink}>
+              <Typography variant="body1" sx={[styles.row, styles.copy]}>
+                <ContentCopy />
+                Copy invite link
+              </Typography>
+            </MenuItem>,
+            <MenuItem onClick={handleDeleteGroup}>
+              <Typography variant="body1" sx={[styles.row, styles.delete]}>
+                <DeleteOutline /> Delete Group
+              </Typography>
+            </MenuItem>,
+          ]
+        : []}
       <MenuItem onClick={handleLogout}>
         <Typography variant="body1" sx={[styles.row, styles.copy]}>
           <Logout /> Logout

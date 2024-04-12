@@ -5,8 +5,7 @@ import {
   useGetGroupQuery,
 } from '../../../api/group/groupApi';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { Box, Button, CircularProgress, Typography } from '@mui/material';
-import { ArrowBack, ContentCopy, MoreVert } from '@mui/icons-material';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import { styles } from './GroupView.styles';
 import { paths } from '../../../paths';
 import { SnackbarContext } from '../../../components/SnackbarContext/SnackbarContext';
@@ -15,6 +14,8 @@ import { BackgroundContext } from '../../../components/Layout/Layout';
 import { ContextMenu } from './ContextMenu/ContextMenu';
 import { DeleteDialog } from './DeleteDialog/DeleteDialog';
 import { AuthContext } from '../../../components/Auth/Auth';
+import { InviteButton } from './InviteButton/InviteButton';
+import { Navbar } from './Navbar/Navbar';
 
 export const GroupView = () => {
   const { id: idString } = useParams();
@@ -94,15 +95,16 @@ export const GroupView = () => {
   return groupList?.length ? (
     <>
       <Box sx={styles.container}>
-        <Box>
-          <Box sx={styles.nav}>
-            <ArrowBack sx={styles.icon} onClick={handleBack} />
-            <MoreVert sx={styles.icon} onClick={handleMore} />
-          </Box>
+        <Navbar
+          handleBack={handleBack}
+          handleMore={handleMore}
+          groupName={group.name}
+        />
+        <Box sx={styles.groupMembers}>
           {isFetching ? (
             <CircularProgress />
           ) : (
-            <>
+            <Box>
               <Typography variant="h1" sx={styles.title}>
                 {group.name}
               </Typography>
@@ -113,25 +115,10 @@ export const GroupView = () => {
                   </Typography>
                 </Box>
               ))}
-            </>
+            </Box>
           )}
         </Box>
-        {isOwner && (
-          <Box>
-            <Button
-              fullWidth
-              sx={styles.invitationLinkButton}
-              onClick={copyLink}
-            >
-              <ContentCopy sx={styles.copyIcon} />
-              Copy invite link
-            </Button>
-            <Typography variant="body1" sx={styles.invitationLinkInstructions}>
-              Copy invite link and share it with your friends so they can join
-              this group.
-            </Typography>
-          </Box>
-        )}
+        <InviteButton copyLink={copyLink} shouldShow={isOwner} />
       </Box>
       <ContextMenu
         isOwner={isOwner}
