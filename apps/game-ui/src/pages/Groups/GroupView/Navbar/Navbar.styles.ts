@@ -1,8 +1,8 @@
-export const styles = {
+export const getStyles = (titleOpacity: number) => ({
   nav: {
     display: 'flex',
     justifyContent: 'space-between',
-    padding: '0.75rem 1.5rem 0 1.5rem',
+    padding: '0.75rem 1.5rem',
   },
   icon: {
     color: 'common.white',
@@ -12,6 +12,7 @@ export const styles = {
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
+    opacity: titleOpacity,
     padding: '0 1em',
   },
-};
+});

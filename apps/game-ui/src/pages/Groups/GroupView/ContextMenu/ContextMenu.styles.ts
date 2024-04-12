@@ -1,6 +1,6 @@
 export const styles = {
   menu: {
-    marginTop: '-2rem',
+    marginTop: '-1rem',
     marginLeft: '-2rem',
     '& .MuiList-root': {
       backgroundColor: 'common.white',

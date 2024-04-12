@@ -16,6 +16,7 @@ import { DeleteDialog } from './DeleteDialog/DeleteDialog';
 import { AuthContext } from '../../../components/Auth/Auth';
 import { InviteButton } from './InviteButton/InviteButton';
 import { Navbar } from './Navbar/Navbar';
+import { useTitleObserver } from './useTitleObserver/useTitleObserver';
 
 export const GroupView = () => {
   const { id: idString } = useParams();
@@ -32,6 +33,7 @@ export const GroupView = () => {
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<EventTarget | null>(null);
+  const [showNavbarTitle, setShouldShowNavbarTitle] = useState(0);
 
   const { data: groupList, isFetching } = useGetGroupQuery(
     { id },
@@ -43,6 +45,14 @@ export const GroupView = () => {
     useDeleteGroupMutation();
   // TODO: add error handling / displaying
   const [createInviteLink] = useCreateInvitationLinkMutation();
+
+  useTitleObserver(
+    (entry) => {
+      setShouldShowNavbarTitle(1 - (entry.intersectionRatio - 0.4) / 0.2);
+    },
+    Boolean(groupList?.length),
+    () => document.querySelector('[data-ref="observerRef"]')
+  );
 
   useEffect(() => {
     if (isDeleteGroupSuccess) {
@@ -99,13 +109,18 @@ export const GroupView = () => {
           handleBack={handleBack}
           handleMore={handleMore}
           groupName={group.name}
+          titleOpacity={showNavbarTitle}
         />
         <Box sx={styles.groupMembers}>
           {isFetching ? (
             <CircularProgress />
           ) : (
             <Box>
-              <Typography variant="h1" sx={styles.title}>
+              <Typography
+                variant="h1"
+                sx={[styles.title]}
+                data-ref="observerRef"
+              >
                 {group.name}
               </Typography>
               {(group.members ?? []).map((member) => (
