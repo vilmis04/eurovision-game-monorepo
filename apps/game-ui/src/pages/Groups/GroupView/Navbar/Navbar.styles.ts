@@ -13,6 +13,7 @@ export const getStyles = (titleOpacity: number) => ({
     overflow: 'hidden',
     whiteSpace: 'nowrap',
     opacity: titleOpacity,
+    transform: `translateY(${15 * (1 - titleOpacity)}%)`,
     padding: '0 1em',
   },
 });
