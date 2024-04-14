@@ -73,7 +73,7 @@ export const SignUp = () => {
     if (ref.current) {
       ref.current.focus();
     }
-  }, []);
+  }, [isCheckingAuthStatus || isUninitialized]);
 
   const handleSubmit = async (values: SignUpRequestBody) => {
     await signUp(values);

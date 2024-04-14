@@ -67,7 +67,7 @@ export const Login = () => {
     if (ref.current) {
       ref.current.focus();
     }
-  }, []);
+  }, [isCheckingAuthStatus || isUninitialized]);
 
   const handleSubmit = async (values: LoginRequestBody) => {
     await login(values);
