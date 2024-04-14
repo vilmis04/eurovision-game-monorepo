@@ -62,6 +62,12 @@ export const theme = createTheme({
             color: '#241434',
           },
         },
+        text: {
+          background: 'none',
+          '& .MuiTypography-root': {
+            color: '#241434',
+          },
+        },
       },
     },
   },

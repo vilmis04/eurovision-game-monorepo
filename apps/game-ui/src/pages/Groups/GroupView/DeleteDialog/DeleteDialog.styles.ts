@@ -2,45 +2,31 @@ export const styles = {
   dialog: {
     '& .MuiPaper-root': {
       backgroundColor: '#F2F2F2',
-      borderRadius: '0.75rem',
-      marginX: '3.5rem',
+      borderRadius: '0.25rem',
+      marginX: '2.25rem',
+      padding: '1rem',
     },
   },
-  textWrapper: {
-    padding: '1rem',
-    textAlign: 'center',
-  },
   text: {
-    color: 'black',
+    color: 'primary.contrastText',
   },
   title: {
-    fontWeight: 'bold',
-    fontSize: '1rem',
+    fontWeight: 'medium',
+    fontSize: '1.25rem',
   },
   mainText: {
-    fontSize: '0.75rem',
+    fontSize: '1rem',
   },
   buttonWrapper: {
     display: 'flex',
+    justifyContent: 'end',
+    paddingTop: '0.75rem',
+    gap: '0.75rem',
   },
-  button: {
-    width: '50%',
-    background: 'unset',
-    borderRadius: 0,
-    borderTop: '1px solid lightgrey',
-  },
-  leftButton: {
-    borderRight: '1px solid lightgrey',
-  },
-  buttonLabel: {
-    '&&&': {
-      color: '#007AFF',
-      fontSize: '1rem',
-    },
-  },
-  buttonLabelStrong: {
-    '&&&': {
-      fontWeight: 'bold',
-    },
+  deleteButton: {
+    padding: '0.5rem 1rem',
+    borderRadius: '0.5rem',
+    backgroundColor: 'secondary.main',
+    '& .MuiTypography-root': { color: 'common.white' },
   },
 };
