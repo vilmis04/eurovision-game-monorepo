@@ -37,15 +37,15 @@ export const theme = createTheme({
           background: '#C894FF',
           color: '#241434',
           textTransform: 'inherit',
-          '& .MuiTypography-root': {
-            color: '#241434',
-          },
           '&:hover': {
             background: '#B9A3CC',
           },
           '&.Mui-disabled': {
             background: '#B9A3CC',
             color: '#241434',
+            '& .MuiTypography-root': {
+              color: '#241434',
+            },
             textTransform: 'inherit !important',
           },
         },
@@ -55,6 +55,12 @@ export const theme = createTheme({
           padding: '12px',
           color: '#FFF7FF',
           '&:hover': {},
+        },
+        contained: {
+          color: '#241434',
+          '& .MuiTypography-root': {
+            color: '#241434',
+          },
         },
       },
     },
