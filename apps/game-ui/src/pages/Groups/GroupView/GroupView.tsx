@@ -5,7 +5,7 @@ import {
   useGetGroupQuery,
 } from '../../../api/group/groupApi';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { Box, CircularProgress, Typography } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import { styles } from './GroupView.styles';
 import { paths } from '../../../paths';
 import { SnackbarContext } from '../../../components/SnackbarContext/SnackbarContext';
@@ -17,6 +17,7 @@ import { AuthContext } from '../../../components/Auth/Auth';
 import { InviteButton } from './InviteButton/InviteButton';
 import { Navbar } from './Navbar/Navbar';
 import { useIntersectionObserver } from '../../../utils/useIntersectionObserver/useIntersectionObserver';
+import { MemberList } from './MemberList/MemberList';
 
 export const GroupView = () => {
   const { id: idString } = useParams();
@@ -33,7 +34,9 @@ export const GroupView = () => {
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<EventTarget | null>(null);
-  const [showNavbarTitle, setShouldShowNavbarTitle] = useState(0);
+  const [navbarTitleOpacity, setNavbarTitleOpacity] = useState(0);
+
+  const observerRef = 'observerRef';
 
   const { data: groupList, isFetching } = useGetGroupQuery(
     { id },
@@ -47,12 +50,11 @@ export const GroupView = () => {
   const [createInviteLink] = useCreateInvitationLinkMutation();
 
   useIntersectionObserver({
-    action: (entry) => {
-      setShouldShowNavbarTitle(1 - (entry.intersectionRatio - 0.4) / 0.2);
-    },
+    action: (entry) =>
+      setNavbarTitleOpacity(1 - (entry.intersectionRatio - 0.4) / 0.2),
     domStatus: Boolean(groupList?.length),
     getObservables: () => {
-      const element = document.querySelector('[data-ref="observerRef"]');
+      const element = document.querySelector(`[data-ref="${observerRef}"]`);
 
       return element ? [element] : null;
     },
@@ -95,6 +97,7 @@ export const GroupView = () => {
     setAnchorEl(e.currentTarget);
     toggleContextMenu();
   };
+
   const copyLink = async () => {
     const response = await createInviteLink({ id });
     // TODO: add better response handling
@@ -114,30 +117,14 @@ export const GroupView = () => {
           handleBack={handleBack}
           handleMore={handleMore}
           groupName={group.name}
-          titleOpacity={showNavbarTitle}
+          titleOpacity={navbarTitleOpacity}
         />
-        <Box sx={styles.groupMembers}>
-          {isFetching ? (
-            <CircularProgress />
-          ) : (
-            <Box>
-              <Typography
-                variant="h1"
-                sx={[styles.title]}
-                data-ref="observerRef"
-              >
-                {group.name}
-              </Typography>
-              {(group.members ?? []).map((member) => (
-                <Box key={member} sx={styles.nicknameWrapper}>
-                  <Typography variant="body1" sx={styles.nickname}>
-                    {member}
-                  </Typography>
-                </Box>
-              ))}
-            </Box>
-          )}
-        </Box>
+        <MemberList
+          isFetching={isFetching}
+          groupName={group.name}
+          members={group.members}
+          groupNameRefName={observerRef}
+        />
         <InviteButton copyLink={copyLink} shouldShow={isOwner} />
       </Box>
       <ContextMenu
