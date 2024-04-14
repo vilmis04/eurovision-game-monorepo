@@ -16,7 +16,7 @@ import { DeleteDialog } from './DeleteDialog/DeleteDialog';
 import { AuthContext } from '../../../components/Auth/Auth';
 import { InviteButton } from './InviteButton/InviteButton';
 import { Navbar } from './Navbar/Navbar';
-import { useTitleObserver } from './useTitleObserver/useTitleObserver';
+import { useIntersectionObserver } from '../../../utils/useIntersectionObserver/useIntersectionObserver';
 
 export const GroupView = () => {
   const { id: idString } = useParams();
@@ -46,13 +46,18 @@ export const GroupView = () => {
   // TODO: add error handling / displaying
   const [createInviteLink] = useCreateInvitationLinkMutation();
 
-  useTitleObserver(
-    (entry) => {
+  useIntersectionObserver({
+    action: (entry) => {
       setShouldShowNavbarTitle(1 - (entry.intersectionRatio - 0.4) / 0.2);
     },
-    Boolean(groupList?.length),
-    () => document.querySelector('[data-ref="observerRef"]')
-  );
+    domStatus: Boolean(groupList?.length),
+    getObservables: () => {
+      const element = document.querySelector('[data-ref="observerRef"]');
+
+      return element ? [element] : null;
+    },
+    options: { threshold: { max: 0.6, min: 0.4 } },
+  });
 
   useEffect(() => {
     if (isDeleteGroupSuccess) {

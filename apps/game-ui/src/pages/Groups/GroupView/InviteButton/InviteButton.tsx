@@ -14,7 +14,12 @@ export const InviteButton: React.FC<InviteButtonProps> = ({
 }) =>
   shouldShow ? (
     <Box sx={styles.container}>
-      <Button fullWidth sx={styles.invitationLinkButton} onClick={copyLink}>
+      <Button
+        fullWidth
+        sx={styles.invitationLinkButton}
+        onClick={copyLink}
+        variant="contained"
+      >
         <ContentCopy sx={styles.copyIcon} />
         Copy invite link
       </Button>
