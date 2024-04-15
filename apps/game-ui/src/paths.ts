@@ -11,6 +11,7 @@ export enum HomePaths {
 enum RootRoutes {
   AUTH = '/auth',
   GROUP = '/group',
+  ADMIN = '/admin',
 }
 
 enum AuthPaths {
@@ -43,6 +44,9 @@ export const paths = {
 };
 
 export const endpoints = {
+  generalInfoDomain: {
+    admin: RootRoutes.ADMIN,
+  },
   authDomain: {
     login: `${RootRoutes.AUTH}/${AuthPaths.LOGIN}`,
     signUp: `${RootRoutes.AUTH}/${AuthPaths.SIGN_UP}`,
