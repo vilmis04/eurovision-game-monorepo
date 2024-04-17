@@ -3,7 +3,7 @@ export const styles = {
     width: '100vw',
     background: 'transparent',
     borderTop: '1px solid',
-    borderTopColor: 'secondary.light',
+    borderTopColor: 'divider',
   },
   outlet: {
     overflow: 'scroll',
