@@ -1,11 +1,6 @@
+import { GameType } from '@eurovision-game-monorepo/types';
 import { endpoints } from '../../paths';
 import { baseApi } from '../baseApi';
-
-export enum GameType {
-  SEMI1 = 'semi1',
-  SEMI2 = 'semi2',
-  FINAL = 'final',
-}
 
 interface GeneralInfoResponse {
   year: number;
