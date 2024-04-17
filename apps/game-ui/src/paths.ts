@@ -1,3 +1,5 @@
+import { CountryQueryParams } from './api/country/countryApi.types';
+
 export enum RootPaths {
   HOME = '/',
 }
@@ -12,6 +14,7 @@ enum RootRoutes {
   AUTH = '/auth',
   GROUP = '/group',
   ADMIN = '/admin',
+  COUNTRY = '/country',
 }
 
 enum AuthPaths {
@@ -46,6 +49,12 @@ export const paths = {
 export const endpoints = {
   generalInfoDomain: {
     admin: RootRoutes.ADMIN,
+  },
+  countryDomain: {
+    countryList: {
+      build: ({ gameType, name, year }: CountryQueryParams) =>
+        `/country/${year}?gameType=${gameType}${name ? `&name=${name}` : ''}`,
+    },
   },
   authDomain: {
     login: `${RootRoutes.AUTH}/${AuthPaths.LOGIN}`,
