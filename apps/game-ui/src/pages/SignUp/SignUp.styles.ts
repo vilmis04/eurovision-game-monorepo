@@ -2,6 +2,8 @@ export const styles = {
   contentWrapper: {
     width: '100%',
     padding: '76px 24px 24px',
+    marginX: 'auto',
+    maxWidth: '500px',
   },
   title: {
     fontSize: '24px',

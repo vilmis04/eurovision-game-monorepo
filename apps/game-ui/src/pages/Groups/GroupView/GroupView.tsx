@@ -50,8 +50,10 @@ export const GroupView = () => {
   const [createInviteLink] = useCreateInvitationLinkMutation();
 
   useIntersectionObserver({
-    action: (entry) =>
-      setNavbarTitleOpacity(1 - (entry.intersectionRatio - 0.4) / 0.2),
+    action: (entry) => {
+      const opacity = 1 - (entry.intersectionRatio - 0.4) / 0.2;
+      setNavbarTitleOpacity(opacity > 1 ? 1 : opacity);
+    },
     domStatus: Boolean(groupList?.length),
     getObservables: () => {
       const element = document.querySelector(`[data-ref="${observerRef}"]`);

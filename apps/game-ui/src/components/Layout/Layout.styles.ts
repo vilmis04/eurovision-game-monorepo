@@ -1,3 +1,5 @@
+import { Theme } from '@mui/material';
+
 export const styles = {
   navbar: {
     width: '100vw',
@@ -5,10 +7,18 @@ export const styles = {
     borderTop: '1px solid',
     borderTopColor: 'divider',
   },
-  outlet: {
+  outlet: ({ breakpoints }: Theme) => ({
     overflow: 'scroll',
     height: '100%',
-  },
+    scrollbarWidth: 'thin',
+    overflowX: 'hidden',
+    scrollbarColor: 'rgba(150,150,150,0.25) transparent',
+    [breakpoints.up('sm')]: {
+      marginX: 'auto',
+      width: '100%',
+      maxWidth: '500px',
+    },
+  }),
   default: {
     color: 'white',
   },

@@ -29,9 +29,12 @@ export const MemberList: React.FC<MemberListProps> = ({
         // @ts-expect-error target type does not expect to have style - but it does
         entry.target.style.opacity =
           entry.intersectionRatio + DIVIDER_OPACITY_ADJUSTMENT;
+        const opacity = (entry.intersectionRatio - 0.3) / 0.7;
+        let adjustedOpacity = opacity;
+        if (opacity > 1) adjustedOpacity = 1;
+        if (opacity < 0) adjustedOpacity = 0;
         // @ts-expect-error target type does not expect to have style - but it does
-        entry.target.firstChild.style.opacity =
-          (entry.intersectionRatio - 0.3) / 0.7;
+        entry.target.firstChild.style.opacity = adjustedOpacity;
       }
     },
     domStatus: isFetching,
