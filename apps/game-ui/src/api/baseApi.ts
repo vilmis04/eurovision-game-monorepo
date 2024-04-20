@@ -6,6 +6,7 @@ const BASE_URL = 'http://localhost:4300/api';
 export enum TagTypes {
   GROUP = 'GROUP',
   AUTHORISED = 'AUTHORISED',
+  SCORE = 'SCORE',
 }
 
 export const baseApi = createApi({

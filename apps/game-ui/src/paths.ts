@@ -15,6 +15,7 @@ enum RootRoutes {
   GROUP = '/group',
   ADMIN = '/admin',
   COUNTRY = '/country',
+  SCORE = '/score',
 }
 
 enum AuthPaths {
@@ -53,8 +54,13 @@ export const endpoints = {
   countryDomain: {
     countryList: {
       build: ({ gameType, name, year }: CountryQueryParams) =>
-        `/country/${year}?gameType=${gameType}${name ? `&name=${name}` : ''}`,
+        `${RootRoutes.COUNTRY}/${year}?gameType=${gameType}${
+          name ? `&name=${name}` : ''
+        }`,
     },
+  },
+  scoreDomain: {
+    score: RootRoutes.SCORE,
   },
   authDomain: {
     login: `${RootRoutes.AUTH}/${AuthPaths.LOGIN}`,

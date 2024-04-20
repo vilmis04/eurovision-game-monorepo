@@ -7,6 +7,11 @@ import { useGetCountriesQuery } from '../../api/country/countryApi';
 import { Topbar } from './Topbar/Topbar';
 import { CountryRow } from './CountryRow/CountryRow';
 import { styles } from './Voting.styles';
+import {
+  useGetScoresQuery,
+  useUpdateScoreMutation,
+} from '../../api/score/scoreApi';
+import { GameType } from '@eurovision-game-monorepo/types';
 
 export const Voting: React.FC = () => {
   const selectGradient = useContext(BackgroundContext);
@@ -17,20 +22,29 @@ export const Voting: React.FC = () => {
       { year: Number(generalInfo?.year), gameType: generalInfo?.gameType },
       { skip: !generalInfo }
     );
+  const { data: scoreList, isFetching: isFetchingScoreList } =
+    useGetScoresQuery();
 
-  const isFetching = isFetchingCountries || isFetchingGeneralInfo;
+  const [updateScore] = useUpdateScoreMutation();
+
+  const isFetching =
+    isFetchingCountries || isFetchingGeneralInfo || isFetchingScoreList;
 
   useEffect(() => {
     selectGradient(GradientType.GRADIENT2);
   }, []);
 
+  const scoredCountries = scoreList?.filter(({ inFinal, position }) =>
+    generalInfo?.gameType === GameType.FINAL ? inFinal : position
+  ).length;
+
   return isFetching ? (
     // TODO: add proper spinner
     <CircularProgress />
   ) : (
-    <Box>
-      <Topbar gameType={generalInfo?.gameType} />
-      <Box>
+    <Box sx={styles.container}>
+      <Topbar gameType={generalInfo?.gameType} selected={scoredCountries} />
+      <Box sx={styles.countries}>
         {(countryList || []).map(({ name, code, artist, song }) => (
           <CountryRow
             key={name}
@@ -38,6 +52,9 @@ export const Voting: React.FC = () => {
             code={code}
             artist={artist}
             song={song}
+            gameType={generalInfo?.gameType}
+            score={scoreList?.find(({ country }) => country === name)}
+            updateScore={updateScore}
           />
         ))}
         <Typography variant="body1" sx={styles.notice}>

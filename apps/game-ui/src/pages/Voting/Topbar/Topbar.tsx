@@ -5,12 +5,13 @@ import { styles } from './Topbar.styles';
 
 interface TopbarProps {
   gameType: GameType | undefined;
+  selected: number | undefined;
 }
 
 const SEMI_LIMIT = 10;
 const FINAL_LIMIT = 25;
 
-export const Topbar: React.FC<TopbarProps> = ({ gameType }) => {
+export const Topbar: React.FC<TopbarProps> = ({ gameType, selected = 0 }) => {
   const gameTypeMessage =
     (gameType &&
       {
@@ -37,7 +38,7 @@ export const Topbar: React.FC<TopbarProps> = ({ gameType }) => {
       </Box>
       <Box sx={styles.bottomRow}>
         <Typography variant="body1" sx={styles.lightText}>
-          {`0 / ${selectionLimit} selected`}
+          {`${selected} / ${selectionLimit} selected`}
         </Typography>
         <Button variant="text" sx={styles.button}>
           <ArrowDownward />
