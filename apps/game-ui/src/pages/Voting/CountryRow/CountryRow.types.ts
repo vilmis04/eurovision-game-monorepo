@@ -12,10 +12,18 @@ export interface CountryRowProps {
   gameType: GameType | undefined;
   score: GetScoresResponse | undefined;
   updateScore: (body: UpdateScoreRequestBody) => void;
+  isSemiSpotAvailable: boolean;
+  notAvailableSpots: number[];
 }
 
-export interface VoteProps {
+export interface SemiVoteProps {
   inFinal: boolean | undefined;
+  isDisabled: boolean;
+  updateScore: CountryRowProps['updateScore'];
+}
+
+export interface FinalVoteProps {
   position: number | undefined;
+  notAvailableSpots: number[];
   updateScore: CountryRowProps['updateScore'];
 }

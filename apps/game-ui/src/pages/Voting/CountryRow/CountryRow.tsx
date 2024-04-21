@@ -1,48 +1,68 @@
 import { Box, Typography } from '@mui/material';
 import { styles } from './CountryRow.styles';
-import { GameType } from '@eurovision-game-monorepo/types';
+import {
+  GameType,
+  UpdateScoreRequestBody,
+} from '@eurovision-game-monorepo/types';
 import { FinalVote } from './FinalVote/FinalVote';
 import { SemiVote } from './SemiVote/SemiVote';
 import { CountryRowProps } from './CountryRow.types';
+import React, { memo } from 'react';
 
-export const CountryRow: React.FC<CountryRowProps> = ({
-  artist,
-  code,
-  name,
-  song,
-  gameType,
-  score,
-  updateScore,
-}) => {
-  const isFinal = gameType === GameType.FINAL;
-  const VoteInput = isFinal ? FinalVote : SemiVote;
-  const voteInputProps = {
-    inFinal: score?.inFinal,
-    position: score?.position,
+export const CountryRow: React.FC<CountryRowProps> = memo(
+  ({
+    artist,
+    code,
+    name,
+    song,
+    gameType,
+    score,
     updateScore,
-  };
+    isSemiSpotAvailable,
+    notAvailableSpots,
+  }) => {
+    const isFinal = gameType === GameType.FINAL;
 
-  return (
-    <Box sx={styles.container} key={name}>
-      <Box>
-        <Box
-          component="img"
-          src={`public/flags/${code}.svg`}
-          sx={styles.flag}
-        />
+    const handleUpdateScore = (body: Partial<UpdateScoreRequestBody>) => {
+      updateScore({ ...score, ...body });
+    };
+
+    const voteInput = isFinal ? (
+      <FinalVote
+        position={score?.position}
+        updateScore={handleUpdateScore}
+        notAvailableSpots={notAvailableSpots}
+      />
+    ) : (
+      <SemiVote
+        inFinal={score?.inFinal}
+        updateScore={handleUpdateScore}
+        isDisabled={!isSemiSpotAvailable}
+      />
+    );
+
+    return (
+      <Box sx={styles.container} key={name}>
+        <Box>
+          <Box
+            component="img"
+            src={`public/flags/${code}.svg`}
+            sx={styles.flag}
+          />
+        </Box>
+        <Box sx={styles.textWrapper}>
+          <Typography variant="body1" sx={styles.name}>
+            {name}
+          </Typography>
+          <Typography variant="body1" sx={styles.artist}>
+            {artist}
+          </Typography>
+          <Typography variant="body1" sx={styles.song}>
+            {song}
+          </Typography>
+        </Box>
+        {voteInput}
       </Box>
-      <Box sx={styles.textWrapper}>
-        <Typography variant="body1" sx={styles.name}>
-          {name}
-        </Typography>
-        <Typography variant="body1" sx={styles.artist}>
-          {artist}
-        </Typography>
-        <Typography variant="body1" sx={styles.song}>
-          {song}
-        </Typography>
-      </Box>
-      <VoteInput {...voteInputProps} />
-    </Box>
-  );
-};
+    );
+  }
+);

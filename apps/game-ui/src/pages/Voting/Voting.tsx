@@ -22,21 +22,26 @@ export const Voting: React.FC = () => {
       { year: Number(generalInfo?.year), gameType: generalInfo?.gameType },
       { skip: !generalInfo }
     );
-  const { data: scoreList, isFetching: isFetchingScoreList } =
-    useGetScoresQuery();
+  const { data: scoreList } = useGetScoresQuery();
 
   const [updateScore] = useUpdateScoreMutation();
 
-  const isFetching =
-    isFetchingCountries || isFetchingGeneralInfo || isFetchingScoreList;
+  const isFetching = isFetchingCountries || isFetchingGeneralInfo;
 
   useEffect(() => {
     selectGradient(GradientType.GRADIENT2);
   }, []);
 
   const scoredCountries = scoreList?.filter(({ inFinal, position }) =>
-    generalInfo?.gameType === GameType.FINAL ? inFinal : position
+    generalInfo?.gameType === GameType.FINAL ? position : inFinal
   ).length;
+
+  const notAvailableSpots = (scoreList || [])
+    .filter(({ position }) => position)
+    .map(({ position }) => position);
+
+  const isSemiSpotAvailable =
+    (scoreList || []).filter(({ inFinal }) => inFinal).length < 10;
 
   return isFetching ? (
     // TODO: add proper spinner
@@ -55,6 +60,8 @@ export const Voting: React.FC = () => {
             gameType={generalInfo?.gameType}
             score={scoreList?.find(({ country }) => country === name)}
             updateScore={updateScore}
+            notAvailableSpots={notAvailableSpots}
+            isSemiSpotAvailable={isSemiSpotAvailable}
           />
         ))}
         <Typography variant="body1" sx={styles.notice}>

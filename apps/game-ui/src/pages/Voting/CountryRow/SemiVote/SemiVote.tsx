@@ -1,9 +1,34 @@
-import { VoteProps } from '../CountryRow.types';
+import { CheckCircle, RadioButtonUnchecked } from '@mui/icons-material';
+import { SemiVoteProps } from '../CountryRow.types';
+import { Box, FormControlLabel, Typography } from '@mui/material';
+import { styles } from './SemiVote.styles';
 
-export const SemiVote: React.FC<VoteProps> = ({
+export const SemiVote: React.FC<SemiVoteProps> = ({
   inFinal,
-  position,
   updateScore,
+  isDisabled,
 }) => {
-  return <div>{`Top ten: ${inFinal}`}</div>;
+  const notClickable = isDisabled && !inFinal;
+  const selected = (
+    <CheckCircle sx={[styles.icon, notClickable && styles.notClickable]} />
+  );
+  const notSelected = <RadioButtonUnchecked sx={styles.icon} />;
+  const handleClick = () => {
+    if (notClickable) return;
+    updateScore({ inFinal: !inFinal });
+  };
+
+  return (
+    <Box onClick={handleClick}>
+      <FormControlLabel
+        control={<Box role="checkbox">{inFinal ? selected : notSelected}</Box>}
+        label={
+          <Typography variant="body2" sx={styles.label}>
+            Top ten
+          </Typography>
+        }
+        labelPlacement="bottom"
+      />
+    </Box>
+  );
 };

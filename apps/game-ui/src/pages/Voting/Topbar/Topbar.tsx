@@ -40,6 +40,7 @@ export const Topbar: React.FC<TopbarProps> = ({ gameType, selected = 0 }) => {
         <Typography variant="body1" sx={styles.lightText}>
           {`${selected} / ${selectionLimit} selected`}
         </Typography>
+        {/* TODO: update new order rules */}
         <Button variant="text" sx={styles.button}>
           <ArrowDownward />
           Order

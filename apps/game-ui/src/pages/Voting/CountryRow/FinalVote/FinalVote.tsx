@@ -1,8 +1,8 @@
-import { VoteProps } from '../CountryRow.types';
+import { FinalVoteProps } from '../CountryRow.types';
 
-export const FinalVote: React.FC<VoteProps> = ({
+export const FinalVote: React.FC<FinalVoteProps> = ({
   position,
-  inFinal,
+  notAvailableSpots,
   updateScore,
 }) => {
   return <div>{`Postition: ${position}`}</div>;
