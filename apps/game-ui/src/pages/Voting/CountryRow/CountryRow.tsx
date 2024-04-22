@@ -19,7 +19,6 @@ export const CountryRow: React.FC<CountryRowProps> = memo(
     score,
     updateScore,
     isSemiSpotAvailable,
-    notAvailableSpots,
   }) => {
     const isFinal = gameType === GameType.FINAL;
 
@@ -28,11 +27,7 @@ export const CountryRow: React.FC<CountryRowProps> = memo(
     };
 
     const voteInput = isFinal ? (
-      <FinalVote
-        position={score?.position}
-        updateScore={handleUpdateScore}
-        notAvailableSpots={notAvailableSpots}
-      />
+      <FinalVote position={score?.position} />
     ) : (
       <SemiVote
         inFinal={score?.inFinal}

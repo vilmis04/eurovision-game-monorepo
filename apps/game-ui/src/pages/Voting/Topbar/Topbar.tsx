@@ -32,7 +32,7 @@ export const Topbar: React.FC<TopbarProps> = ({ gameType, selected = 0 }) => {
         <Typography variant="body1">
           {'Voting stops in '}
           <Typography component="span" variant="body1" sx={styles.mediumText}>
-            05:21
+            --:--
           </Typography>
         </Typography>
       </Box>

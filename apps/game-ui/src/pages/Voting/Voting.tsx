@@ -36,9 +36,10 @@ export const Voting: React.FC = () => {
     generalInfo?.gameType === GameType.FINAL ? position : inFinal
   ).length;
 
-  const notAvailableSpots = (scoreList || [])
-    .filter(({ position }) => position)
-    .map(({ position }) => position);
+  // TODO: use in modal for final position voting
+  // const notAvailableSpots = (scoreList || [])
+  //   .filter(({ position }) => position)
+  //   .map(({ position }) => position);
 
   const isSemiSpotAvailable =
     (scoreList || []).filter(({ inFinal }) => inFinal).length < 10;
@@ -60,7 +61,6 @@ export const Voting: React.FC = () => {
             gameType={generalInfo?.gameType}
             score={scoreList?.find(({ country }) => country === name)}
             updateScore={updateScore}
-            notAvailableSpots={notAvailableSpots}
             isSemiSpotAvailable={isSemiSpotAvailable}
           />
         ))}
