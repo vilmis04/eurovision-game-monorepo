@@ -4,6 +4,7 @@ export const theme = createTheme({
   palette: {
     primary: {
       main: '#C894FF',
+      A100: '#480082',
       contrastText: '#241434',
     },
     secondary: {
@@ -60,6 +61,9 @@ export const theme = createTheme({
           color: '#241434',
           '& .MuiTypography-root': {
             color: '#241434',
+          },
+          '&:hover': {
+            background: '#C894FF',
           },
         },
         text: {

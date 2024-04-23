@@ -19,6 +19,7 @@ export const CountryRow: React.FC<CountryRowProps> = memo(
     score,
     updateScore,
     isSemiSpotAvailable,
+    openVotingModal,
   }) => {
     const isFinal = gameType === GameType.FINAL;
 
@@ -26,8 +27,12 @@ export const CountryRow: React.FC<CountryRowProps> = memo(
       updateScore({ ...score, ...body });
     };
 
+    const openModal = () => {
+      openVotingModal(code);
+    };
+
     const voteInput = isFinal ? (
-      <FinalVote position={score?.position} />
+      <FinalVote position={score?.position} openModal={openModal} />
     ) : (
       <SemiVote
         inFinal={score?.inFinal}
@@ -37,7 +42,7 @@ export const CountryRow: React.FC<CountryRowProps> = memo(
     );
 
     return (
-      <Box sx={styles.container} key={name}>
+      <Box sx={[styles.container, Boolean(score?.inFinal) && styles.selected]}>
         <Box>
           <Box component="img" src={`flags/${code}.svg`} sx={styles.flag} />
         </Box>

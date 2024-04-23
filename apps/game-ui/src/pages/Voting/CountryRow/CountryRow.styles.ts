@@ -7,6 +7,10 @@ export const styles = {
     borderBottom: '1px solid',
     borderColor: 'divider',
   },
+  selected: {
+    background:
+      'linear-gradient(90deg, rgba(103, 0, 181, 0.3744) 0%, rgba(103, 0, 181, 0.3328) 49%, rgba(103, 0, 181, 0) 100%)',
+  },
   flag: {
     border: '3px solid white',
     objectFit: 'cover',

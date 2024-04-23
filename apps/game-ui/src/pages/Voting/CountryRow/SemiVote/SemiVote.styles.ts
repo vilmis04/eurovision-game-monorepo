@@ -5,7 +5,7 @@ export const styles = {
     width: '34px',
   },
   notClickable: {
-    color: 'grey',
+    color: '#9D89B0',
   },
   label: {
     fontSize: '0.75rem',

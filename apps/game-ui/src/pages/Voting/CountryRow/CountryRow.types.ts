@@ -13,6 +13,7 @@ export interface CountryRowProps {
   score: GetScoresResponse | undefined;
   updateScore: (body: UpdateScoreRequestBody) => void;
   isSemiSpotAvailable: boolean;
+  openVotingModal: (code: string) => void;
 }
 
 export interface SemiVoteProps {
@@ -23,4 +24,5 @@ export interface SemiVoteProps {
 
 export interface FinalVoteProps {
   position: number | undefined;
+  openModal: () => void;
 }
