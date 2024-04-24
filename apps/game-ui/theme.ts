@@ -71,6 +71,9 @@ export const theme = createTheme({
           '& .MuiTypography-root': {
             color: '#241434',
           },
+          '&:hover': {
+            background: 'none',
+          },
         },
       },
     },

@@ -1,6 +1,7 @@
 import { Box, Button, Typography } from '@mui/material';
 import { FinalVoteProps } from '../CountryRow.types';
 import { ExpandMore } from '@mui/icons-material';
+import { styles } from './FinalVote.styles';
 
 export const FinalVote: React.FC<FinalVoteProps> = ({
   position,
@@ -8,22 +9,10 @@ export const FinalVote: React.FC<FinalVoteProps> = ({
 }) => {
   return (
     <Box>
-      <Typography
-        variant="body1"
-        sx={{ fontSize: '0.75rem', textWrap: 'nowrap' }}
-      >
+      <Typography variant="body1" sx={styles.message}>
         Select place
       </Typography>
-      <Button
-        variant="contained"
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          width: '100%',
-          padding: '0.25rem 0.5rem',
-        }}
-        onClick={openModal}
-      >
+      <Button variant="contained" sx={styles.button} onClick={openModal}>
         <Typography variant="body1">{position || ''}</Typography>
         <ExpandMore />
       </Button>

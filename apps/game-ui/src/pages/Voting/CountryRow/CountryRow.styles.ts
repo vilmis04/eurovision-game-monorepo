@@ -1,3 +1,11 @@
+export const flagStyle = {
+  border: '3px solid white',
+  objectFit: 'cover',
+  borderRadius: '50%',
+  width: '40px',
+  height: '40px',
+};
+
 export const styles = {
   container: {
     display: 'flex',
@@ -12,11 +20,7 @@ export const styles = {
       'linear-gradient(90deg, rgba(103, 0, 181, 0.3744) 0%, rgba(103, 0, 181, 0.3328) 49%, rgba(103, 0, 181, 0) 100%)',
   },
   flag: {
-    border: '3px solid white',
-    objectFit: 'cover',
-    borderRadius: '50%',
-    width: '40px',
-    height: '40px',
+    ...flagStyle,
   },
   textWrapper: {
     width: '100%',
