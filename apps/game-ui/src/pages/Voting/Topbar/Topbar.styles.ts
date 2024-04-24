@@ -22,4 +22,16 @@ export const styles = {
   button: {
     color: 'common.white',
   },
+  timer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    gap: '0.5rem',
+  },
+  time: {
+    display: 'flex',
+  },
+  digit: {
+    textAlign: 'center',
+    width: '0.75rem',
+  },
 };
