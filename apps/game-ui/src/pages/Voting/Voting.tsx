@@ -1,6 +1,6 @@
 import { GradientType } from '@eurovision-game-monorepo/core-ui';
 import { Box, CircularProgress, Typography } from '@mui/material';
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { BackgroundContext } from '../../components/Layout/Layout';
 import { useGetGeneralInfoQuery } from '../../api/generalInfo/generalInfoApi';
 import { useGetCountriesQuery } from '../../api/country/countryApi';
@@ -35,9 +35,9 @@ export const Voting: React.FC = () => {
 
   const [countryCode, setCountryCode] = useState<string | null>(null);
 
-  const openVotingModal = (code: string) => {
+  const openVotingModal = useCallback((code: string) => {
     setCountryCode(code);
-  };
+  }, []);
 
   const scoredCountries = scoreList?.filter(({ inFinal, position }) =>
     generalInfo?.gameType === GameType.FINAL ? position : inFinal
@@ -68,20 +68,26 @@ export const Voting: React.FC = () => {
           endTime={generalInfo?.votingEnd}
         />
         <Box sx={styles.countries}>
-          {(countryList || []).map(({ name, code, artist, song }) => (
-            <CountryRow
-              key={name}
-              name={name}
-              code={code}
-              artist={artist}
-              song={song}
-              gameType={generalInfo?.gameType}
-              score={scoreList?.find(({ country }) => country === name)}
-              updateScore={updateScore}
-              isSemiSpotAvailable={isSemiSpotAvailable}
-              openVotingModal={openVotingModal}
-            />
-          ))}
+          {(countryList || []).map(({ name, code, artist, song }) => {
+            const { inFinal, position } =
+              scoreList?.find(({ country }) => country === name) || {};
+
+            return (
+              <CountryRow
+                key={name}
+                name={name}
+                code={code}
+                artist={artist}
+                song={song}
+                gameType={generalInfo?.gameType}
+                inFinal={inFinal}
+                position={position}
+                updateScore={updateScore}
+                isSemiSpotAvailable={isSemiSpotAvailable}
+                openVotingModal={openVotingModal}
+              />
+            );
+          })}
           <Typography variant="body1" sx={styles.notice}>
             Your votes are saved automatically
           </Typography>

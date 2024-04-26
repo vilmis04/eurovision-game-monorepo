@@ -1,6 +1,5 @@
 import {
   GameType,
-  GetScoresResponse,
   UpdateScoreRequestBody,
 } from '@eurovision-game-monorepo/types';
 
@@ -10,7 +9,8 @@ export interface CountryRowProps {
   artist: string;
   song: string;
   gameType: GameType | undefined;
-  score: GetScoresResponse | undefined;
+  inFinal: boolean | undefined;
+  position: number | undefined;
   updateScore: (body: UpdateScoreRequestBody) => void;
   isSemiSpotAvailable: boolean;
   openVotingModal: (code: string) => void;
