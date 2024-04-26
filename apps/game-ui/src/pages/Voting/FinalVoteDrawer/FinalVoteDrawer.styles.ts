@@ -2,7 +2,7 @@ import { flagStyle } from '../CountryRow/CountryRow.styles';
 
 export const styles = {
   container: {
-    background: '#480082',
+    background: 'primary.dark',
     padding: '1.5rem 1rem',
   },
   topBar: {

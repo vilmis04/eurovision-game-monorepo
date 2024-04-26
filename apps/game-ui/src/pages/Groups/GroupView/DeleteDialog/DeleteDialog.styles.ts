@@ -1,14 +1,14 @@
 export const styles = {
   dialog: {
     '& .MuiPaper-root': {
-      backgroundColor: '#F2F2F2',
+      backgroundColor: 'primary.dark',
       borderRadius: '0.25rem',
       marginX: '2.25rem',
       padding: '1rem',
     },
   },
   text: {
-    color: 'primary.contrastText',
+    color: 'common.white',
   },
   title: {
     fontWeight: 'medium',
@@ -23,10 +23,13 @@ export const styles = {
     paddingTop: '0.75rem',
     gap: '0.75rem',
   },
+  cancelButton: {
+    '& .MuiTypography-root': { color: 'common.white' },
+  },
   deleteButton: {
     padding: '0.5rem 1rem',
     borderRadius: '0.5rem',
-    backgroundColor: 'secondary.main',
-    '& .MuiTypography-root': { color: 'common.white' },
+    backgroundColor: 'primary.main',
+    '& .MuiTypography-root': { color: 'primary.contrastText' },
   },
 };
