@@ -33,7 +33,7 @@ export const GroupView = () => {
 
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState<EventTarget | null>(null);
+  // const [anchorEl, setAnchorEl] = useState<EventTarget | null>(null);
   const [navbarTitleOpacity, setNavbarTitleOpacity] = useState(0);
 
   const observerRef = 'observerRef';
@@ -96,7 +96,6 @@ export const GroupView = () => {
   };
   const handleBack = () => navigate(paths.groups);
   const handleMore = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
-    setAnchorEl(e.currentTarget);
     toggleContextMenu();
   };
 
@@ -130,12 +129,12 @@ export const GroupView = () => {
         <InviteButton copyLink={copyLink} shouldShow={isOwner} />
       </Box>
       <ContextMenu
+        groupName={group.name}
         isOwner={isOwner}
         copyLink={copyLink}
         deleteGroup={toggleDeleteDialog}
         open={isContextMenuOpen}
         onClose={toggleContextMenu}
-        anchorEl={anchorEl as Element}
       />
       <DeleteDialog
         open={isDeleteDialogOpen}
