@@ -12,9 +12,13 @@ export const styles = {
     color: 'primary.contrastText',
   },
   container: {
-    backgroundColor: 'common.white',
+    backgroundColor: 'primary.main',
     padding: '0.5rem 1rem',
     marginBottom: '1rem',
     borderRadius: '0.25rem',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'start',
+    width: '100%',
   },
 };

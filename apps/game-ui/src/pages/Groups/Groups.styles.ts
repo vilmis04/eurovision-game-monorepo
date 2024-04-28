@@ -1,6 +1,7 @@
 export const styles = {
   container: {
     padding: '2.5rem 1.5rem',
+    // backgroundColor: 'primary.main',
   },
   title: {
     fontSize: '2.5rem',
@@ -20,5 +21,14 @@ export const styles = {
     borderColor: 'primary.main',
     padding: '1rem',
     color: 'white',
+  },
+  groupLinkWrapper: {
+    border: 'none',
+    padding: '0',
+    margin: '0',
+  },
+  srOnly: {
+    height: 0,
+    overflow: 'hidden',
   },
 };

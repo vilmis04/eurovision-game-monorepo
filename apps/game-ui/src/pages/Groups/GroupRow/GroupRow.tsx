@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { styles } from './GroupRow.styles';
 import { useNavigate } from 'react-router-dom';
 import { paths } from '../../../paths';
@@ -21,13 +21,13 @@ export const GroupRow = ({ name, members, groupId }: GroupRowProps) => {
   };
 
   return (
-    <Box sx={styles.container} onClick={handleClick}>
+    <Button sx={styles.container} onClick={handleClick}>
       <Typography variant="h3" sx={styles.title}>
         {name}
       </Typography>
       <Typography variant="body1" sx={styles.subtitile}>
         {membersMessage}
       </Typography>
-    </Box>
+    </Button>
   );
 };

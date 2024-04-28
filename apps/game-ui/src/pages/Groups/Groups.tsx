@@ -33,9 +33,14 @@ export const Groups = () => {
         <Typography variant="h2" sx={styles.subtitle}>
           {subheading}
         </Typography>
-        {(groups || []).map(({ members, name, id }) => (
-          <GroupRow key={id} name={name} members={members} groupId={id} />
-        ))}
+        <Box component="fieldset" tabIndex={0} sx={styles.groupLinkWrapper}>
+          <Box component="legend" sx={styles.srOnly}>
+            Group list
+          </Box>
+          {(groups || []).map(({ members, name, id }) => (
+            <GroupRow key={id} name={name} members={members} groupId={id} />
+          ))}
+        </Box>
         <Button
           fullWidth
           startIcon={<AddIcon />}
