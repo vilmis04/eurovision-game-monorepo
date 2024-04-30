@@ -2,7 +2,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import SignUp from './pages/SignUp/SignUp';
 import Login from './pages/Login/Login';
 import { paths } from './paths';
-import { Box, ThemeProvider } from '@mui/material';
+import { ThemeProvider } from '@mui/material';
 import { Layout } from './components/Layout/Layout';
 import { Groups } from './pages/Groups/Groups';
 import { GroupView } from './pages/Groups/GroupView/GroupView';
@@ -15,6 +15,7 @@ import { useSnackbar } from './components/SnackbarContext/useSnackbar';
 import { Auth } from './components/Auth/Auth';
 import { GroupJoin } from './pages/Groups/GroupView/GroupJoin/GroupJoin';
 import { Voting } from './pages/Voting/Voting';
+import { Leaderboard } from './pages/Leaderboard/Leaderboard';
 
 const router = createBrowserRouter([
   {
@@ -39,7 +40,7 @@ const router = createBrowserRouter([
       },
       {
         path: paths.leaderboard,
-        element: <Box>Leaderboard</Box>,
+        element: <Leaderboard />,
       },
     ],
   },
