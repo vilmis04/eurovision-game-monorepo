@@ -57,7 +57,7 @@ export const GroupJoin = () => {
           <Typography variant="body1" sx={styles.infoText}>
             To compete with this group's members, join the group.
           </Typography>
-          <Button onClick={handleClick} sx={styles.button}>
+          <Button variant="contained" onClick={handleClick} sx={styles.button}>
             {isAuthFetching ? <CircularProgress /> : 'Join Group'}
           </Button>
         </>

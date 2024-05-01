@@ -30,6 +30,8 @@ enum GroupPaths {
   CREATE = 'create',
   INVITE = 'join/:inviteCode',
   JOIN = 'join',
+  GENERATE_INVITE = 'generate-invite',
+  LEADERBOARD = 'leaderboard',
 }
 
 export const paths = {
@@ -77,10 +79,15 @@ export const endpoints = {
       build: (id: number) => `${RootRoutes.GROUP}/${id}`,
     },
     createInvitationLink: {
-      build: (id: number) => `${RootRoutes.GROUP}/${id}/generate-invite`,
+      build: (id: number) =>
+        `${RootRoutes.GROUP}/${id}/${GroupPaths.GENERATE_INVITE}`,
     },
     joinGroup: {
       build: () => `${RootRoutes.GROUP}/${GroupPaths.JOIN}`,
+    },
+    getLeaderboard: {
+      build: (id: number) =>
+        `${RootRoutes.GROUP}/${GroupPaths.LEADERBOARD}${id ? `?id=${id}` : ''}`,
     },
   },
 };

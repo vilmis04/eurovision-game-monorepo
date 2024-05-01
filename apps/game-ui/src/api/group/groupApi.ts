@@ -1,7 +1,7 @@
 import { Methods } from '@eurovision-game-monorepo/types';
 import { endpoints } from '../../paths';
 import { TagTypes, baseApi } from '../baseApi';
-import { GetGroupResponse } from './responses';
+import { GetGroupResponse, LeaderboardResponse } from './responses';
 import { CreateGroupRequest } from './requests';
 
 type TGroupParams = { id: number };
@@ -60,6 +60,13 @@ export const groupApi = baseApi.injectEndpoints({
         credentials: 'include',
       }),
     }),
+    getLeaderboard: build.query<LeaderboardResponse, number>({
+      query: (groupId) => ({
+        url: groupDomain.getLeaderboard.build(groupId),
+        method: Methods.GET,
+        credentials: 'include',
+      }),
+    }),
   }),
 });
 
@@ -70,4 +77,5 @@ export const {
   useDeleteGroupMutation,
   useCreateInvitationLinkMutation,
   useJoinGroupMutation,
+  useGetLeaderboardQuery,
 } = groupApi;

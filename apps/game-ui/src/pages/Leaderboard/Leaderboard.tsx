@@ -1,9 +1,18 @@
-import { Box, Button, Drawer, MenuItem, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Drawer,
+  MenuItem,
+  Typography,
+} from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { BackgroundContext } from '../../components/Layout/Layout';
 import { GradientType } from '@eurovision-game-monorepo/core-ui';
 import { ExpandMore } from '@mui/icons-material';
 import { styles } from './Leaderboard.styles';
+import { useGetLeaderboardQuery } from '../../api/group/groupApi';
+import { BronzeStar, GoldStar, SilverStar } from '../../components/icons/icons';
 
 export const Leaderboard = () => {
   const setBackground = useContext(BackgroundContext);
@@ -12,9 +21,21 @@ export const Leaderboard = () => {
   }, []);
 
   const [isGroupMenuOpen, setIsGroupMenuOpen] = useState(false);
-  const toggleGroupMenu = () => setIsGroupMenuOpen((isOpen) => !isOpen);
+  const [filter, setFilter] = useState(0);
+  // TODO: add error handling
+  const { data: leaderboardData, isFetching } = useGetLeaderboardQuery(filter);
 
-  return (
+  const toggleGroupMenu = () => setIsGroupMenuOpen((isOpen) => !isOpen);
+  const selectedGroup = leaderboardData?.groups[filter];
+
+  const ranking = [<GoldStar />, <SilverStar />, <BronzeStar />];
+  const showRanking =
+    leaderboardData &&
+    Object.values(leaderboardData.playerList).some(({ score }) => score !== 0);
+
+  return isFetching ? (
+    <CircularProgress />
+  ) : (
     <>
       <Box sx={styles.container}>
         <Box sx={styles.topBar}>
@@ -24,12 +45,33 @@ export const Leaderboard = () => {
             onClick={toggleGroupMenu}
           >
             <Typography variant="body1" sx={styles.buttonText}>
-              All
+              {filter ? selectedGroup : 'All'}
             </Typography>
             <ExpandMore />
           </Button>
         </Box>
-        <Box sx={styles.memberList}>Member List</Box>
+        <Box sx={styles.memberList}>
+          {Object.entries(leaderboardData?.playerList || {}).map(
+            ([name, { score, position }]) => (
+              <Box key={name} sx={styles.playerNameBox}>
+                <Typography variant="body1" sx={styles.positionNumber}>
+                  {position}
+                </Typography>
+                <Box sx={styles.playerTextContainer}>
+                  <Typography variant="body1" sx={styles.playerName}>
+                    {name}
+                  </Typography>
+                  <Typography variant="body1" sx={styles.playerScore}>
+                    {score} points
+                  </Typography>
+                </Box>
+                <Box sx={styles.ranking}>
+                  {showRanking && ranking[position - 1]}
+                </Box>
+              </Box>
+            )
+          )}
+        </Box>
       </Box>
       <Drawer
         anchor="bottom"
@@ -42,13 +84,25 @@ export const Leaderboard = () => {
         <Typography variant="body1" sx={styles.groupMenuInstruction}>
           Choose group
         </Typography>
-        {Array(10)
-          .fill(null)
-          .map((_, index) => (
-            <MenuItem key={index} sx={styles.groupMenuItem}>
-              Group {index + 1}
+        <>
+          {filter !== 0 && (
+            <MenuItem sx={styles.groupMenuItem} onClick={() => setFilter(0)}>
+              All
+            </MenuItem>
+          )}
+          {Object.entries(leaderboardData?.groups || {}).map(([id, name]) => (
+            <MenuItem
+              key={id}
+              sx={[
+                styles.groupMenuItem,
+                Number(id) === filter && styles.activeGroupMenuItem,
+              ]}
+              onClick={() => setFilter(Number(id))}
+            >
+              {name}
             </MenuItem>
           ))}
+        </>
       </Drawer>
     </>
   );

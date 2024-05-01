@@ -10,6 +10,8 @@ export const styles = {
     display: 'flex',
     flexDirection: 'column',
     padding: '24px',
+    maxWidth: '500px',
+    marginX: 'auto',
   },
   title: {
     fontSize: '24px',

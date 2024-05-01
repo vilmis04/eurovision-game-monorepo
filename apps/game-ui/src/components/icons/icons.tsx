@@ -67,3 +67,132 @@ export const VotingIcon = () => (
     </svg>
   </SvgIcon>
 );
+
+export const GoldStar = () => (
+  <SvgIcon>
+    <svg
+      width="42"
+      height="42"
+      viewBox="0 0 42 42"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle
+        cx="21"
+        cy="21"
+        r="20.5"
+        fill="url(#paint0_linear_1307_7346)"
+        stroke="#765C00"
+      />
+      <circle cx="21.001" cy="21" r="15.6118" fill="#C09525" />
+      <mask
+        id="mask0_1307_7346"
+        maskUnits="userSpaceOnUse"
+        x="6"
+        y="7"
+        width="32"
+        height="32"
+      >
+        <circle cx="21.8337" cy="22.6662" r="15.6481" fill="#C28B37" />
+      </mask>
+      <g mask="url(#mask0_1307_7346)">
+        <circle cx="20.9992" cy="21" r="15.6481" fill="#C09525" />
+      </g>
+      <path
+        d="M21.0846 10.1138L24.4601 16.8648L31.2112 17.7087L26.5754 22.907L27.8356 30.3669L21.0846 26.9914L14.3335 30.3669L15.605 22.907L10.958 17.7087L17.7091 16.8648L21.0846 10.1138Z"
+        fill="url(#paint1_linear_1307_7346)"
+      />
+      <defs>
+        <linearGradient
+          id="paint0_linear_1307_7346"
+          x1="21"
+          y1="1"
+          x2="21"
+          y2="41"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stop-color="#FFC600" />
+          <stop offset="1" stop-color="#FFDE69" />
+        </linearGradient>
+        <linearGradient
+          id="paint1_linear_1307_7346"
+          x1="21.0846"
+          y1="10.1138"
+          x2="21.0846"
+          y2="30.3669"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stop-color="#FFFCDD" />
+          <stop offset="1" stop-color="#FFE896" />
+        </linearGradient>
+      </defs>
+    </svg>
+  </SvgIcon>
+);
+
+export const SilverStar = () => (
+  <SvgIcon>
+    <svg
+      width="42"
+      height="42"
+      viewBox="0 0 42 42"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle cx="21" cy="21" r="20.5" fill="#E3E3E3" stroke="#404040" />
+      <circle cx="21.0005" cy="20.9998" r="15.6118" fill="#595959" />
+      <circle cx="20.9445" cy="20.9997" r="15.6481" fill="#9CA1A3" />
+      <path
+        d="M21.0841 10.114L24.4596 16.8651L31.2107 17.7089L26.575 22.9073L27.8352 30.3672L21.0841 26.9916L14.333 30.3672L15.6045 22.9073L10.9575 17.7089L17.7086 16.8651L21.0841 10.114Z"
+        fill="url(#paint0_linear_1307_7358)"
+      />
+      <defs>
+        <linearGradient
+          id="paint0_linear_1307_7358"
+          x1="21.0841"
+          y1="10.114"
+          x2="21.0841"
+          y2="30.3672"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stop-color="#F1F5F5" />
+          <stop offset="0.0001" stop-color="white" />
+          <stop offset="1" stop-color="#F1F5F5" />
+        </linearGradient>
+      </defs>
+    </svg>
+  </SvgIcon>
+);
+
+export const BronzeStar = () => (
+  <SvgIcon>
+    <svg
+      width="42"
+      height="42"
+      viewBox="0 0 42 42"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle cx="21" cy="21" r="20.5" fill="#DC9E42" stroke="#774700" />
+      <circle cx="21.0005" cy="21" r="15.6118" fill="#A26D1D" />
+      <path
+        d="M21.0846 10.114L24.4601 16.8651L31.2112 17.7089L26.5754 22.9073L27.8356 30.3672L21.0846 26.9916L14.3335 30.3672L15.605 22.9073L10.958 17.7089L17.7091 16.8651L21.0846 10.114Z"
+        fill="url(#paint0_linear_1307_7369)"
+      />
+      <defs>
+        <linearGradient
+          id="paint0_linear_1307_7369"
+          x1="21.0846"
+          y1="10.114"
+          x2="21.0846"
+          y2="30.3672"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stop-color="#FCFF80" />
+          <stop offset="0.401042" stop-color="#FDE870" />
+          <stop offset="1" stop-color="#FFC759" />
+        </linearGradient>
+      </defs>
+    </svg>
+  </SvgIcon>
+);

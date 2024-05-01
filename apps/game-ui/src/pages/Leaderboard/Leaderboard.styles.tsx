@@ -36,4 +36,36 @@ export const styles = {
   groupMenuItem: {
     padding: '1rem 1.5rem',
   },
+  activeGroupMenuItem: {
+    fontWeight: 'bold',
+  },
+  playerNameBox: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderBottom: '1px solid',
+    borderColor: 'divider',
+  },
+  positionNumber: {
+    fontWeight: 'medium',
+    minWidth: '1.5rem',
+  },
+  playerTextContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    padding: '1rem',
+  },
+  playerName: {
+    fontWeight: 'medium',
+  },
+  playerScore: {
+    fontWeight: 'light',
+  },
+  ranking: {
+    '& svg': {
+      width: '2.5rem',
+      height: '2.5rem',
+    },
+  },
 };
