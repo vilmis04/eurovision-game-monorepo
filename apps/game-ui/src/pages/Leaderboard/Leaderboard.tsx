@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Drawer,
-  MenuItem,
-  Typography,
-} from '@mui/material';
+import { Box, Button, CircularProgress, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { BackgroundContext } from '../../components/Layout/Layout';
 import { GradientType } from '@eurovision-game-monorepo/core-ui';
@@ -13,6 +6,7 @@ import { ExpandMore } from '@mui/icons-material';
 import { styles } from './Leaderboard.styles';
 import { useGetLeaderboardQuery } from '../../api/group/groupApi';
 import { BronzeStar, GoldStar, SilverStar } from '../../components/icons/icons';
+import { FilterSelectDrawer } from './FilterSelectDrawer/FilterSelectDrawer';
 
 export const Leaderboard = () => {
   const setBackground = useContext(BackgroundContext);
@@ -32,8 +26,6 @@ export const Leaderboard = () => {
   const showRanking =
     leaderboardData &&
     Object.values(leaderboardData.playerList).some(({ score }) => score !== 0);
-
-  const selectAllItem = [0, 'All'];
 
   return isFetching ? (
     <CircularProgress />
@@ -77,32 +69,13 @@ export const Leaderboard = () => {
           )}
         </Box>
       </Box>
-      <Drawer
-        anchor="bottom"
-        open={isGroupMenuOpen}
-        onClick={toggleGroupMenu}
-        PaperProps={{
-          sx: styles.groupMenu,
-        }}
-      >
-        <Typography variant="body1" sx={styles.groupMenuInstruction}>
-          Choose group
-        </Typography>
-        {[selectAllItem, ...Object.entries(leaderboardData?.groups || {})].map(
-          ([id, name]) => (
-            <MenuItem
-              key={id}
-              sx={[
-                styles.groupMenuItem,
-                Number(id) === filter && styles.activeGroupMenuItem,
-              ]}
-              onClick={() => setFilter(Number(id))}
-            >
-              {name}
-            </MenuItem>
-          )
-        )}
-      </Drawer>
+      <FilterSelectDrawer
+        filter={filter}
+        setFilter={setFilter}
+        leaderboardData={leaderboardData}
+        isOpen={isGroupMenuOpen}
+        toggleOpen={toggleGroupMenu}
+      />
     </>
   );
 };
