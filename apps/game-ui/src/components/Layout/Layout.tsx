@@ -4,7 +4,14 @@ import { HomePaths, paths } from '../../paths';
 import { createContext, useEffect, useState } from 'react';
 import { styles } from './Layout.styles';
 import { Background, GradientType } from '@eurovision-game-monorepo/core-ui';
-import { GroupsIcon, LeaderboardIcon, VotingIcon } from '../icons/icons';
+import {
+  GroupsActiveIcon,
+  GroupsIcon,
+  LeaderboardActiveIcon,
+  LeaderboardIcon,
+  VotingActiveIcon,
+  VotingIcon,
+} from '../icons/icons';
 import { Toast } from '../Toast/Toast';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -34,16 +41,19 @@ export const Layout = () => {
     {
       label: 'Groups',
       icon: <GroupsIcon />,
+      activeIcon: <GroupsActiveIcon />,
       path: paths.groups,
     },
     {
       label: 'Voting',
       icon: <VotingIcon />,
+      activeIcon: <VotingActiveIcon />,
       path: paths.voting,
     },
     {
       label: 'Leaderboard',
       icon: <LeaderboardIcon />,
+      activeIcon: <LeaderboardActiveIcon />,
       path: paths.leaderboard,
     },
   ];
@@ -55,15 +65,19 @@ export const Layout = () => {
           <Outlet />
         </Box>
         <BottomNavigation showLabels value={currentTab} sx={styles.navbar}>
-          {navConfig.map(({ icon, label, path }, index) => (
-            <BottomNavigationAction
-              sx={currentTab === index ? styles.active : styles.default}
-              key={label}
-              label={label}
-              icon={icon}
-              onClick={() => navigate(path)}
-            />
-          ))}
+          {navConfig.map(({ icon, activeIcon, label, path }, index) => {
+            const isActive = currentTab === index;
+
+            return (
+              <BottomNavigationAction
+                sx={isActive ? styles.active : styles.default}
+                key={label}
+                label={label}
+                icon={isActive ? activeIcon : icon}
+                onClick={() => navigate(path)}
+              />
+            );
+          })}
         </BottomNavigation>
         <Toast />
       </Background>
