@@ -51,7 +51,7 @@ export const Layout = () => {
       path: paths.voting,
     },
     {
-      label: 'Leaderboard',
+      label: 'Leaders',
       icon: <LeaderboardIcon />,
       activeIcon: <LeaderboardActiveIcon />,
       path: paths.leaderboard,
