@@ -1,0 +1,5 @@
+export enum OrderBy {
+  VOTING = 'VOTING',
+  PERFORMANCE = 'PERFORMANCE',
+  ALPHABETICAL = 'ALPHABETICAL',
+}

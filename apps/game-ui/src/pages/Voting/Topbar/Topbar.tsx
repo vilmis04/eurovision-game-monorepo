@@ -1,5 +1,5 @@
 import { GameType } from '@eurovision-game-monorepo/types';
-import { ArrowDownward } from '@mui/icons-material';
+import { ExpandMore } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import { styles } from './Topbar.styles';
 import dayjs from 'dayjs';
@@ -9,6 +9,7 @@ interface TopbarProps {
   gameType: GameType | undefined;
   selected: number | undefined;
   endTime: Date | undefined;
+  toggleOrderDrawer: () => void;
 }
 
 const SEMI_LIMIT = 10;
@@ -29,6 +30,7 @@ export const Topbar: React.FC<TopbarProps> = ({
   gameType,
   selected = 0,
   endTime,
+  toggleOrderDrawer,
 }) => {
   const [timeLeft, setTimeLeft] = useState(calculateRemainingTime(endTime));
   const timerRef = useRef<NodeJS.Timeout>();
@@ -86,10 +88,9 @@ export const Topbar: React.FC<TopbarProps> = ({
         <Typography variant="body1" sx={styles.lightText}>
           {`${selected} / ${selectionLimit} selected`}
         </Typography>
-        {/* TODO: update new order rules */}
-        <Button variant="text" sx={styles.button}>
-          <ArrowDownward />
+        <Button variant="text" sx={styles.button} onClick={toggleOrderDrawer}>
           Order
+          <ExpandMore />
         </Button>
       </Box>
     </Box>

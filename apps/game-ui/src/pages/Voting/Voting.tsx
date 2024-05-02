@@ -13,6 +13,9 @@ import {
 } from '../../api/score/scoreApi';
 import { GameType } from '@eurovision-game-monorepo/types';
 import { FinalVoteDrawer } from './FinalVoteDrawer/FinalVoteDrawer';
+import { OrderDrawer } from './OrderDrawer/OrderDrawer';
+import { OrderBy } from './Voting.types';
+import { orderCountries } from './Voting.utils';
 
 export const Voting: React.FC = () => {
   const selectGradient = useContext(BackgroundContext);
@@ -34,26 +37,46 @@ export const Voting: React.FC = () => {
   const isFetching = isFetchingCountries || isFetchingGeneralInfo;
 
   const [countryCode, setCountryCode] = useState<string | null>(null);
-
-  const openVotingModal = useCallback((code: string) => {
-    setCountryCode(code);
-  }, []);
+  const [isOrderDrawerOpen, setIsOrderDrawerOpen] = useState(false);
+  const [orderBy, setOrderBy] = useState(OrderBy.VOTING);
 
   const scoredCountries = scoreList?.filter(({ inFinal, position }) =>
     generalInfo?.gameType === GameType.FINAL ? position : inFinal
   ).length;
+
   const notAvailableSpots = (scoreList || [])
     .filter(({ position }) => position)
     .map(({ position }) => position);
+
   const isSemiSpotAvailable =
     (scoreList || []).filter(({ inFinal }) => inFinal).length < 10;
+
   const votingCountry = countryList?.find(({ code }) => code === countryCode);
+
   const handleClose = () => {
     setCountryCode(null);
   };
 
   const votingScore = scoreList?.find(
     ({ country }) => country === votingCountry?.name
+  );
+
+  const toggleOrderDrawer = () => setIsOrderDrawerOpen((isOpen) => !isOpen);
+
+  const handleOrderByChange = (newOrder: OrderBy) => {
+    setOrderBy(newOrder);
+    toggleOrderDrawer();
+  };
+
+  const openVotingModal = useCallback((code: string) => {
+    setCountryCode(code);
+  }, []);
+
+  const orderedCountryList = orderCountries(
+    [...(countryList || [])],
+    orderBy,
+    generalInfo?.gameType,
+    scoreList
   );
 
   return isFetching ? (
@@ -66,9 +89,10 @@ export const Voting: React.FC = () => {
           gameType={generalInfo?.gameType}
           selected={scoredCountries}
           endTime={generalInfo?.votingEnd}
+          toggleOrderDrawer={toggleOrderDrawer}
         />
         <Box sx={styles.countries}>
-          {(countryList || []).map(({ name, code, artist, song }) => {
+          {orderedCountryList.map(({ name, code, artist, song }) => {
             const { inFinal, position } =
               scoreList?.find(({ country }) => country === name) || {};
 
@@ -100,6 +124,12 @@ export const Voting: React.FC = () => {
         notAvailableSpots={notAvailableSpots}
         votingScore={votingScore}
         votingCountry={votingCountry}
+      />
+      <OrderDrawer
+        isOpen={isOrderDrawerOpen}
+        handleClose={toggleOrderDrawer}
+        orderBy={orderBy}
+        handleChange={handleOrderByChange}
       />
     </>
   );
