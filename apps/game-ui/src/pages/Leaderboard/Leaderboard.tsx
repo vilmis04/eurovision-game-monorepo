@@ -7,6 +7,7 @@ import { styles } from './Leaderboard.styles';
 import { useGetLeaderboardQuery } from '../../api/group/groupApi';
 import { BronzeStar, GoldStar, SilverStar } from '../../components/icons/icons';
 import { FilterSelectDrawer } from './FilterSelectDrawer/FilterSelectDrawer';
+import { NoResults } from './NoResults/NoResults';
 
 export const Leaderboard = () => {
   const setBackground = useContext(BackgroundContext);
@@ -29,8 +30,6 @@ export const Leaderboard = () => {
 
   return isFetching ? (
     <CircularProgress />
-  ) : !showRanking ? (
-    <Box>No results</Box>
   ) : (
     <>
       <Box sx={styles.container}>
@@ -46,28 +45,32 @@ export const Leaderboard = () => {
             <ExpandMore />
           </Button>
         </Box>
-        <Box sx={styles.memberList}>
-          {(leaderboardData?.playerList || []).map(
-            ({ name, score, position }) => (
-              <Box key={name} sx={styles.playerNameBox}>
-                <Typography variant="body1" sx={styles.positionNumber}>
-                  {position}
-                </Typography>
-                <Box sx={styles.playerTextContainer}>
-                  <Typography variant="body1" sx={styles.playerName}>
-                    {name}
+        {!showRanking ? (
+          <NoResults />
+        ) : (
+          <Box sx={styles.memberList}>
+            {(leaderboardData?.playerList || []).map(
+              ({ name, score, position }) => (
+                <Box key={name} sx={styles.playerNameBox}>
+                  <Typography variant="body1" sx={styles.positionNumber}>
+                    {position}
                   </Typography>
-                  <Typography variant="body1" sx={styles.playerScore}>
-                    {score} points
-                  </Typography>
+                  <Box sx={styles.playerTextContainer}>
+                    <Typography variant="body1" sx={styles.playerName}>
+                      {name}
+                    </Typography>
+                    <Typography variant="body1" sx={styles.playerScore}>
+                      {score} points
+                    </Typography>
+                  </Box>
+                  <Box sx={styles.ranking}>
+                    {showRanking && ranking[position - 1]}
+                  </Box>
                 </Box>
-                <Box sx={styles.ranking}>
-                  {showRanking && ranking[position - 1]}
-                </Box>
-              </Box>
-            )
-          )}
-        </Box>
+              )
+            )}
+          </Box>
+        )}
       </Box>
       <FilterSelectDrawer
         filter={filter}
