@@ -1,6 +1,6 @@
 import { GetScoresResponse } from '@eurovision-game-monorepo/types';
 import { Drawer, Box, Typography, Button } from '@mui/material';
-import { Country } from '../../../api/country/countryApi.types';
+import { CountryResponse } from '../../../api/country/countryApi.types';
 import { useEffect, useState } from 'react';
 import { styles } from './FinalVoteDrawer.styles';
 
@@ -10,7 +10,7 @@ interface FinalVoteDrawerProps {
   notAvailableSpots: number[];
   countryCode: string | null;
   votingScore: GetScoresResponse | undefined;
-  votingCountry: Country | undefined;
+  votingCountry: CountryResponse | undefined;
 }
 
 export const FinalVoteDrawer: React.FC<FinalVoteDrawerProps> = ({

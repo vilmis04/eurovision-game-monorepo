@@ -1,11 +1,11 @@
 import { endpoints } from '../../paths';
 import { baseApi } from '../baseApi';
-import { Country, CountryQueryParams } from './countryApi.types';
+import { CountryQueryParams, CountryResponse } from './countryApi.types';
 
 const { countryDomain } = endpoints;
 export const countryApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    getCountries: build.query<Country[], CountryQueryParams>({
+    getCountries: build.query<CountryResponse[], CountryQueryParams>({
       query: (params) => ({
         url: countryDomain.countryList.build(params),
         credentials: 'include',

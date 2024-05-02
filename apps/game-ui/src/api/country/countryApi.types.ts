@@ -6,13 +6,9 @@ export type CountryQueryParams = {
   year: number;
 };
 
-export interface Country {
+export interface CountryResponse {
   name: string;
   code: string;
-  year: number;
-  gameType: GameType;
-  score: number;
-  isInFinal: boolean;
   artist: string;
   song: string;
   orderSemi: number;

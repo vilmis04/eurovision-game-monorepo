@@ -33,8 +33,12 @@ export const Leaderboard = () => {
     leaderboardData &&
     Object.values(leaderboardData.playerList).some(({ score }) => score !== 0);
 
+  const selectAllItem = [0, 'All'];
+
   return isFetching ? (
     <CircularProgress />
+  ) : !showRanking ? (
+    <Box>No results</Box>
   ) : (
     <>
       <Box sx={styles.container}>
@@ -51,8 +55,8 @@ export const Leaderboard = () => {
           </Button>
         </Box>
         <Box sx={styles.memberList}>
-          {Object.entries(leaderboardData?.playerList || {}).map(
-            ([name, { score, position }]) => (
+          {(leaderboardData?.playerList || []).map(
+            ({ name, score, position }) => (
               <Box key={name} sx={styles.playerNameBox}>
                 <Typography variant="body1" sx={styles.positionNumber}>
                   {position}
@@ -84,13 +88,8 @@ export const Leaderboard = () => {
         <Typography variant="body1" sx={styles.groupMenuInstruction}>
           Choose group
         </Typography>
-        <>
-          {filter !== 0 && (
-            <MenuItem sx={styles.groupMenuItem} onClick={() => setFilter(0)}>
-              All
-            </MenuItem>
-          )}
-          {Object.entries(leaderboardData?.groups || {}).map(([id, name]) => (
+        {[selectAllItem, ...Object.entries(leaderboardData?.groups || {})].map(
+          ([id, name]) => (
             <MenuItem
               key={id}
               sx={[
@@ -101,8 +100,8 @@ export const Leaderboard = () => {
             >
               {name}
             </MenuItem>
-          ))}
-        </>
+          )
+        )}
       </Drawer>
     </>
   );

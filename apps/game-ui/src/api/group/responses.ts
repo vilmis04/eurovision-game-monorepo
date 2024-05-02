@@ -6,15 +6,15 @@ export interface GetGroupResponse {
 }
 
 type PlayerResults = {
+  name: string;
   position: number;
   score: number;
 };
 
 type GroupId = number;
 type GroupName = string;
-type PlayerName = string;
 
 export interface LeaderboardResponse {
   groups: Record<GroupId, GroupName>;
-  playerList: Record<PlayerName, PlayerResults>;
+  playerList: PlayerResults[];
 }
