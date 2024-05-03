@@ -2,51 +2,25 @@ import { GameType } from '@eurovision-game-monorepo/types';
 import { ExpandMore } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import { styles } from './Topbar.styles';
-import dayjs from 'dayjs';
-import { useEffect, useRef, useState } from 'react';
 
 interface TopbarProps {
   gameType: GameType | undefined;
   selected: number | undefined;
   endTime: Date | undefined;
+  timeLeft: string;
   toggleOrderDrawer: () => void;
 }
 
 const SEMI_LIMIT = 10;
 const FINAL_LIMIT = 25;
 
-const calculateRemainingTime = (endTime: Date | undefined) => {
-  const remainingTime = dayjs(endTime).diff(dayjs(), 'seconds');
-  const remainingMinutes = Math.floor(remainingTime / 60);
-  const remainingSeconds = remainingTime % 60;
-  const formatTime = (time: number) => `${time < 10 ? '0' : ''}${time}`;
-
-  return remainingTime >= 0
-    ? `${formatTime(remainingMinutes)}:${formatTime(remainingSeconds)}`
-    : '';
-};
-
 export const Topbar: React.FC<TopbarProps> = ({
   gameType,
   selected = 0,
   endTime,
+  timeLeft,
   toggleOrderDrawer,
 }) => {
-  const [timeLeft, setTimeLeft] = useState(calculateRemainingTime(endTime));
-  const timerRef = useRef<NodeJS.Timeout>();
-
-  useEffect(() => {
-    if (endTime) {
-      timerRef.current = setInterval(() => {
-        setTimeLeft(calculateRemainingTime(endTime));
-      }, 1000);
-    }
-
-    return () => {
-      clearInterval(timerRef.current);
-    };
-  }, [endTime]);
-
   const gameTypeMessage =
     (gameType &&
       {

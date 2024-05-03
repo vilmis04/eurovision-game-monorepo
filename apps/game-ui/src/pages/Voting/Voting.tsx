@@ -18,6 +18,7 @@ import { orderCountries } from './Voting.utils';
 import { useErrorHandler } from '../../components/ErrorOverlay/useErrorHandler';
 import { GradientType } from '../../components/Background/Background';
 import { Spinner } from '../../components/Spinner/Spinner';
+import { useTimeLeft } from './useTimeLeft';
 
 export const Voting: React.FC = () => {
   const selectGradient = useContext(BackgroundContext);
@@ -27,10 +28,10 @@ export const Voting: React.FC = () => {
 
   const {
     data: generalInfo,
-    isFetching: isFetchingGeneralInfo,
+    isLoading: isLoadingGeneralInfo,
     isError: isGetGeneralInfoError,
     error: getGeneralInfoError,
-  } = useGetGeneralInfoQuery();
+  } = useGetGeneralInfoQuery(undefined, { pollingInterval: 15 * 1000 });
   const {
     data: countryList,
     isFetching: isFetchingCountries,
@@ -62,8 +63,10 @@ export const Voting: React.FC = () => {
     getGeneralInfoError;
   useErrorHandler({ error, isError });
 
-  const isFetching = isFetchingCountries || isFetchingGeneralInfo;
+  const timeLeft = useTimeLeft(generalInfo?.votingEnd);
+  const isFetching = isFetchingCountries || isLoadingGeneralInfo;
   const isVotingActive = Boolean(generalInfo?.isVotingActive);
+  const hasVotingTimeEnded = generalInfo?.votingEnd && timeLeft === '';
 
   const [countryCode, setCountryCode] = useState<string | null>(null);
   const [isOrderDrawerOpen, setIsOrderDrawerOpen] = useState(false);
@@ -116,6 +119,7 @@ export const Voting: React.FC = () => {
             gameType={generalInfo?.gameType}
             selected={scoredCountries}
             endTime={generalInfo?.votingEnd}
+            timeLeft={timeLeft}
             toggleOrderDrawer={toggleOrderDrawer}
           />
           <Box sx={styles.countries}>
@@ -136,7 +140,7 @@ export const Voting: React.FC = () => {
                   updateScore={updateScore}
                   isSemiSpotAvailable={isSemiSpotAvailable}
                   openVotingModal={openVotingModal}
-                  isVotingActive={isVotingActive}
+                  isVotingActive={isVotingActive && !hasVotingTimeEnded}
                 />
               );
             })}

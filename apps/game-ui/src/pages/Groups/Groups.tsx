@@ -8,9 +8,17 @@ import { useContext, useEffect, useState } from 'react';
 import { BackgroundContext } from '../../components/Layout/Layout';
 import { useErrorHandler } from '../../components/ErrorOverlay/useErrorHandler';
 import { GradientType } from '../../components/Background/Background';
+import { Spinner } from '../../components/Spinner/Spinner';
+
+const MINUTE = 60 * 1000;
 
 export const Groups = () => {
-  const { data: groups, isError, error } = useGetGroupsQuery();
+  const {
+    data: groups,
+    isLoading,
+    isError,
+    error,
+  } = useGetGroupsQuery(undefined, { pollingInterval: MINUTE }); // passing undefined because it takes void
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const selectGradient = useContext(BackgroundContext);
 
@@ -27,32 +35,34 @@ export const Groups = () => {
     : 'Create your first group to get the party started!';
 
   return (
-    <>
-      <Box sx={styles.container}>
-        <Typography variant="h1" sx={styles.title}>
-          Your Groups
-        </Typography>
-        <Typography variant="h2" sx={styles.subtitle}>
-          {subheading}
-        </Typography>
-        <Box component="fieldset" tabIndex={0} sx={styles.groupLinkWrapper}>
-          <Box component="legend" sx={styles.srOnly}>
-            Group list
+    <Spinner isLoading={isLoading}>
+      <>
+        <Box sx={styles.container}>
+          <Typography variant="h1" sx={styles.title}>
+            Your Groups
+          </Typography>
+          <Typography variant="h2" sx={styles.subtitle}>
+            {subheading}
+          </Typography>
+          <Box component="fieldset" tabIndex={0} sx={styles.groupLinkWrapper}>
+            <Box component="legend" sx={styles.srOnly}>
+              Group list
+            </Box>
+            {(groups || []).map(({ members, name, id }) => (
+              <GroupRow key={id} name={name} members={members} groupId={id} />
+            ))}
           </Box>
-          {(groups || []).map(({ members, name, id }) => (
-            <GroupRow key={id} name={name} members={members} groupId={id} />
-          ))}
+          <Button
+            fullWidth
+            startIcon={<AddIcon />}
+            sx={styles.addButton}
+            onClick={toggleDialog}
+          >
+            Create a Group
+          </Button>
         </Box>
-        <Button
-          fullWidth
-          startIcon={<AddIcon />}
-          sx={styles.addButton}
-          onClick={toggleDialog}
-        >
-          Create a Group
-        </Button>
-      </Box>
-      <CreateGroupDialog isOpen={isDialogOpen} toggleDialog={toggleDialog} />
-    </>
+        <CreateGroupDialog isOpen={isDialogOpen} toggleDialog={toggleDialog} />
+      </>
+    </Spinner>
   );
 };

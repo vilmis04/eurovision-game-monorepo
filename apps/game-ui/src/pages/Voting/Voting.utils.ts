@@ -1,6 +1,7 @@
 import { GameType, GetScoresResponse } from '@eurovision-game-monorepo/types';
 import { CountryResponse } from '../../api/country/countryApi.types';
 import { OrderBy } from './Voting.types';
+import dayjs from 'dayjs';
 
 const orderFinalists =
   (scores: GetScoresResponse[]) => (a: CountryResponse, b: CountryResponse) => {
@@ -54,4 +55,15 @@ export const orderCountries = (
         return a.name < b.name ? -1 : 1;
       });
   }
+};
+
+export const calculateRemainingTime = (endTime: Date | undefined) => {
+  const remainingTime = dayjs(endTime).diff(dayjs(), 'seconds');
+  const remainingMinutes = Math.floor(remainingTime / 60);
+  const remainingSeconds = remainingTime % 60;
+  const formatTime = (time: number) => `${time < 10 ? '0' : ''}${time}`;
+
+  return remainingTime >= 0
+    ? `${formatTime(remainingMinutes)}:${formatTime(remainingSeconds)}`
+    : '';
 };

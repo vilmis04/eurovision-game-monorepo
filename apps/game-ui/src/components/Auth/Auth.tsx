@@ -3,6 +3,7 @@ import { useIsAuthenticatedQuery } from '../../api/auth/authApi';
 import { useNavigate } from 'react-router-dom';
 import { paths } from '../../paths';
 import { Spinner } from '../Spinner/Spinner';
+import { Box } from '@mui/material';
 
 export const AuthContext = createContext<string | undefined>('');
 
@@ -20,9 +21,11 @@ export const Auth: React.FC<React.PropsWithChildren> = ({ children }) => {
 
   return (
     <AuthContext.Provider value={user}>
-      <Spinner isLoading={isLoading} color="secondary">
-        {children}
-      </Spinner>
+      <Box sx={{ height: '100vh', width: '100vw' }}>
+        <Spinner isLoading={isLoading} color="secondary">
+          {children}
+        </Spinner>
+      </Box>
     </AuthContext.Provider>
   );
 };

@@ -21,10 +21,10 @@ export const Leaderboard = () => {
   const [filter, setFilter] = useState(0);
   const {
     data: leaderboardData,
-    isFetching,
+    isLoading,
     isError,
     error,
-  } = useGetLeaderboardQuery(filter);
+  } = useGetLeaderboardQuery(filter, { pollingInterval: 15 * 1000 });
 
   useErrorHandler({ isError, error });
 
@@ -37,7 +37,7 @@ export const Leaderboard = () => {
     Object.values(leaderboardData.playerList).some(({ score }) => score !== 0);
 
   return (
-    <Spinner isLoading={isFetching}>
+    <Spinner isLoading={isLoading}>
       <>
         <Box sx={styles.container}>
           <Box sx={styles.topBar}>
