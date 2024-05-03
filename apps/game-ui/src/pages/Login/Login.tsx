@@ -1,10 +1,4 @@
-import {
-  Background,
-  GradientType,
-  SubmitButton,
-  TextFormField,
-} from '@eurovision-game-monorepo/core-ui';
-import { Box, CircularProgress, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { Form, Formik } from 'formik';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { styles } from './Login.styles';
@@ -19,6 +13,13 @@ import { paths } from '../../paths';
 import { useJoinGroupMutation } from '../../api/group/groupApi';
 import { decodeInvite } from '../../utils/decodeInvite';
 import { useErrorHandler } from '../../components/ErrorOverlay/useErrorHandler';
+import {
+  Background,
+  GradientType,
+} from '../../components/Background/Background';
+import { SubmitButton } from '../../components/SubmitButton/SubmitButton';
+import { TextFormField } from '../../components/TextFormField/TextFormField';
+import { Spinner } from '../../components/Spinner/Spinner';
 
 const initialValues: LoginRequestBody = {
   username: '',
@@ -93,46 +94,54 @@ export const Login = () => {
   const errorMessage =
     loginError && 'data' in loginError ? `${loginError.data}` : '';
 
-  return isCheckingAuthStatus || isUninitialized ? (
-    <CircularProgress />
-  ) : (
-    <Background variant={GradientType.GRADIENT1}>
-      <Box sx={styles.contentWrapper}>
-        <Typography variant="h1" sx={styles.title}>
-          Login
-        </Typography>
-        <Typography variant="body1" sx={styles.linkWrapper}>
-          {'New user? '}
-          <Box
-            component={Link}
-            to={`${paths.signUp}${inviteCode ? `?invite=${inviteCode}` : ''}`}
-            sx={styles.link}
-          >
-            Sign up
-          </Box>
-        </Typography>
-        <Formik
-          initialValues={initialValues}
-          onSubmit={handleSubmit}
-          validationSchema={loginValidationSchema}
-        >
-          {({ values: { password, username } }) => (
-            <Box component={Form} sx={styles.form}>
-              <TextFormField name="username" label="Nickname" inputRef={ref} />
-              <TextFormField name="password" type="password" label="Password" />
-              <SubmitButton
-                isLoading={isLoginLoading}
-                isDisabled={!password || !username}
-                isError={isLoginError}
-                errorMessage={errorMessage}
-              >
-                Login
-              </SubmitButton>
+  return (
+    <Spinner isLoading={isCheckingAuthStatus || isUninitialized}>
+      <Background variant={GradientType.GRADIENT1}>
+        <Box sx={styles.contentWrapper}>
+          <Typography variant="h1" sx={styles.title}>
+            Login
+          </Typography>
+          <Typography variant="body1" sx={styles.linkWrapper}>
+            {'New user? '}
+            <Box
+              component={Link}
+              to={`${paths.signUp}${inviteCode ? `?invite=${inviteCode}` : ''}`}
+              sx={styles.link}
+            >
+              Sign up
             </Box>
-          )}
-        </Formik>
-      </Box>
-    </Background>
+          </Typography>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+            validationSchema={loginValidationSchema}
+          >
+            {({ values: { password, username } }) => (
+              <Box component={Form} sx={styles.form}>
+                <TextFormField
+                  name="username"
+                  label="Nickname"
+                  inputRef={ref}
+                />
+                <TextFormField
+                  name="password"
+                  type="password"
+                  label="Password"
+                />
+                <SubmitButton
+                  isLoading={isLoginLoading}
+                  isDisabled={!password || !username}
+                  isError={isLoginError}
+                  errorMessage={errorMessage}
+                >
+                  Login
+                </SubmitButton>
+              </Box>
+            )}
+          </Formik>
+        </Box>
+      </Background>
+    </Spinner>
   );
 };
 

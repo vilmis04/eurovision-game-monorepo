@@ -1,11 +1,10 @@
-import { GradientType } from '@eurovision-game-monorepo/core-ui';
 import {
   useCreateInvitationLinkMutation,
   useDeleteGroupMutation,
   useGetGroupQuery,
 } from '../../../api/group/groupApi';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { Box, CircularProgress } from '@mui/material';
+import { Box } from '@mui/material';
 import { styles } from './GroupView.styles';
 import { paths } from '../../../paths';
 import { SnackbarContext } from '../../../components/SnackbarContext/SnackbarContext';
@@ -19,6 +18,8 @@ import { Navbar } from './Navbar/Navbar';
 import { useIntersectionObserver } from '../../../utils/useIntersectionObserver/useIntersectionObserver';
 import { MemberList } from './MemberList/MemberList';
 import { useErrorHandler } from '../../../components/ErrorOverlay/useErrorHandler';
+import { Spinner } from '../../../components/Spinner/Spinner';
+import { GradientType } from '../../../components/Background/Background';
 
 export const GroupView = () => {
   const { id: idString } = useParams();
@@ -96,7 +97,7 @@ export const GroupView = () => {
   }, [isNew]);
 
   if (!groupList?.length) {
-    return <CircularProgress />;
+    return <Spinner isLoading />;
   }
   const [group] = groupList ?? [];
   const isOwner = username === group.owner;
@@ -123,38 +124,38 @@ export const GroupView = () => {
     openSnackbar(`Invite link copied.`);
   };
 
-  return groupList?.length ? (
-    <>
-      <Box sx={styles.container}>
-        <Navbar
-          handleBack={handleBack}
-          handleMore={handleMore}
+  return (
+    <Spinner isLoading={!groupList?.length}>
+      <>
+        <Box sx={styles.container}>
+          <Navbar
+            handleBack={handleBack}
+            handleMore={handleMore}
+            groupName={group.name}
+            titleOpacity={navbarTitleOpacity}
+          />
+          <MemberList
+            isFetching={isFetching}
+            groupName={group.name}
+            members={group.members}
+            groupNameRefName={observerRef}
+          />
+          <InviteButton copyLink={copyLink} shouldShow={isOwner} />
+        </Box>
+        <ContextMenu
           groupName={group.name}
-          titleOpacity={navbarTitleOpacity}
+          isOwner={isOwner}
+          copyLink={copyLink}
+          deleteGroup={toggleDeleteDialog}
+          open={isContextMenuOpen}
+          onClose={toggleContextMenu}
         />
-        <MemberList
-          isFetching={isFetching}
-          groupName={group.name}
-          members={group.members}
-          groupNameRefName={observerRef}
+        <DeleteDialog
+          open={isDeleteDialogOpen}
+          deleteGroup={handleDelete}
+          handleClose={toggleDeleteDialog}
         />
-        <InviteButton copyLink={copyLink} shouldShow={isOwner} />
-      </Box>
-      <ContextMenu
-        groupName={group.name}
-        isOwner={isOwner}
-        copyLink={copyLink}
-        deleteGroup={toggleDeleteDialog}
-        open={isContextMenuOpen}
-        onClose={toggleContextMenu}
-      />
-      <DeleteDialog
-        open={isDeleteDialogOpen}
-        deleteGroup={handleDelete}
-        handleClose={toggleDeleteDialog}
-      />
-    </>
-  ) : (
-    <CircularProgress />
+      </>
+    </Spinner>
   );
 };

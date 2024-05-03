@@ -1,10 +1,4 @@
-import {
-  Background,
-  GradientType,
-  SubmitButton,
-  TextFormField,
-} from '@eurovision-game-monorepo/core-ui';
-import { Box, CircularProgress, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { Form, Formik } from 'formik';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { styles } from './SignUp.styles';
@@ -19,6 +13,13 @@ import { paths } from '../../paths';
 import { decodeInvite } from '../../utils/decodeInvite';
 import { useJoinGroupMutation } from '../../api/group/groupApi';
 import { useErrorHandler } from '../../components/ErrorOverlay/useErrorHandler';
+import { SubmitButton } from '../../components/SubmitButton/SubmitButton';
+import {
+  Background,
+  GradientType,
+} from '../../components/Background/Background';
+import { TextFormField } from '../../components/TextFormField/TextFormField';
+import { Spinner } from '../../components/Spinner/Spinner';
 
 const initialValues: SignUpRequestBody = {
   username: '',
@@ -99,51 +100,59 @@ export const SignUp = () => {
   const errorMessage =
     signUpError && 'data' in signUpError ? `${signUpError.data}` : '';
 
-  return isCheckingAuthStatus || isUninitialized ? (
-    <CircularProgress />
-  ) : (
-    <Background variant={GradientType.GRADIENT1}>
-      <Box sx={styles.contentWrapper}>
-        <Typography variant="h1" sx={styles.title}>
-          Sign Up
-        </Typography>
-        <Typography variant="body1" sx={styles.linkWrapper}>
-          {'Already a user? '}
-          <Box
-            component={Link}
-            to={`${paths.login}${inviteCode ? `?invite=${inviteCode}` : ''}`}
-            sx={styles.link}
-          >
-            Login
-          </Box>
-        </Typography>
-        <Formik
-          initialValues={initialValues}
-          onSubmit={handleSubmit}
-          validationSchema={signUpValidationSchema}
-        >
-          {({ values: { password, repeatPassword, username } }) => (
-            <Box component={Form} sx={styles.form}>
-              <TextFormField name="username" label="Nickname" inputRef={ref} />
-              <TextFormField name="password" type="password" label="Password" />
-              <TextFormField
-                name="repeatPassword"
-                type="password"
-                label="Repeat password"
-              />
-              <SubmitButton
-                isLoading={isSignUpLoading}
-                isDisabled={!password || !username || !repeatPassword}
-                isError={isSignUpError}
-                errorMessage={errorMessage}
-              >
-                Sign Up
-              </SubmitButton>
+  return (
+    <Spinner isLoading={isCheckingAuthStatus || isUninitialized}>
+      <Background variant={GradientType.GRADIENT1}>
+        <Box sx={styles.contentWrapper}>
+          <Typography variant="h1" sx={styles.title}>
+            Sign Up
+          </Typography>
+          <Typography variant="body1" sx={styles.linkWrapper}>
+            {'Already a user? '}
+            <Box
+              component={Link}
+              to={`${paths.login}${inviteCode ? `?invite=${inviteCode}` : ''}`}
+              sx={styles.link}
+            >
+              Login
             </Box>
-          )}
-        </Formik>
-      </Box>
-    </Background>
+          </Typography>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+            validationSchema={signUpValidationSchema}
+          >
+            {({ values: { password, repeatPassword, username } }) => (
+              <Box component={Form} sx={styles.form}>
+                <TextFormField
+                  name="username"
+                  label="Nickname"
+                  inputRef={ref}
+                />
+                <TextFormField
+                  name="password"
+                  type="password"
+                  label="Password"
+                />
+                <TextFormField
+                  name="repeatPassword"
+                  type="password"
+                  label="Repeat password"
+                />
+                <SubmitButton
+                  isLoading={isSignUpLoading}
+                  isDisabled={!password || !username || !repeatPassword}
+                  isError={isSignUpError}
+                  errorMessage={errorMessage}
+                >
+                  Sign Up
+                </SubmitButton>
+              </Box>
+            )}
+          </Formik>
+        </Box>
+      </Background>
+    </Spinner>
   );
 };
 

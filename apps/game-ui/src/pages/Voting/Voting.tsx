@@ -1,5 +1,4 @@
-import { GradientType } from '@eurovision-game-monorepo/core-ui';
-import { Box, CircularProgress, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { BackgroundContext } from '../../components/Layout/Layout';
 import { useGetGeneralInfoQuery } from '../../api/generalInfo/generalInfoApi';
@@ -17,6 +16,8 @@ import { OrderDrawer } from './OrderDrawer/OrderDrawer';
 import { OrderBy } from './Voting.types';
 import { orderCountries } from './Voting.utils';
 import { useErrorHandler } from '../../components/ErrorOverlay/useErrorHandler';
+import { GradientType } from '../../components/Background/Background';
+import { Spinner } from '../../components/Spinner/Spinner';
 
 export const Voting: React.FC = () => {
   const selectGradient = useContext(BackgroundContext);
@@ -107,59 +108,58 @@ export const Voting: React.FC = () => {
     scoreList
   );
 
-  return isFetching ? (
-    // TODO: add proper spinner
-    <CircularProgress />
-  ) : (
-    <>
-      <Box sx={styles.container}>
-        <Topbar
-          gameType={generalInfo?.gameType}
-          selected={scoredCountries}
-          endTime={generalInfo?.votingEnd}
-          toggleOrderDrawer={toggleOrderDrawer}
-        />
-        <Box sx={styles.countries}>
-          {orderedCountryList.map(({ name, code, artist, song }) => {
-            const { inFinal, position } =
-              scoreList?.find(({ country }) => country === name) || {};
+  return (
+    <Spinner isLoading={isFetching}>
+      <>
+        <Box sx={styles.container}>
+          <Topbar
+            gameType={generalInfo?.gameType}
+            selected={scoredCountries}
+            endTime={generalInfo?.votingEnd}
+            toggleOrderDrawer={toggleOrderDrawer}
+          />
+          <Box sx={styles.countries}>
+            {orderedCountryList.map(({ name, code, artist, song }) => {
+              const { inFinal, position } =
+                scoreList?.find(({ country }) => country === name) || {};
 
-            return (
-              <CountryRow
-                key={name}
-                name={name}
-                code={code}
-                artist={artist}
-                song={song}
-                gameType={generalInfo?.gameType}
-                inFinal={inFinal}
-                position={position}
-                updateScore={updateScore}
-                isSemiSpotAvailable={isSemiSpotAvailable}
-                openVotingModal={openVotingModal}
-                isVotingActive={isVotingActive}
-              />
-            );
-          })}
-          <Typography variant="body1" sx={styles.notice}>
-            Your votes are saved automatically
-          </Typography>
+              return (
+                <CountryRow
+                  key={name}
+                  name={name}
+                  code={code}
+                  artist={artist}
+                  song={song}
+                  gameType={generalInfo?.gameType}
+                  inFinal={inFinal}
+                  position={position}
+                  updateScore={updateScore}
+                  isSemiSpotAvailable={isSemiSpotAvailable}
+                  openVotingModal={openVotingModal}
+                  isVotingActive={isVotingActive}
+                />
+              );
+            })}
+            <Typography variant="body1" sx={styles.notice}>
+              Your votes are saved automatically
+            </Typography>
+          </Box>
         </Box>
-      </Box>
-      <FinalVoteDrawer
-        countryCode={countryCode}
-        handleClose={handleClose}
-        updateScore={updateScore}
-        notAvailableSpots={notAvailableSpots}
-        votingScore={votingScore}
-        votingCountry={votingCountry}
-      />
-      <OrderDrawer
-        isOpen={isOrderDrawerOpen}
-        handleClose={toggleOrderDrawer}
-        orderBy={orderBy}
-        handleChange={handleOrderByChange}
-      />
-    </>
+        <FinalVoteDrawer
+          countryCode={countryCode}
+          handleClose={handleClose}
+          updateScore={updateScore}
+          notAvailableSpots={notAvailableSpots}
+          votingScore={votingScore}
+          votingCountry={votingCountry}
+        />
+        <OrderDrawer
+          isOpen={isOrderDrawerOpen}
+          handleClose={toggleOrderDrawer}
+          orderBy={orderBy}
+          handleChange={handleOrderByChange}
+        />
+      </>
+    </Spinner>
   );
 };

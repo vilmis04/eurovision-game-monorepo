@@ -1,5 +1,4 @@
-import { Background, GradientType } from '@eurovision-game-monorepo/core-ui';
-import { Button, CircularProgress, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { styles } from './GroupJoin.styles';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLazyIsAuthenticatedQuery } from '../../../../api/auth/authApi';
@@ -8,6 +7,11 @@ import { useJoinGroupMutation } from '../../../../api/group/groupApi';
 import { paths } from '../../../../paths';
 import { decodeInvite } from '../../../../utils/decodeInvite';
 import { useErrorHandler } from '../../../../components/ErrorOverlay/useErrorHandler';
+import {
+  Background,
+  GradientType,
+} from '../../../../components/Background/Background';
+import { Spinner } from '../../../../components/Spinner/Spinner';
 
 export const GroupJoin = () => {
   const { inviteCode = '' } = useParams();
@@ -68,7 +72,7 @@ export const GroupJoin = () => {
             To compete with this group's members, join the group.
           </Typography>
           <Button variant="contained" onClick={handleClick} sx={styles.button}>
-            {isAuthFetching ? <CircularProgress /> : 'Join Group'}
+            <Spinner isLoading={isAuthFetching}>Join Group</Spinner>
           </Button>
         </>
       ) : (

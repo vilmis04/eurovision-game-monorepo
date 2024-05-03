@@ -1,9 +1,3 @@
-import {
-  Background,
-  GradientType,
-  SubmitButton,
-  TextFormField,
-} from '@eurovision-game-monorepo/core-ui';
 import { Box, Dialog, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Form, Formik } from 'formik';
@@ -15,6 +9,12 @@ import ErrorIcon from '@mui/icons-material/ErrorOutlineTwoTone';
 import { useNavigate } from 'react-router-dom';
 import { paths } from '../../../paths';
 import { useErrorHandler } from '../../../components/ErrorOverlay/useErrorHandler';
+import {
+  Background,
+  GradientType,
+} from '../../../components/Background/Background';
+import { SubmitButton } from '../../../components/SubmitButton/SubmitButton';
+import { TextFormField } from '../../../components/TextFormField/TextFormField';
 
 interface CreateGroupDialogProps {
   isOpen: boolean;

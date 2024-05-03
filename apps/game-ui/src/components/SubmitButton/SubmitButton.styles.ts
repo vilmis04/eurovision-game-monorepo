@@ -19,4 +19,7 @@ export const styles = {
     flexDirection: 'column',
     alignItems: 'start',
   },
+  label: {
+    color: 'white',
+  },
 };

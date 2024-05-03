@@ -5,9 +5,9 @@ import { useGetGroupsQuery } from '../../api/group/groupApi';
 import { GroupRow } from './GroupRow/GroupRow';
 import { CreateGroupDialog } from './CreateGroupDialog/CreateGroupDialog';
 import { useContext, useEffect, useState } from 'react';
-import { GradientType } from '@eurovision-game-monorepo/core-ui';
 import { BackgroundContext } from '../../components/Layout/Layout';
 import { useErrorHandler } from '../../components/ErrorOverlay/useErrorHandler';
+import { GradientType } from '../../components/Background/Background';
 
 export const Groups = () => {
   const { data: groups, isError, error } = useGetGroupsQuery();

@@ -1,8 +1,8 @@
-import { Background, GradientType } from '@eurovision-game-monorepo/core-ui';
 import { Button, Dialog, Typography } from '@mui/material';
 import { styles } from './ErrorOverlay.styles';
 import { useContext } from 'react';
 import { ErrorContext } from './ErrorContext';
+import { Background, GradientType } from '../Background/Background';
 
 export const ErrorOverlay = () => {
   const { errorMessage } = useContext(ErrorContext);

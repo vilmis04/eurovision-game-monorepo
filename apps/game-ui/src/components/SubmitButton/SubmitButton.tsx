@@ -1,12 +1,7 @@
-import {
-  Box,
-  Button,
-  ButtonProps,
-  CircularProgress,
-  Typography,
-} from '@mui/material';
+import { Box, Button, ButtonProps, Typography } from '@mui/material';
 import { styles } from './SubmitButton.styles';
 import { ErrorOutline } from '@mui/icons-material';
+import { Spinner } from '../Spinner/Spinner';
 
 interface SubmitButtonProps extends React.PropsWithChildren, ButtonProps {
   isLoading: boolean;
@@ -40,13 +35,11 @@ export const SubmitButton: React.FC<SubmitButtonProps> = ({
       disabled={isDisabled}
       fullWidth
     >
-      {isLoading ? (
-        <CircularProgress size={24} sx={styles.spinner} />
-      ) : (
-        <Typography variant="body1" sx={{ color: 'white' }}>
+      <Spinner color="secondary" isLoading={isLoading} size={24}>
+        <Typography variant="body1" sx={styles.label}>
           {children}
         </Typography>
-      )}
+      </Spinner>
     </Button>
   </Box>
 );

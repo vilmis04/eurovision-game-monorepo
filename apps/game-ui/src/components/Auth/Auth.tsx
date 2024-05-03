@@ -2,7 +2,7 @@ import { createContext, useEffect } from 'react';
 import { useIsAuthenticatedQuery } from '../../api/auth/authApi';
 import { useNavigate } from 'react-router-dom';
 import { paths } from '../../paths';
-import { CircularProgress } from '@mui/material';
+import { Spinner } from '../Spinner/Spinner';
 
 export const AuthContext = createContext<string | undefined>('');
 
@@ -18,10 +18,11 @@ export const Auth: React.FC<React.PropsWithChildren> = ({ children }) => {
 
   const isLoading = isFetching || isError;
 
-  // TODO: add proper spinner for loading state (with background and properly centered)
   return (
     <AuthContext.Provider value={user}>
-      {isLoading ? <CircularProgress /> : children}
+      <Spinner isLoading={isLoading} color="secondary">
+        {children}
+      </Spinner>
     </AuthContext.Provider>
   );
 };

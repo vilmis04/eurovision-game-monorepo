@@ -1,7 +1,8 @@
-import { Box, CircularProgress, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { styles } from './MemberList.styles';
 import { useIntersectionObserver } from '../../../../utils/useIntersectionObserver/useIntersectionObserver';
 import { MemberRow } from './MemberRow/MemberRow';
+import { Spinner } from '../../../../components/Spinner/Spinner';
 
 interface MemberListProps {
   isFetching?: boolean;
@@ -53,9 +54,7 @@ export const MemberList: React.FC<MemberListProps> = ({
 
   return (
     <Box sx={styles.groupMembers} data-ref={nicknameRootRef}>
-      {isFetching ? (
-        <CircularProgress />
-      ) : (
+      <Spinner isLoading={isFetching} size={24} color="secondary">
         <Box>
           <Typography
             variant="h1"
@@ -68,7 +67,7 @@ export const MemberList: React.FC<MemberListProps> = ({
             <MemberRow key={member} member={member} memberRef={nicknameRef} />
           ))}
         </Box>
-      )}
+      </Spinner>
     </Box>
   );
 };

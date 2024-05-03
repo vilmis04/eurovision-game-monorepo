@@ -10,7 +10,6 @@ import { SnackbarContext } from './components/SnackbarContext/SnackbarContext';
 import { Provider } from 'react-redux';
 import { theme } from '../theme';
 import { store } from './redux/store';
-import { GlobalStyles } from '@eurovision-game-monorepo/core-ui';
 import { useSnackbar } from './components/SnackbarContext/useSnackbar';
 import { Auth } from './components/Auth/Auth';
 import { GroupJoin } from './pages/Groups/GroupView/GroupJoin/GroupJoin';
@@ -18,6 +17,7 @@ import { Voting } from './pages/Voting/Voting';
 import { Leaderboard } from './pages/Leaderboard/Leaderboard';
 import { ErrorContext } from './components/ErrorOverlay/ErrorContext';
 import { useErrorOverlay } from './components/ErrorOverlay/useErrorOverlay';
+import { GlobalStyles } from './components/GlobalStyles/GlobalStyles';
 
 const router = createBrowserRouter([
   {

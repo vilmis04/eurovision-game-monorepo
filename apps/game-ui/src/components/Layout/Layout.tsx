@@ -3,7 +3,6 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { HomePaths, paths } from '../../paths';
 import { createContext, useEffect, useState } from 'react';
 import { styles } from './Layout.styles';
-import { Background, GradientType } from '@eurovision-game-monorepo/core-ui';
 import {
   GroupsActiveIcon,
   GroupsIcon,
@@ -14,6 +13,7 @@ import {
 } from '../icons/icons';
 import { Toast } from '../Toast/Toast';
 import { ErrorOverlay } from '../ErrorOverlay/ErrorOverlay';
+import { Background, GradientType } from '../Background/Background';
 
 export const BackgroundContext = createContext((variant: GradientType) => {});
 
