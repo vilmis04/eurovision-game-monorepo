@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { useJoinGroupMutation } from '../../../../api/group/groupApi';
 import { paths } from '../../../../paths';
 import { decodeInvite } from '../../../../utils/decodeInvite';
+import { useErrorHandler } from '../../../../components/ErrorOverlay/useErrorHandler';
 
 export const GroupJoin = () => {
   const { inviteCode = '' } = useParams();
@@ -23,7 +24,16 @@ export const GroupJoin = () => {
     },
   ] = useLazyIsAuthenticatedQuery();
 
-  const [joinGroup, { isSuccess: isJoinGroupSuccess }] = useJoinGroupMutation();
+  const [
+    joinGroup,
+    {
+      isSuccess: isJoinGroupSuccess,
+      isError: isJoinGroupError,
+      error: joinGroupError,
+    },
+  ] = useJoinGroupMutation();
+
+  useErrorHandler({ isError: isJoinGroupError, error: joinGroupError });
 
   useEffect(() => {
     if (isAuthSuccess) {

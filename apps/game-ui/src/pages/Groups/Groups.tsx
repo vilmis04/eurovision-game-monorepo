@@ -7,12 +7,14 @@ import { CreateGroupDialog } from './CreateGroupDialog/CreateGroupDialog';
 import { useContext, useEffect, useState } from 'react';
 import { GradientType } from '@eurovision-game-monorepo/core-ui';
 import { BackgroundContext } from '../../components/Layout/Layout';
+import { useErrorHandler } from '../../components/ErrorOverlay/useErrorHandler';
 
 export const Groups = () => {
-  // TODO: groups do not update after delete
-  const { data: groups } = useGetGroupsQuery();
+  const { data: groups, isError, error } = useGetGroupsQuery();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const selectGradient = useContext(BackgroundContext);
+
+  useErrorHandler({ isError, error });
 
   useEffect(() => {
     selectGradient(GradientType.GRADIENT1);

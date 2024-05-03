@@ -14,9 +14,7 @@ const initialValues: InitialValues = {
   isOpen: false,
   variant: 'success',
   message: '',
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onClose: () => {},
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   openSnackbar: (newMessage: string) => {},
 };
 

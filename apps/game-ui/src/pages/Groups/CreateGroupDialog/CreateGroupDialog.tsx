@@ -14,6 +14,7 @@ import * as Yup from 'yup';
 import ErrorIcon from '@mui/icons-material/ErrorOutlineTwoTone';
 import { useNavigate } from 'react-router-dom';
 import { paths } from '../../../paths';
+import { useErrorHandler } from '../../../components/ErrorOverlay/useErrorHandler';
 
 interface CreateGroupDialogProps {
   isOpen: boolean;
@@ -28,15 +29,17 @@ const initialValues: CreateGroupFormValues = {
   name: '',
 };
 
-const MAX_CHARS = 30;
+const MAX_CHARS = 20;
 
 export const CreateGroupDialog: React.FC<CreateGroupDialogProps> = ({
   isOpen,
   toggleDialog,
 }) => {
   const navigate = useNavigate();
-  const [createGroup, { data: id, isLoading, isSuccess }] =
+  const [createGroup, { data: id, isLoading, isSuccess, error, isError }] =
     useCreateGroupMutation();
+  useErrorHandler({ isError, error });
+
   const ref = useRef<HTMLElement>();
 
   const handleSubmit = async (values: CreateGroupFormValues) => {
@@ -46,7 +49,7 @@ export const CreateGroupDialog: React.FC<CreateGroupDialogProps> = ({
   const createGroupValidationSchema = Yup.object().shape({
     name: Yup.string()
       .required('Required')
-      .max(30, 'Maximum number of symbols reached'),
+      .max(MAX_CHARS, 'Maximum number of symbols reached'),
   });
 
   useEffect(() => {

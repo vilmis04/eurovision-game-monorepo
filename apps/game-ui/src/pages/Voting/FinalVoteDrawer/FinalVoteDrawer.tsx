@@ -1,8 +1,9 @@
 import { GetScoresResponse } from '@eurovision-game-monorepo/types';
 import { Drawer, Box, Typography, Button } from '@mui/material';
 import { CountryResponse } from '../../../api/country/countryApi.types';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { styles } from './FinalVoteDrawer.styles';
+import { ErrorContext } from '../../../components/ErrorOverlay/ErrorContext';
 
 interface FinalVoteDrawerProps {
   handleClose: () => void;
@@ -22,6 +23,7 @@ export const FinalVoteDrawer: React.FC<FinalVoteDrawerProps> = ({
   votingCountry,
 }) => {
   const [selectedPosition, setSelectedPosition] = useState<number>(0);
+  const { setErrorMessage } = useContext(ErrorContext);
 
   useEffect(() => {
     if (votingScore) {
@@ -34,7 +36,7 @@ export const FinalVoteDrawer: React.FC<FinalVoteDrawerProps> = ({
       updateScore({ ...votingScore, position: selectedPosition });
       handleClose();
     } else {
-      // TODO: error handling
+      setErrorMessage('scores failed to load');
     }
   };
 

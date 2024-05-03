@@ -13,8 +13,8 @@ import {
   VotingIcon,
 } from '../icons/icons';
 import { Toast } from '../Toast/Toast';
+import { ErrorOverlay } from '../ErrorOverlay/ErrorOverlay';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 export const BackgroundContext = createContext((variant: GradientType) => {});
 
 export const Layout = () => {
@@ -80,6 +80,7 @@ export const Layout = () => {
           })}
         </BottomNavigation>
         <Toast />
+        <ErrorOverlay />
       </Background>
     </BackgroundContext.Provider>
   );

@@ -18,6 +18,7 @@ import { InviteButton } from './InviteButton/InviteButton';
 import { Navbar } from './Navbar/Navbar';
 import { useIntersectionObserver } from '../../../utils/useIntersectionObserver/useIntersectionObserver';
 import { MemberList } from './MemberList/MemberList';
+import { useErrorHandler } from '../../../components/ErrorOverlay/useErrorHandler';
 
 export const GroupView = () => {
   const { id: idString } = useParams();
@@ -33,21 +34,33 @@ export const GroupView = () => {
 
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  // const [anchorEl, setAnchorEl] = useState<EventTarget | null>(null);
   const [navbarTitleOpacity, setNavbarTitleOpacity] = useState(0);
 
   const observerRef = 'observerRef';
 
-  const { data: groupList, isFetching } = useGetGroupQuery(
-    { id },
-    { skip: !id }
-  );
+  const {
+    data: groupList,
+    isFetching,
+    isError: isGetGroupError,
+    error: getGroupError,
+  } = useGetGroupQuery({ id }, { skip: !id });
 
-  // TODO: add error handling / displaying
-  const [deleteGroup, { isSuccess: isDeleteGroupSuccess }] =
-    useDeleteGroupMutation();
-  // TODO: add error handling / displaying
-  const [createInviteLink] = useCreateInvitationLinkMutation();
+  const [
+    deleteGroup,
+    {
+      isSuccess: isDeleteGroupSuccess,
+      isError: isDeleteError,
+      error: deleteError,
+    },
+  ] = useDeleteGroupMutation();
+  const [
+    createInviteLink,
+    { isError: isCreateLinkError, error: createLinkError },
+  ] = useCreateInvitationLinkMutation();
+
+  const isError = isDeleteError || isCreateLinkError || isGetGroupError;
+  const error = deleteError || createLinkError || getGroupError;
+  useErrorHandler({ isError, error });
 
   useIntersectionObserver({
     action: (entry) => {
@@ -101,8 +114,7 @@ export const GroupView = () => {
 
   const copyLink = async () => {
     const response = await createInviteLink({ id });
-    // TODO: add better response handling
-    const linkCode = 'data' in response ? response.data : '';
+    const linkCode = 'data' in response ? response.data : ''; // returns either data or error. Error is handled with useErrorHandler
     const { origin } = window.location;
     const inviteLink = `${origin}/groups/join/${linkCode}`;
 

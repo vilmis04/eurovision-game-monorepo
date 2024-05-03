@@ -3,6 +3,7 @@ import { Drawer, DrawerProps, MenuItem, Typography } from '@mui/material';
 import { styles } from './ContextMenu.styles';
 import { useLogoutMutation } from '../../../../api/auth/authApi';
 import { useEffect } from 'react';
+import { useErrorHandler } from '../../../../components/ErrorOverlay/useErrorHandler';
 
 interface ContextMenuProps extends DrawerProps {
   copyLink: () => void;
@@ -19,7 +20,10 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
   isOwner,
   groupName,
 }) => {
-  const [logout, { isSuccess: isLogoutSuccess }] = useLogoutMutation();
+  const [logout, { isSuccess: isLogoutSuccess, isError, error }] =
+    useLogoutMutation();
+
+  useErrorHandler({ isError, error });
 
   useEffect(() => {
     if (isLogoutSuccess) {

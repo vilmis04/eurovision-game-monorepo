@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Form, Formik } from 'formik';
 import { useLoginMutation } from '../api/baseApi.client';
 import { paths } from '../../paths';
-import { FormTextField } from '@eurovision-game-monorepo/core-ui';
+import { TextFormField } from '@eurovision-game-monorepo/core-ui';
 
 const initialValues = { username: '', password: '' };
 interface LoginFormValues {
@@ -41,8 +41,8 @@ export const Login: React.FC = () => {
               <Typography>Incorrect username or password</Typography>
             </Box>
           )}
-          <FormTextField name="username" placeholder="Enter username" />
-          <FormTextField
+          <TextFormField name="username" placeholder="Enter username" />
+          <TextFormField
             name="password"
             type="password"
             placeholder="Enter password"

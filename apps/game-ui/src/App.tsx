@@ -16,6 +16,8 @@ import { Auth } from './components/Auth/Auth';
 import { GroupJoin } from './pages/Groups/GroupView/GroupJoin/GroupJoin';
 import { Voting } from './pages/Voting/Voting';
 import { Leaderboard } from './pages/Leaderboard/Leaderboard';
+import { ErrorContext } from './components/ErrorOverlay/ErrorContext';
+import { useErrorOverlay } from './components/ErrorOverlay/useErrorOverlay';
 
 const router = createBrowserRouter([
   {
@@ -62,13 +64,16 @@ const router = createBrowserRouter([
 
 export const App = () => {
   const snackbar = useSnackbar();
+  const errorOverlay = useErrorOverlay();
 
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <SnackbarContext.Provider value={snackbar}>
-          <GlobalStyles />
-          <RouterProvider router={router} />
+          <ErrorContext.Provider value={errorOverlay}>
+            <GlobalStyles />
+            <RouterProvider router={router} />
+          </ErrorContext.Provider>
         </SnackbarContext.Provider>
       </ThemeProvider>
     </Provider>

@@ -16,6 +16,7 @@ import { FinalVoteDrawer } from './FinalVoteDrawer/FinalVoteDrawer';
 import { OrderDrawer } from './OrderDrawer/OrderDrawer';
 import { OrderBy } from './Voting.types';
 import { orderCountries } from './Voting.utils';
+import { useErrorHandler } from '../../components/ErrorOverlay/useErrorHandler';
 
 export const Voting: React.FC = () => {
   const selectGradient = useContext(BackgroundContext);
@@ -23,16 +24,42 @@ export const Voting: React.FC = () => {
     selectGradient(GradientType.GRADIENT2);
   }, []);
 
-  // TODO: error handling
-  const { data: generalInfo, isFetching: isFetchingGeneralInfo } =
-    useGetGeneralInfoQuery();
-  const { data: countryList, isFetching: isFetchingCountries } =
-    useGetCountriesQuery(
-      { year: Number(generalInfo?.year), gameType: generalInfo?.gameType },
-      { skip: !generalInfo }
-    );
-  const { data: scoreList } = useGetScoresQuery();
-  const [updateScore] = useUpdateScoreMutation();
+  const {
+    data: generalInfo,
+    isFetching: isFetchingGeneralInfo,
+    isError: isGetGeneralInfoError,
+    error: getGeneralInfoError,
+  } = useGetGeneralInfoQuery();
+  const {
+    data: countryList,
+    isFetching: isFetchingCountries,
+    isError: isGetCountriesError,
+    error: getCountriesError,
+  } = useGetCountriesQuery(
+    { year: Number(generalInfo?.year), gameType: generalInfo?.gameType },
+    { skip: !generalInfo }
+  );
+  const {
+    data: scoreList,
+    isError: isGetScoreListError,
+    error: getScoreListError,
+  } = useGetScoresQuery();
+  const [
+    updateScore,
+    { isError: isUpdateScoreError, error: updateScoreError },
+  ] = useUpdateScoreMutation();
+
+  const isError =
+    isUpdateScoreError ||
+    isGetScoreListError ||
+    isGetCountriesError ||
+    isGetGeneralInfoError;
+  const error =
+    updateScoreError ||
+    getScoreListError ||
+    getCountriesError ||
+    getGeneralInfoError;
+  useErrorHandler({ error, isError });
 
   const isFetching = isFetchingCountries || isFetchingGeneralInfo;
   const isVotingActive = Boolean(generalInfo?.isVotingActive);

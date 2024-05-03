@@ -8,6 +8,7 @@ import { useGetLeaderboardQuery } from '../../api/group/groupApi';
 import { BronzeStar, GoldStar, SilverStar } from '../../components/icons/icons';
 import { FilterSelectDrawer } from './FilterSelectDrawer/FilterSelectDrawer';
 import { NoResults } from './NoResults/NoResults';
+import { useErrorHandler } from '../../components/ErrorOverlay/useErrorHandler';
 
 export const Leaderboard = () => {
   const setBackground = useContext(BackgroundContext);
@@ -17,8 +18,14 @@ export const Leaderboard = () => {
 
   const [isGroupMenuOpen, setIsGroupMenuOpen] = useState(false);
   const [filter, setFilter] = useState(0);
-  // TODO: add error handling
-  const { data: leaderboardData, isFetching } = useGetLeaderboardQuery(filter);
+  const {
+    data: leaderboardData,
+    isFetching,
+    isError,
+    error,
+  } = useGetLeaderboardQuery(filter);
+
+  useErrorHandler({ isError, error });
 
   const toggleGroupMenu = () => setIsGroupMenuOpen((isOpen) => !isOpen);
   const selectedGroup = leaderboardData?.groups[filter];
