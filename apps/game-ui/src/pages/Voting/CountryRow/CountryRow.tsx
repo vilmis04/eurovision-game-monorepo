@@ -21,6 +21,7 @@ export const CountryRow: React.FC<CountryRowProps> = memo(
     updateScore,
     isSemiSpotAvailable,
     openVotingModal,
+    isVotingActive,
   }) => {
     const isFinal = gameType === GameType.FINAL;
 
@@ -33,12 +34,17 @@ export const CountryRow: React.FC<CountryRowProps> = memo(
     };
 
     const voteInput = isFinal ? (
-      <FinalVote position={position} openModal={openModal} />
+      <FinalVote
+        position={position}
+        openModal={openModal}
+        isVotingActive={isVotingActive}
+      />
     ) : (
       <SemiVote
         inFinal={inFinal}
         updateScore={handleUpdateScore}
         isDisabled={!isSemiSpotAvailable}
+        isVotingActive={isVotingActive}
       />
     );
 

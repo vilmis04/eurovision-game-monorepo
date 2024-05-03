@@ -14,15 +14,18 @@ export interface CountryRowProps {
   updateScore: (body: UpdateScoreRequestBody) => void;
   isSemiSpotAvailable: boolean;
   openVotingModal: (code: string) => void;
+  isVotingActive: boolean;
 }
 
 export interface SemiVoteProps {
   inFinal: boolean | undefined;
   isDisabled: boolean;
   updateScore: CountryRowProps['updateScore'];
+  isVotingActive: boolean;
 }
 
 export interface FinalVoteProps {
   position: number | undefined;
   openModal: () => void;
+  isVotingActive: boolean;
 }

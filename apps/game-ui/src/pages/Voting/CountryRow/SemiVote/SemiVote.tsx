@@ -7,8 +7,9 @@ export const SemiVote: React.FC<SemiVoteProps> = ({
   inFinal,
   updateScore,
   isDisabled,
+  isVotingActive,
 }) => {
-  const notClickable = isDisabled && !inFinal;
+  const notClickable = !isVotingActive || (isDisabled && !inFinal);
   const selected = <CheckCircle sx={styles.icon} />;
   const notSelected = (
     <RadioButtonUnchecked

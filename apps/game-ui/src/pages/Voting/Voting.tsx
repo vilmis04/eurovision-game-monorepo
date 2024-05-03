@@ -35,6 +35,7 @@ export const Voting: React.FC = () => {
   const [updateScore] = useUpdateScoreMutation();
 
   const isFetching = isFetchingCountries || isFetchingGeneralInfo;
+  const isVotingActive = Boolean(generalInfo?.isVotingActive);
 
   const [countryCode, setCountryCode] = useState<string | null>(null);
   const [isOrderDrawerOpen, setIsOrderDrawerOpen] = useState(false);
@@ -109,6 +110,7 @@ export const Voting: React.FC = () => {
                 updateScore={updateScore}
                 isSemiSpotAvailable={isSemiSpotAvailable}
                 openVotingModal={openVotingModal}
+                isVotingActive={isVotingActive}
               />
             );
           })}
