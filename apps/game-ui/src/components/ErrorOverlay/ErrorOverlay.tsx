@@ -17,10 +17,10 @@ export const ErrorOverlay = () => {
           Something went wrong...
         </Typography>
         <Typography variant="body1" sx={styles.infoText}>
-          ...{errorMessage}
+          {errorMessage && errorMessage !== 'null' ? `...${errorMessage}` : ''}
         </Typography>
         <Button variant="contained" onClick={handleClick} sx={styles.button}>
-          Retry
+          Refresh
         </Button>
       </Background>
     </Dialog>

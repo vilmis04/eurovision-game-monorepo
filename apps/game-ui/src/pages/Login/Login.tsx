@@ -18,6 +18,7 @@ import {
 import { paths } from '../../paths';
 import { useJoinGroupMutation } from '../../api/group/groupApi';
 import { decodeInvite } from '../../utils/decodeInvite';
+import { useErrorHandler } from '../../components/ErrorOverlay/useErrorHandler';
 
 const initialValues: LoginRequestBody = {
   username: '',
@@ -33,8 +34,16 @@ export const Login = () => {
   const navigate = useNavigate();
   const [queryParams] = useSearchParams();
   const inviteCode = queryParams.get('invite');
-  const [login, { isSuccess: isLoginSuccess, isLoading: isLoginLoading }] =
-    useLoginMutation();
+  const [
+    login,
+    {
+      isSuccess: isLoginSuccess,
+      isLoading: isLoginLoading,
+      isError: isLoginError,
+      error: loginError,
+    },
+  ] = useLoginMutation();
+
   const {
     isSuccess: isLoggedIn,
     isLoading: isCheckingAuthStatus,
@@ -42,7 +51,15 @@ export const Login = () => {
   } = useIsAuthenticatedQuery();
   const ref = useRef<HTMLElement>();
 
-  const [joinGroup, { isSuccess: isJoinGroupSuccess }] = useJoinGroupMutation();
+  const [
+    joinGroup,
+    {
+      isSuccess: isJoinGroupSuccess,
+      isError: isJoinGroupError,
+      error: joinGroupError,
+    },
+  ] = useJoinGroupMutation();
+  useErrorHandler({ error: joinGroupError, isError: isJoinGroupError });
 
   useEffect(() => {
     if (isLoginSuccess && inviteCode) {
@@ -72,6 +89,9 @@ export const Login = () => {
   const handleSubmit = async (values: LoginRequestBody) => {
     await login(values);
   };
+
+  const errorMessage =
+    loginError && 'data' in loginError ? `${loginError.data}` : '';
 
   return isCheckingAuthStatus || isUninitialized ? (
     <CircularProgress />
@@ -103,6 +123,8 @@ export const Login = () => {
               <SubmitButton
                 isLoading={isLoginLoading}
                 isDisabled={!password || !username}
+                isError={isLoginError}
+                errorMessage={errorMessage}
               >
                 Login
               </SubmitButton>

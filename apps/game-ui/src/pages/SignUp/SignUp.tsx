@@ -18,6 +18,7 @@ import { useEffect, useRef } from 'react';
 import { paths } from '../../paths';
 import { decodeInvite } from '../../utils/decodeInvite';
 import { useJoinGroupMutation } from '../../api/group/groupApi';
+import { useErrorHandler } from '../../components/ErrorOverlay/useErrorHandler';
 
 const initialValues: SignUpRequestBody = {
   username: '',
@@ -39,8 +40,15 @@ export const SignUp = () => {
   const navigate = useNavigate();
   const [queryParams] = useSearchParams();
   const inviteCode = queryParams.get('invite');
-  const [signUp, { isSuccess: isSignUpSuccess, isLoading: isSignUpLoading }] =
-    useSignUpMutation();
+  const [
+    signUp,
+    {
+      isSuccess: isSignUpSuccess,
+      isLoading: isSignUpLoading,
+      isError: isSignUpError,
+      error: signUpError,
+    },
+  ] = useSignUpMutation();
   const {
     isSuccess: isLoggedIn,
     isLoading: isCheckingAuthStatus,
@@ -48,7 +56,16 @@ export const SignUp = () => {
   } = useIsAuthenticatedQuery();
   const ref = useRef<HTMLElement>();
 
-  const [joinGroup, { isSuccess: isJoinGroupSuccess }] = useJoinGroupMutation();
+  const [
+    joinGroup,
+    {
+      isSuccess: isJoinGroupSuccess,
+      isError: isJoinGroupError,
+      error: joinGroupError,
+    },
+  ] = useJoinGroupMutation();
+
+  useErrorHandler({ error: joinGroupError, isError: isJoinGroupError });
 
   useEffect(() => {
     if (isSignUpSuccess && inviteCode) {
@@ -78,6 +95,9 @@ export const SignUp = () => {
   const handleSubmit = async (values: SignUpRequestBody) => {
     await signUp(values);
   };
+
+  const errorMessage =
+    signUpError && 'data' in signUpError ? `${signUpError.data}` : '';
 
   return isCheckingAuthStatus || isUninitialized ? (
     <CircularProgress />
@@ -114,6 +134,8 @@ export const SignUp = () => {
               <SubmitButton
                 isLoading={isSignUpLoading}
                 isDisabled={!password || !username || !repeatPassword}
+                isError={isSignUpError}
+                errorMessage={errorMessage}
               >
                 Sign Up
               </SubmitButton>

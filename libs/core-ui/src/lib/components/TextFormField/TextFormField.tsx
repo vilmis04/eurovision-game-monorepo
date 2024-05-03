@@ -17,16 +17,19 @@ export const TextFormField: React.FC<TextFormFieldProps> = ({
   const isError = Boolean(error) && touched;
   const errorMessage = (
     <Box component="span" sx={styles.errorContainer}>
-      <ErrorIcon sx={styles.icon} />
-      {error}
+      {isError && (
+        <>
+          <ErrorIcon sx={styles.icon} />
+          {error}
+        </>
+      )}
     </Box>
   );
-  const helperText = isError && errorMessage;
 
   return (
     <TextField
       {...field}
-      helperText={helperText}
+      helperText={errorMessage}
       variant="standard"
       InputLabelProps={{ sx: styles.label, shrink: true }}
       inputProps={{ sx: styles.input }}
