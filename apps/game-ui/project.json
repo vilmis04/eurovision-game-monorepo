@@ -1,8 +1,0 @@
-{
-  "name": "game-ui",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/game-ui/src",
-  "projectType": "application",
-  "targets": {},
-  "tags": []
-}
