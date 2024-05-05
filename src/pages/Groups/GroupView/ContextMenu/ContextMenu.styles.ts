@@ -1,7 +1,6 @@
 export const styles = {
   menu: {
     backgroundColor: 'primary.dark',
-    paddingBottom: '0.5rem',
   },
   row: {
     display: 'flex',

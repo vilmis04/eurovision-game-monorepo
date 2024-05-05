@@ -1,5 +1,5 @@
 export const flagStyle = {
-  border: '3px solid white',
+  border: '1px solid white',
   objectFit: 'cover',
   borderRadius: '50%',
   width: '40px',
@@ -33,9 +33,11 @@ export const styles = {
   artist: {
     fontSize: '0.75rem',
     fontWeight: 'medium',
+    color: 'primary.light',
   },
   song: {
     fontSize: '0.75rem',
     fontWeight: 'light',
+    color: 'primary.light',
   },
 };

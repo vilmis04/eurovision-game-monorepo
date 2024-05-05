@@ -6,7 +6,11 @@ export const styles = {
     alignItems: 'space-between',
   },
   topBar: {
-    padding: '1.5rem',
+    paddingX: '1.5rem',
+    minHeight: '4.5rem',
+    height: '4.5rem',
+    display: 'flex',
+    alignItems: 'center',
     borderBottom: '1px solid',
     borderBottomColor: 'divider',
   },

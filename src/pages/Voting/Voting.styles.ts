@@ -3,6 +3,7 @@ export const styles = {
     padding: '1rem 1.5rem',
     textAlign: 'center',
     color: 'secondary.light',
+    fontWeight: 'light',
   },
   container: {
     display: 'flex',

@@ -59,13 +59,13 @@ export const Topbar: React.FC<TopbarProps> = ({
         </Box>
       </Box>
       <Box sx={styles.bottomRow}>
-        <Typography variant="body1" sx={styles.lightText}>
-          {`${selected} / ${selectionLimit} selected`}
-        </Typography>
         <Button variant="text" sx={styles.button} onClick={toggleOrderDrawer}>
           Order
           <ExpandMore />
         </Button>
+        <Typography variant="body1" sx={styles.lightText}>
+          {`${selected} / ${selectionLimit} selected`}
+        </Typography>
       </Box>
     </Box>
   );

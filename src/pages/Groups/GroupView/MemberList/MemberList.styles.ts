@@ -6,6 +6,7 @@ export const styles = {
   },
   title: {
     fontSize: '1.5rem',
+    fontWeight: 'medium',
     padding: '2.5rem 0',
     maxWidth: '100%',
     textOverflow: 'ellipsis',

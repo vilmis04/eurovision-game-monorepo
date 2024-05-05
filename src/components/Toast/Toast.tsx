@@ -19,10 +19,7 @@ export const Toast = () => {
         sx={styles.alert}
         icon={variant === 'error' ? <Error /> : <CheckCircle />}
       >
-        <Typography
-          variant="body1"
-          sx={{ color: 'black', fontSize: '0.75rem' }}
-        >
+        <Typography variant="body1" sx={styles.message}>
           {message}
         </Typography>
       </Alert>

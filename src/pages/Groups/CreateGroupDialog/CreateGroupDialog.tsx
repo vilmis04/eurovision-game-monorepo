@@ -108,7 +108,7 @@ export const CreateGroupDialog: React.FC<CreateGroupDialogProps> = ({
                 sx={styles.field}
                 endAdornment={getEndAdornment(name)}
               />
-              <SubmitButton isLoading={isLoading} variant="outlined">
+              <SubmitButton isLoading={isLoading} variant="contained">
                 Save
               </SubmitButton>
             </Box>

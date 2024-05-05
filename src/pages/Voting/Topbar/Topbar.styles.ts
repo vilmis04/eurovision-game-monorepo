@@ -2,7 +2,9 @@ export const styles = {
   topRow: {
     display: 'flex',
     justifyContent: 'space-between',
-    padding: '1.25rem 1.5rem',
+    alignItems: 'center',
+    height: '4.5rem',
+    paddingX: '1.5rem',
   },
   mediumText: {
     fontWeight: 'medium',
@@ -21,6 +23,7 @@ export const styles = {
   },
   button: {
     color: 'common.white',
+    fontWeight: 'regular',
   },
   timer: {
     display: 'flex',

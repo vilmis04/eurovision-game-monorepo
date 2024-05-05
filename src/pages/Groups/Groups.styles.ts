@@ -3,7 +3,7 @@ export const styles = {
     padding: '2.5rem 1.5rem',
   },
   title: {
-    fontSize: '2.5rem',
+    fontSize: '1.5rem',
     fontWeight: 'medium',
     paddingBottom: '1rem',
   },
@@ -20,6 +20,7 @@ export const styles = {
     borderColor: 'primary.main',
     padding: '1rem',
     color: 'white',
+    height: '3.75rem',
   },
   groupLinkWrapper: {
     border: 'none',

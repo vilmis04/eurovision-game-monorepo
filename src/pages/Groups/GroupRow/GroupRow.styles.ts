@@ -9,10 +9,11 @@ export const styles = {
   },
   subtitile: {
     fontSize: '0.75rem',
+    fontWeight: 'light',
     color: 'primary.contrastText',
   },
   container: {
-    backgroundColor: 'primary.main',
+    backgroundColor: 'common.white',
     padding: '0.5rem 1rem',
     marginBottom: '1rem',
     borderRadius: '0.25rem',
@@ -20,5 +21,6 @@ export const styles = {
     flexDirection: 'column',
     alignItems: 'start',
     width: '100%',
+    height: '3.75rem',
   },
 };

@@ -9,7 +9,6 @@ interface ContextMenuProps extends DrawerProps {
   copyLink: () => void;
   deleteGroup: () => void;
   isOwner: boolean;
-  groupName: string;
 }
 
 export const ContextMenu: React.FC<ContextMenuProps> = ({
@@ -18,7 +17,6 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
   copyLink,
   deleteGroup,
   isOwner,
-  groupName,
 }) => {
   const [logout, { isSuccess: isLogoutSuccess, isError, error }] =
     useLogoutMutation();
@@ -61,7 +59,7 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
             <MenuItem onClick={handleCopyLink}>
               <Typography variant="body1" sx={styles.row}>
                 <ContentCopy />
-                {groupName}
+                Copy invite link
               </Typography>
             </MenuItem>,
             <MenuItem onClick={handleDeleteGroup}>

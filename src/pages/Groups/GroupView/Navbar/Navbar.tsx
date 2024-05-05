@@ -18,7 +18,7 @@ export const Navbar: React.FC<INavbarProps> = ({
   const styles = getStyles(titleOpacity);
 
   return (
-    <Box sx={styles.nav}>
+    <Box sx={[styles.nav, titleOpacity === 1 && styles.navDivider]}>
       <ArrowBack sx={styles.icon} onClick={handleBack} />
       <Typography sx={styles.groupName} variant="body1">
         {groupName}

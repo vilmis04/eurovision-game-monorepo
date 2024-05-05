@@ -5,6 +5,7 @@ export const theme = createTheme({
     primary: {
       main: '#C894FF',
       dark: '#480082',
+      light: '#EFDBFF',
       contrastText: '#241434',
     },
     secondary: {
@@ -30,6 +31,7 @@ export const theme = createTheme({
     MuiButton: {
       defaultProps: {
         sx: {
+          minHeight: '2.75rem',
           textTransform: 'inherit !important',
         },
       },

@@ -152,7 +152,6 @@ export const GroupView = () => {
           <InviteButton copyLink={copyLink} shouldShow={isOwner} />
         </Box>
         <ContextMenu
-          groupName={group.name}
           isOwner={isOwner}
           copyLink={copyLink}
           deleteGroup={toggleDeleteDialog}

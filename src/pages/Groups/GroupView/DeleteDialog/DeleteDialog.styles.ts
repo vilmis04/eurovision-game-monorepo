@@ -3,7 +3,7 @@ export const styles = {
     '& .MuiPaper-root': {
       backgroundColor: 'primary.dark',
       borderRadius: '0.25rem',
-      marginX: '2.25rem',
+      marginX: '1.5rem',
       padding: '1rem',
     },
   },
@@ -16,6 +16,7 @@ export const styles = {
   },
   mainText: {
     fontSize: '1rem',
+    fontWeight: 'light',
   },
   buttonWrapper: {
     display: 'flex',

@@ -9,24 +9,26 @@ export const styles = {
   form: {
     display: 'flex',
     flexDirection: 'column',
-    padding: '24px',
+    padding: '1.5rem',
     maxWidth: '500px',
     marginX: 'auto',
   },
   title: {
-    fontSize: '24px',
+    fontSize: '1.5rem',
     color: 'white',
     paddingTop: '52px',
     paddingBottom: '40px',
+    fontWeight: 'medium',
   },
   field: {
-    marginBottom: '48px',
+    marginBottom: '3rem',
     '& .MuiInputBase-root::before': {
-      borderBottom: '1px solid #B9A3CC',
+      borderBottom: '1px solid',
+      borderColor: 'secondary.light',
     },
   },
   adornment: {
-    fontSize: '12px',
+    fontSize: '0.75rem',
     color: 'secondary.light',
   },
 };
