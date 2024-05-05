@@ -5,7 +5,6 @@ export const styles = {
     top: 0,
     left: 0,
     right: 0,
-    minHeight: '100vh',
   },
   gradient1: {
     background:

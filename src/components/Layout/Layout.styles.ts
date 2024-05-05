@@ -1,15 +1,24 @@
 import { Theme } from '@mui/material';
+import zIndex from '@mui/material/styles/zIndex';
 
 export const styles = {
   navbar: {
-    width: '100vw',
+    position: 'fixed',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: zIndex.drawer + 1,
     background: 'transparent',
     borderTop: '1px solid',
     borderTopColor: 'divider',
   },
   outlet: ({ breakpoints }: Theme) => ({
+    position: 'fixed',
+    bottom: 56,
+    top: 0,
+    left: 0,
+    right: 0,
     overflow: 'scroll',
-    height: '100%',
     scrollbarWidth: 'thin',
     overflowX: 'hidden',
     scrollbarColor: 'rgba(150,150,150,0.25) transparent',
@@ -24,11 +33,5 @@ export const styles = {
   },
   active: {
     color: 'primary.main',
-  },
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    height: '100%',
   },
 };

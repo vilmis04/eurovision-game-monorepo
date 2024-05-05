@@ -60,7 +60,7 @@ export const Layout = () => {
 
   return (
     <BackgroundContext.Provider value={selectBackground}>
-      <Background variant={gradient} sx={styles.container}>
+      <Background variant={gradient}>
         <Box sx={styles.outlet}>
           <Outlet />
         </Box>
