@@ -48,8 +48,7 @@ export const FinalVoteDrawer: React.FC<FinalVoteDrawerProps> = ({
       PaperProps={{ sx: styles.container }}
       onClose={handleClose}
     >
-      <Box>
-        <Box sx={styles.topBar} />
+      <Box sx={styles.topBar}>
         <Box
           component="img"
           src={`flags/${countryCode}.svg`}
