@@ -75,6 +75,7 @@ export const Layout = () => {
                 label={label}
                 icon={isActive ? activeIcon : icon}
                 onClick={() => navigate(path)}
+                disableRipple
               />
             );
           })}

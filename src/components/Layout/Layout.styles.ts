@@ -29,9 +29,16 @@ export const styles = {
     },
   }),
   default: {
-    color: 'white',
+    color: 'common.white',
+    fontWeight: 'light',
   },
   active: {
-    color: 'primary.main',
+    fontWeight: 'bold',
+    '&&': {
+      color: 'common.white',
+    },
+    '&&& .MuiBottomNavigationAction-label.Mui-selected': {
+      fontSize: '0.75rem',
+    },
   },
 };
