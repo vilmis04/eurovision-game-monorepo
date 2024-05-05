@@ -8,7 +8,7 @@ import { Box } from '@mui/material';
 import { styles } from './GroupView.styles';
 import { paths } from '../../../paths';
 import { SnackbarContext } from '../../../components/SnackbarContext/SnackbarContext';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { BackgroundContext } from '../../../components/Layout/Layout';
 import { ContextMenu } from './ContextMenu/ContextMenu';
 import { DeleteDialog } from './DeleteDialog/DeleteDialog';
@@ -36,6 +36,7 @@ export const GroupView = () => {
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [navbarTitleOpacity, setNavbarTitleOpacity] = useState(0);
+  const inviteLinkRef = useRef<string>('');
 
   const observerRef = 'observerRef';
 
@@ -78,6 +79,14 @@ export const GroupView = () => {
   });
 
   useEffect(() => {
+    createInviteLink({ id }).then((res) => {
+      const linkCode = res && 'data' in res ? res.data : ''; // returns either data or error. Error is handled with useErrorHandler
+      const { origin } = window.location;
+      inviteLinkRef.current = `${origin}/groups/join/${linkCode}`;
+    });
+  }, []);
+
+  useEffect(() => {
     if (isDeleteGroupSuccess) {
       openSnackbar(`Group "${group.name}" deleted.`);
       navigate(paths.groups);
@@ -113,15 +122,15 @@ export const GroupView = () => {
     toggleContextMenu();
   };
 
-  const copyLink = async () => {
-    const response = await createInviteLink({ id });
-    const linkCode = 'data' in response ? response.data : ''; // returns either data or error. Error is handled with useErrorHandler
-    const { origin } = window.location;
-    const inviteLink = `${origin}/groups/join/${linkCode}`;
-
-    navigator.clipboard.writeText(inviteLink);
-
-    openSnackbar(`Invite link copied.`);
+  const copyLink = () => {
+    navigator.clipboard
+      .writeText(inviteLinkRef.current)
+      .then(() => {
+        openSnackbar(`Invite link copied.`);
+      })
+      .catch(() => {
+        openSnackbar(`Failed to copy invite link.`, 'error');
+      });
   };
 
   return (
