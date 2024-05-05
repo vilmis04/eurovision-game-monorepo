@@ -58,6 +58,7 @@ export const orderCountries = (
 };
 
 export const calculateRemainingTime = (endTime: Date | undefined) => {
+  if (!endTime) return '';
   const remainingTime = dayjs(endTime).diff(dayjs(), 'seconds');
   const remainingMinutes = Math.floor(remainingTime / 60);
   const remainingSeconds = remainingTime % 60;
