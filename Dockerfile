@@ -8,6 +8,6 @@ RUN npm install
 
 COPY . .
 
-RUN npx nx build game-ui
+RUN npm run build 
 
-CMD ["npx", "nx", "preview", "game-ui"]
+CMD ["npm", "run", "preview"]
