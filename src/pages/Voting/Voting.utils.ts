@@ -31,7 +31,10 @@ export const orderCountries = (
   const isFinal = gameType === GameType.FINAL;
 
   const votedCountries = countries.filter(
-    ({ name }) => scores.find(({ country }) => country === name)?.inFinal
+    ({ name }) =>
+      scores.find(({ country }) => country === name)?.[
+        isFinal ? 'position' : 'inFinal'
+      ]
   );
   const restCountries = countries.filter(
     ({ name }) => !votedCountries.find((voted) => voted.name === name)
@@ -40,12 +43,12 @@ export const orderCountries = (
   switch (orderBy) {
     case OrderBy.VOTING:
       return [
-        ...votedCountries,
-        ...restCountries.sort(
+        ...votedCountries.sort(
           isFinal
             ? orderFinalists(scores)
             : orderByPerformance(performanceOrder)
         ),
+        ...restCountries.sort(orderByPerformance(performanceOrder)),
       ];
     case OrderBy.PERFORMANCE:
       return countries.sort(orderByPerformance(performanceOrder));

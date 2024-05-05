@@ -20,6 +20,7 @@ import { Spinner } from '../../components/Spinner/Spinner';
 import { useTimeLeft } from './useTimeLeft';
 import { GameType } from '../../types';
 import React from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 export const Voting: React.FC = () => {
   const selectGradient = useContext(BackgroundContext);
@@ -71,7 +72,23 @@ export const Voting: React.FC = () => {
 
   const [countryCode, setCountryCode] = useState<string | null>(null);
   const [isOrderDrawerOpen, setIsOrderDrawerOpen] = useState(false);
-  const [orderBy, setOrderBy] = useState(OrderBy.VOTING);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const orderByParam = searchParams.get('orderBy');
+
+  const orderBy =
+    orderByParam && orderByParam in OrderBy
+      ? (orderByParam as OrderBy)
+      : OrderBy.PERFORMANCE;
+
+  const setOrderBy = (newOrder: OrderBy) => {
+    setSearchParams({ orderBy: newOrder });
+  };
+
+  useEffect(() => {
+    if (!orderByParam) {
+      setOrderBy(orderBy);
+    }
+  }, []);
 
   const scoredCountries = scoreList?.filter(({ inFinal, position }) =>
     generalInfo?.gameType === GameType.FINAL ? position : inFinal
@@ -92,7 +109,11 @@ export const Voting: React.FC = () => {
 
   const votingScore = scoreList?.find(
     ({ country }) => country === votingCountry?.name
-  );
+  ) ?? {
+    country: votingCountry?.name || '',
+    inFinal: Boolean(votingCountry?.orderFinal),
+    position: 0,
+  };
 
   const toggleOrderDrawer = () => setIsOrderDrawerOpen((isOpen) => !isOpen);
 
@@ -101,9 +122,10 @@ export const Voting: React.FC = () => {
     toggleOrderDrawer();
   };
 
-  const openVotingModal = useCallback((code: string) => {
-    setCountryCode(code);
-  }, []);
+  const openVotingModal = useCallback(
+    (code: string) => setCountryCode(code),
+    []
+  );
 
   const orderedCountryList = orderCountries(
     [...(countryList || [])],
