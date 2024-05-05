@@ -6,8 +6,8 @@ export const NoResults = () => (
     <Typography variant="body1" sx={styles.label}>
       No results yet
     </Typography>
-    <Typography variant="body1">
-      Leaderboard will appear here ince the results are in.
+    <Typography variant="body1" sx={styles.message}>
+      Leaderboard will appear here when the results are in.
     </Typography>
   </Box>
 );
