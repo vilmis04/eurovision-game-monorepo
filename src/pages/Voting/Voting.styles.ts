@@ -4,6 +4,7 @@ export const styles = {
     textAlign: 'center',
     color: 'secondary.light',
     fontWeight: 'light',
+    fontSize: '0.75rem',
   },
   container: {
     display: 'flex',

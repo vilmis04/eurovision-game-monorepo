@@ -5,7 +5,7 @@ export const styles = {
   title: {
     fontSize: '1.5rem',
     fontWeight: 'medium',
-    paddingBottom: '1rem',
+    paddingBottom: '0.5rem',
   },
   subtitle: {
     fontSize: '1rem',
@@ -17,9 +17,9 @@ export const styles = {
     fontWeight: 'normal',
     background: 'transparent',
     border: '1px dashed',
-    borderColor: 'primary.main',
+    borderColor: 'common.white',
     padding: '1rem',
-    color: 'white',
+    color: 'common.white',
     height: '3.75rem',
   },
   groupLinkWrapper: {

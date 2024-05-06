@@ -35,4 +35,13 @@ export const styles = {
     display: 'flex',
     justifyContent: 'flex-end',
   },
+  selected: {
+    '&&': {
+      backgroundColor: 'common.white',
+      borderRadius: 0,
+    },
+  },
+  isOccupied: {
+    borderRadius: 0,
+  },
 };

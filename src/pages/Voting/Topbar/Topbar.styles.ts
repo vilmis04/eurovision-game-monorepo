@@ -23,12 +23,15 @@ export const styles = {
   },
   button: {
     color: 'common.white',
-    fontWeight: 'regular',
+    fontWeight: 'light',
+    fontSize: '1rem',
+    paddingX: 0,
   },
   timer: {
     display: 'flex',
     justifyContent: 'space-between',
     gap: '0.5rem',
+    fontWeight: 'light',
   },
   time: {
     display: 'flex',
@@ -36,5 +39,6 @@ export const styles = {
   digit: {
     textAlign: 'center',
     width: '0.75rem',
+    fontWeight: 'medium',
   },
 };

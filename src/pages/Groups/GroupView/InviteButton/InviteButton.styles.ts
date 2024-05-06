@@ -13,6 +13,7 @@ export const styles = {
     justifyContent: 'center',
     marginBottom: '0.75rem',
     fontWeight: 'regular',
+    minHeight: '2.75rem',
   },
   copyIcon: {
     fontSize: '1rem',

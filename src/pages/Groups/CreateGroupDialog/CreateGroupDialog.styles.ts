@@ -16,12 +16,12 @@ export const styles = {
   title: {
     fontSize: '1.5rem',
     color: 'white',
-    paddingTop: '52px',
-    paddingBottom: '40px',
+    paddingTop: '3.25rem',
+    paddingBottom: '2.5rem',
     fontWeight: 'medium',
   },
   field: {
-    marginBottom: '3rem',
+    marginBottom: '0.5rem',
     '& .MuiInputBase-root::before': {
       borderBottom: '1px solid',
       borderColor: 'secondary.light',

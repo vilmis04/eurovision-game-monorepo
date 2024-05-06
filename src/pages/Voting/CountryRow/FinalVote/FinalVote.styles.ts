@@ -8,5 +8,6 @@ export const styles = {
     justifyContent: 'space-between',
     width: '100%',
     padding: '0.25rem 0.5rem',
+    backgroundColor: 'common.white',
   },
 };

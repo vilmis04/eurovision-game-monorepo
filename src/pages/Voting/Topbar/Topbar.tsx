@@ -31,7 +31,7 @@ export const Topbar: React.FC<TopbarProps> = ({
     '';
 
   const getEndTimeMessage = (endTime: Date | undefined) => {
-    const timeString = timeLeft ? 'Voting stops in ' : 'Time ended';
+    const timeString = timeLeft ? 'Time left ' : 'Voting ended';
     return endTime ? timeString : '';
   };
 

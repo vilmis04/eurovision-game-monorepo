@@ -67,23 +67,31 @@ export const FinalVoteDrawer: React.FC<FinalVoteDrawerProps> = ({
         {Array(26)
           .fill(null)
           .map((_, index) => {
-            const position = index + 1;
-            const isSelected = position === selectedPosition;
-            const isOccupied = notAvailableSpots.includes(position);
-            const isSameCountry = votingScore?.position === position;
+            const positionIndex = index + 1;
+            const isSelected = positionIndex === selectedPosition;
+            const isOccupied = notAvailableSpots
+              .filter((spot) => spot !== votingScore?.position)
+              .includes(positionIndex);
             const variant = isSelected ? 'contained' : 'text';
 
             return (
               <Button
                 key={index}
+                disableRipple
                 variant={variant}
                 onClick={() =>
-                  setSelectedPosition(isSameCountry ? 0 : position)
+                  setSelectedPosition(
+                    positionIndex === selectedPosition ? 0 : positionIndex
+                  )
                 }
-                disabled={isSameCountry ? false : isOccupied}
-                sx={[variant === 'text' && styles.textVariant]}
+                disabled={isOccupied}
+                sx={[
+                  isOccupied && styles.isOccupied,
+                  isSelected && styles.selected,
+                  variant === 'text' && styles.textVariant,
+                ]}
               >
-                {position}
+                {positionIndex}
               </Button>
             );
           })}

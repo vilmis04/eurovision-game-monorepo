@@ -1,11 +1,16 @@
 export const styles = {
   label: {
-    color: '#B9A3CC',
+    color: 'common.white',
     fontWeight: 'light',
+    '&.Mui-focused': {
+      color: 'common.white',
+      fontWeight: 'regular',
+    },
   },
   input: {
-    color: 'white',
-    borderBottom: '1px solid #B9A3CC',
+    color: 'common.white',
+    borderBottom: '1px solid',
+    borderColor: 'common.white',
     borderRadius: '0',
   },
   icon: {

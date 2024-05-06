@@ -9,6 +9,7 @@ export const styles = {
   },
   listItem: {
     padding: '1rem 1.5rem',
+    fontWeight: 'light',
   },
   activeListItem: {
     fontWeight: 'bold',

@@ -30,6 +30,7 @@ export const theme = createTheme({
   components: {
     MuiButton: {
       defaultProps: {
+        disableRipple: true,
         sx: {
           minHeight: '2.75rem',
           textTransform: 'inherit !important',

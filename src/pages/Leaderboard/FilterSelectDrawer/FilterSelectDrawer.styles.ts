@@ -10,6 +10,7 @@ export const styles = {
   },
   groupMenuItem: {
     padding: '1rem 1.5rem',
+    fontWeight: 'light',
   },
   activeGroupMenuItem: {
     fontWeight: 'bold',

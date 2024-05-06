@@ -22,6 +22,7 @@ export const styles = {
   },
   buttonText: {
     paddingRight: '0.5rem',
+    fontWeight: 'light',
   },
   memberList: {
     padding: '0.75rem 1.5rem',
