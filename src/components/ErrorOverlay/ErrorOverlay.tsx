@@ -14,10 +14,10 @@ export const ErrorOverlay = () => {
     <Dialog open={Boolean(errorMessage)} fullWidth>
       <Background variant={GradientType.SOLID1} sx={styles.container}>
         <Typography variant="h1" sx={styles.title}>
-          Something went wrong...
+          Something went wrong
         </Typography>
         <Typography variant="body1" sx={styles.infoText}>
-          {errorMessage && errorMessage !== 'null' ? `...${errorMessage}` : ''}
+          {errorMessage && errorMessage !== 'null' ? errorMessage : ''}
         </Typography>
         <Button variant="contained" onClick={handleClick} sx={styles.button}>
           Refresh

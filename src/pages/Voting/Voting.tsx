@@ -19,7 +19,6 @@ import { GradientType } from '../../components/Background/Background';
 import { Spinner } from '../../components/Spinner/Spinner';
 import { useTimeLeft } from './useTimeLeft';
 import { GameType } from '../../types';
-import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 export const Voting: React.FC = () => {

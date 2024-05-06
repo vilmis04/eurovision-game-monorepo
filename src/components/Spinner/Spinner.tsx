@@ -1,5 +1,4 @@
 import { Box, CircularProgress, CircularProgressProps } from '@mui/material';
-import React from 'react';
 import { styles } from './Spinner.styles';
 
 interface SpinnerProps

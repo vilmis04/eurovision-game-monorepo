@@ -19,7 +19,6 @@ import {
 } from '../../components/Background/Background';
 import { TextFormField } from '../../components/TextFormField/TextFormField';
 import { Spinner } from '../../components/Spinner/Spinner';
-import React from 'react';
 import { SignUpRequestBody } from '../../types';
 
 const initialValues: SignUpRequestBody = {

@@ -1,6 +1,5 @@
 import { ContentCopy } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
-import React from 'react';
 import { styles } from './InviteButton.styles';
 
 interface InviteButtonProps {

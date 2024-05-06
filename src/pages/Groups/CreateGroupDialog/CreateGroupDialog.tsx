@@ -38,7 +38,7 @@ export const CreateGroupDialog: React.FC<CreateGroupDialogProps> = ({
   const navigate = useNavigate();
   const [createGroup, { data: id, isLoading, isSuccess, error, isError }] =
     useCreateGroupMutation();
-  useErrorHandler({ isError, error });
+  // useErrorHandler({ isError, error });
 
   const ref = useRef<HTMLElement>();
 
@@ -108,7 +108,12 @@ export const CreateGroupDialog: React.FC<CreateGroupDialogProps> = ({
                 sx={styles.field}
                 endAdornment={getEndAdornment(name)}
               />
-              <SubmitButton isLoading={isLoading} variant="contained">
+              <SubmitButton
+                isLoading={isLoading}
+                variant="contained"
+                isError={isError}
+                errorMessage={error && 'data' in error ? `${error.data}` : ''} // TODO: add some type predicate that could be reused
+              >
                 Save
               </SubmitButton>
             </Box>

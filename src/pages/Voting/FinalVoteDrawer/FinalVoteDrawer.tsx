@@ -3,7 +3,6 @@ import { CountryResponse } from '../../../api/country/countryApi.types';
 import { useContext, useEffect, useState } from 'react';
 import { styles } from './FinalVoteDrawer.styles';
 import { ErrorContext } from '../../../components/ErrorOverlay/ErrorContext';
-import React from 'react';
 import { GetScoresResponse } from '../../../types';
 
 interface FinalVoteDrawerProps {

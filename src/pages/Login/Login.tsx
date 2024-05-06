@@ -19,7 +19,6 @@ import {
 import { SubmitButton } from '../../components/SubmitButton/SubmitButton';
 import { TextFormField } from '../../components/TextFormField/TextFormField';
 import { Spinner } from '../../components/Spinner/Spinner';
-import React from 'react';
 import { LoginRequestBody } from '../../types';
 
 const initialValues: LoginRequestBody = {

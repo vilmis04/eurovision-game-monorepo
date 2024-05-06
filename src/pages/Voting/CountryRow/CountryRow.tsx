@@ -3,7 +3,7 @@ import { styles } from './CountryRow.styles';
 import { FinalVote } from './FinalVote/FinalVote';
 import { SemiVote } from './SemiVote/SemiVote';
 import { CountryRowProps } from './CountryRow.types';
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { GameType, UpdateScoreRequestBody } from '../../../types';
 
 export const CountryRow: React.FC<CountryRowProps> = memo(
