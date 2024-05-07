@@ -30,8 +30,12 @@ export const styles = {
   timer: {
     display: 'flex',
     justifyContent: 'space-between',
-    gap: '0.5rem',
+  },
+  timeMessage: {
     fontWeight: 'light',
+  },
+  runningTimer: {
+    gap: '0.5rem',
   },
   time: {
     display: 'flex',

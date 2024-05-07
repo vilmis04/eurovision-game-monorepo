@@ -29,13 +29,13 @@ export const styles = {
     },
   }),
   default: {
-    color: 'common.white',
+    color: 'primary.light',
     fontWeight: 'light',
   },
   active: {
     fontWeight: 'bold',
     '&&': {
-      color: 'common.white',
+      color: 'primary.light',
     },
     '&&& .MuiBottomNavigationAction-label.Mui-selected': {
       fontSize: '0.75rem',

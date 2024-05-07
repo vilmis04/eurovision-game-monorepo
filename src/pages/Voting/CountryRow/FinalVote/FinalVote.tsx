@@ -15,12 +15,12 @@ export const FinalVote: React.FC<FinalVoteProps> = ({
       </Typography>
       <Button
         variant="contained"
-        sx={styles.button}
+        sx={[styles.button, !isVotingActive && styles.disabledButton]}
         onClick={openModal}
         disabled={!isVotingActive}
       >
         <Typography variant="body1">{position || ''}</Typography>
-        <ExpandMore />
+        {isVotingActive && <ExpandMore />}
       </Button>
     </Box>
   );

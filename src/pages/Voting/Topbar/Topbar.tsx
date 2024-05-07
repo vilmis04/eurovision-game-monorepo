@@ -12,7 +12,7 @@ interface TopbarProps {
 }
 
 const SEMI_LIMIT = 10;
-const FINAL_LIMIT = 25;
+const FINAL_LIMIT = 26; // TODO: calculate the number of participants
 
 export const Topbar: React.FC<TopbarProps> = ({
   gameType,
@@ -43,8 +43,10 @@ export const Topbar: React.FC<TopbarProps> = ({
         <Typography variant="body1" sx={styles.mediumText}>
           {gameTypeMessage}
         </Typography>
-        <Box sx={styles.timer}>
-          <Typography variant="body1">{getEndTimeMessage(endTime)}</Typography>
+        <Box sx={[styles.timer, Boolean(timeLeft) && styles.runningTimer]}>
+          <Typography variant="body1" sx={styles.timeMessage}>
+            {getEndTimeMessage(endTime)}
+          </Typography>
           <Typography
             component="span"
             variant="body1"

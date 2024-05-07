@@ -3,15 +3,20 @@ import { flagStyle } from '../CountryRow/CountryRow.styles';
 export const styles = {
   container: {
     backgroundColor: 'primary.dark',
-    padding: '1.5rem 1rem',
   },
   topBar: {
     display: 'flex',
     alignItems: 'center',
-    paddingBottom: '1.25rem',
+    padding: '1.5rem 1rem 1.5rem',
+    borderBottom: '1px solid',
+    borderColor: 'divider',
+    marginBottom: '1.5rem',
   },
   flag: {
     ...flagStyle,
+  },
+  countryInfoWrapper: {
+    paddingLeft: '1rem',
   },
   countryName: {
     fontSize: '1.25rem',
@@ -24,6 +29,7 @@ export const styles = {
     width: '100%',
     display: 'grid',
     gridTemplateColumns: 'repeat(5, 1fr)',
+    paddingX: '1rem',
   },
   textVariant: {
     color: 'common.white',
@@ -34,6 +40,7 @@ export const styles = {
   buttonContainer: {
     display: 'flex',
     justifyContent: 'flex-end',
+    padding: '0 1rem 1.5rem',
   },
   selected: {
     '&&': {

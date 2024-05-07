@@ -10,7 +10,9 @@ export const SemiVote: React.FC<SemiVoteProps> = ({
   isVotingActive,
 }) => {
   const notClickable = !isVotingActive || (isDisabled && !inFinal);
-  const selected = <CheckCircle sx={styles.icon} />;
+  const selected = (
+    <CheckCircle sx={[styles.icon, notClickable && styles.notClickable]} />
+  );
   const notSelected = (
     <RadioButtonUnchecked
       sx={[styles.icon, notClickable && styles.notClickable]}
@@ -30,7 +32,7 @@ export const SemiVote: React.FC<SemiVoteProps> = ({
             variant="body2"
             sx={[styles.label, notClickable && styles.notClickable]}
           >
-            Top ten
+            Top 10
           </Typography>
         }
         labelPlacement="bottom"

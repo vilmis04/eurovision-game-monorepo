@@ -44,6 +44,7 @@ export const Voting: React.FC = () => {
   );
   const {
     data: scoreList,
+    refetch: refetchScoreList,
     isError: isGetScoreListError,
     error: getScoreListError,
   } = useGetScoresQuery();
@@ -88,6 +89,10 @@ export const Voting: React.FC = () => {
       setOrderBy(orderBy);
     }
   }, []);
+
+  useEffect(() => {
+    refetchScoreList();
+  }, [generalInfo?.gameType]);
 
   const scoredCountries = scoreList?.filter(({ inFinal, position }) =>
     generalInfo?.gameType === GameType.FINAL ? position : inFinal
@@ -167,7 +172,7 @@ export const Voting: React.FC = () => {
               );
             })}
             <Typography variant="body1" sx={styles.notice}>
-              Your votes are saved automatically
+              Your votes are saved automatically.
             </Typography>
           </Box>
         </Box>

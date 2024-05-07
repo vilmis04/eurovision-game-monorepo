@@ -9,5 +9,12 @@ export const styles = {
     width: '100%',
     padding: '0.25rem 0.5rem',
     backgroundColor: 'common.white',
+    minHeight: '2rem',
+    '&:hover': {
+      backgroundColor: 'common.white',
+    },
+  },
+  disabledButton: {
+    justifyContent: 'center',
   },
 };

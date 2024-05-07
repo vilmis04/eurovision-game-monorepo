@@ -21,6 +21,7 @@ export const CountryRow: React.FC<CountryRowProps> = memo(
     isVotingActive,
   }) => {
     const isFinal = gameType === GameType.FINAL;
+    const isSelected = isFinal ? position : inFinal;
 
     const handleUpdateScore = (body: Partial<UpdateScoreRequestBody>) => {
       updateScore({ country: name, inFinal, position, ...body });
@@ -40,26 +41,26 @@ export const CountryRow: React.FC<CountryRowProps> = memo(
       <SemiVote
         inFinal={inFinal}
         updateScore={handleUpdateScore}
-        isDisabled={!isSemiSpotAvailable}
+        isDisabled={!(isSemiSpotAvailable && isVotingActive)}
         isVotingActive={isVotingActive}
       />
     );
 
     return (
-      <Box sx={[styles.container, Boolean(inFinal) && styles.selected]}>
-        <Box>
+      <Box sx={[styles.container, Boolean(isSelected) && styles.selected]}>
+        <Box sx={styles.countryInfo}>
           <Box component="img" src={`flags/${code}.svg`} sx={styles.flag} />
-        </Box>
-        <Box sx={styles.textWrapper}>
-          <Typography variant="body1" sx={styles.name}>
-            {name}
-          </Typography>
-          <Typography variant="body1" sx={styles.artist}>
-            {artist}
-          </Typography>
-          <Typography variant="body1" sx={styles.song}>
-            {song}
-          </Typography>
+          <Box sx={styles.textWrapper}>
+            <Typography variant="body1" sx={styles.name}>
+              {name}
+            </Typography>
+            <Typography variant="body1" sx={styles.artist}>
+              {artist}
+            </Typography>
+            <Typography variant="body1" sx={styles.song}>
+              {song}
+            </Typography>
+          </Box>
         </Box>
         {voteInput}
       </Box>

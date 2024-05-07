@@ -10,7 +10,7 @@ export const styles = {
   container: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'start',
     padding: '0.75rem 1.5rem',
     borderBottom: '1px solid',
     borderColor: 'divider',
@@ -39,5 +39,9 @@ export const styles = {
     fontSize: '0.75rem',
     fontWeight: 'light',
     color: 'primary.light',
+  },
+  countryInfo: {
+    display: 'flex',
+    alignItems: 'center',
   },
 };

@@ -5,11 +5,12 @@ export const styles = {
     width: '34px',
   },
   notClickable: {
-    color: '#9D89B0',
+    color: 'secondary.dark',
   },
   label: {
     fontSize: '0.75rem',
     fontWeight: 'light',
     textWrap: 'nowrap',
+    margin: 0,
   },
 };

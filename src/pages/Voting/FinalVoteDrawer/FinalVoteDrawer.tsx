@@ -53,7 +53,7 @@ export const FinalVoteDrawer: React.FC<FinalVoteDrawerProps> = ({
           src={`flags/${countryCode}.svg`}
           sx={styles.flag}
         />
-        <Box sx={{ paddingLeft: '1rem' }}>
+        <Box sx={styles.countryInfoWrapper}>
           <Typography variant="body1" sx={styles.countryName}>
             {votingCountry?.name}
           </Typography>
