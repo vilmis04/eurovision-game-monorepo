@@ -26,6 +26,7 @@ export const SemiVote: React.FC<SemiVoteProps> = ({
   return (
     <Box onClick={handleClick}>
       <FormControlLabel
+        sx={styles.iconWrapper}
         control={<Box role="checkbox">{inFinal ? selected : notSelected}</Box>}
         label={
           <Typography

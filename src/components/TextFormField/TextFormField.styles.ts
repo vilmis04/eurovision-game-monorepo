@@ -12,6 +12,9 @@ export const styles = {
     borderBottom: '1px solid',
     borderColor: 'common.white',
     borderRadius: '0',
+    '&::before': {
+      borderBottom: 'unset',
+    },
   },
   icon: {
     fontSize: '1rem',

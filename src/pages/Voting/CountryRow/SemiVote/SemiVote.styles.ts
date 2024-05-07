@@ -1,3 +1,5 @@
+import { i } from 'vitest/dist/reporters-MmQN-57K';
+
 export const styles = {
   icon: {
     color: 'common.white',
@@ -11,6 +13,8 @@ export const styles = {
     fontSize: '0.75rem',
     fontWeight: 'light',
     textWrap: 'nowrap',
-    margin: 0,
+  },
+  iconWrapper: {
+    marginX: 0,
   },
 };
