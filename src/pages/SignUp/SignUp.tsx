@@ -28,7 +28,13 @@ const initialValues: SignUpRequestBody = {
 };
 
 const signUpValidationSchema = Yup.object().shape({
-  username: Yup.string().required('Required'),
+  username: Yup.string()
+    .required('Required')
+    .test(
+      'allowed characters',
+      'quotation marks ("), apostrophes (\'), and commas (,) are not allowed',
+      (value) => (value ? !/["',]/.test(value) : true)
+    ),
   password: Yup.string()
     .required('Required')
     .min(8, 'Must include at least 8 symbols'),
