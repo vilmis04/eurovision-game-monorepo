@@ -7,7 +7,7 @@ export const NoResults = () => (
       No results yet
     </Typography>
     <Typography variant="body1" sx={styles.message}>
-      Leaderboard will appear here when the results are in.
+      Leaderboard will appear here once the results are in.
     </Typography>
   </Box>
 );
