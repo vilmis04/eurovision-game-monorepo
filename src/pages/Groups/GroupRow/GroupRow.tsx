@@ -21,7 +21,7 @@ export const GroupRow = ({ name, members, groupId }: GroupRowProps) => {
   };
 
   return (
-    <Button sx={styles.container} onClick={handleClick}>
+    <Button sx={styles.container} variant="contained" onClick={handleClick}>
       <Typography variant="h3" sx={styles.title}>
         {name}
       </Typography>

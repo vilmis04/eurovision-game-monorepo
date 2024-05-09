@@ -67,7 +67,7 @@ export const theme = createTheme({
             color: '#241434',
           },
           '&:hover': {
-            background: '#C894FF',
+            background: '#FFF7FF',
           },
         },
         text: {
